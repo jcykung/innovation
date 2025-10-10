@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Microwave Background Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg, img {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Cosmic Microwave Background</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Term</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <h3 class="font-bold text-yellow-900">Cosmic</h3>
+                    <p class="text-sm text-yellow-800">Relating to the entire universe.</p>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <h3 class="font-bold text-yellow-900">Microwave</h3>
+                    <p class="text-sm text-yellow-800">A type of light (radiation) with a very long wavelength, invisible to our eyes.</p>
+                </div>
+                 <div class="bg-yellow-50 p-3 rounded-lg">
+                    <h3 class="font-bold text-yellow-900">Background</h3>
+                    <p class="text-sm text-yellow-800">It comes from all directions in space and is not from any single star or galaxy.</p>
+                </div>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, it's a faint microwave glow that fills the entire universe.</p>
+        </div>
+
+        <!-- What is the CMB? -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">What is the Cosmic Microwave Background (CMB)?</h2>
+            <p class="text-blue-800">
+                The Cosmic Microwave Background is the oldest light in the universe. It's the faint, leftover heat from the Big Bang, often called its <strong class="font-semibold">"afterglow" or "echo."</strong> This ancient light began traveling through space about 380,000 years after the universe began, and it fills every corner of the sky today.
+            </p>
+        </div>
+        
+        <!-- Where Did It Come From? -->
+        <div class="info-section bg-indigo-100">
+            <h2 class="text-2xl font-bold text-indigo-900 mb-3">Where Did It Come From?</h2>
+            <p class="text-indigo-800 mb-4">
+                In the early universe, everything was an incredibly hot, dense fog of particles and light (plasma). Light couldn't travel far without bumping into a particle, making the universe <strong class="font-semibold">opaque</strong>. As the universe expanded, it cooled down. Eventually, it became cool enough for protons and electrons to combine and form the first atoms. This event is called <strong class="font-semibold">"Recombination."</strong>
+            </p>
+             <p class="text-indigo-800">
+                Suddenly, the light was free to travel unimpeded through space. The universe became <strong class="font-semibold">transparent</strong>. The CMB is that very light, which has been traveling and stretching for the last 13.8 billion years.
+            </p>
+            <div class="w-full mt-4 flex justify-around items-center">
+                <div class="text-center">
+                    <svg width="100" height="100" viewBox="0 0 100 100">
+                      <title>Opaque early universe</title>
+                      <circle cx="50" cy="50" r="48" fill="#F59E0B" fill-opacity="0.5"/>
+                      <circle cx="30" cy="30" r="5" fill="#DC2626"/>
+                      <text x="30" y="33" font-size="6" fill="white" text-anchor="middle">e-</text>
+                      <circle cx="70" cy="60" r="5" fill="#2563EB"/>
+                      <text x="70" y="63" font-size="6" fill="white" text-anchor="middle">p+</text>
+                       <text x="50" y="95" font-size="10" fill="#B45309" font-weight="bold" text-anchor="middle">Opaque Fog</text>
+                    </svg>
+                </div>
+                 <div class="text-5xl font-bold text-indigo-400">→</div>
+                 <div class="text-center">
+                    <svg width="100" height="100" viewBox="0 0 100 100">
+                       <title>Transparent universe after recombination</title>
+                       <circle cx="50" cy="50" r="48" fill="#A5B4FC" fill-opacity="0.3"/>
+                       <!-- Atom -->
+                       <circle cx="50" cy="50" r="5" fill="#2563EB"/>
+                       <text x="50" y="53" font-size="6" fill="white" text-anchor="middle">p+</text>
+                       <circle cx="50" cy="50" r="15" stroke="#DC2626" stroke-width="1" fill="none" stroke-dasharray="2"/>
+                       <circle cx="35" cy="50" r="3" fill="#DC2626"/>
+                       <!-- Light escaping -->
+                        <line x1="50" y1="50" x2="90" y2="10" stroke="#FBBF24" stroke-width="1.5" marker-end="url(#arrow-light)"/>
+                        <defs>
+                            <marker id="arrow-light" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#FBBF24" /></marker>
+                        </defs>
+                       <text x="50" y="95" font-size="10" fill="#4338CA" font-weight="bold" text-anchor="middle">Transparent</text>
+                    </svg>
+                 </div>
+            </div>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-slate-800 text-white">
+            <h2 class="text-2xl font-bold text-white mb-4 text-center">The Core Idea: The Universe's Baby Picture</h2>
+            <p class="text-center text-slate-300">
+                The Cosmic Microwave Background is essentially the universe's baby picture. It's the oldest light, a faint afterglow of the Big Bang that comes from every direction in space. This ancient "echo" shows us what the universe looked like when it was only 380,000 years old, long before the first stars formed. By studying it, we get direct evidence for the Big Bang and learn about the conditions of the early universe.
+            </p>
+        </div>
+
+        <!-- Why It's Important -->
+        <div class="info-section bg-green-100">
+             <h2 class="text-2xl font-bold text-green-900 mb-3">Why Is The CMB So Important?</h2>
+             <p class="text-green-800 mb-4">This ancient light provides powerful evidence and information about our universe:</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-bold text-green-900">1. Strongest Proof of the Big Bang</h3>
+                    <p class="text-green-800 mt-1">The existence of this leftover heat is exactly what the Big Bang theory predicted. It's considered the smoking gun evidence for the Big Bang.</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg">
+                    <h3 class="text-lg font-bold text-green-900">2. Seeds of Galaxies</h3>
+                    <p class="text-green-800 mt-1">Those tiny temperature differences were the seeds. The slightly warmer, denser spots had more gravity, and over billions of years, they pulled in matter to form the stars, galaxies, and galaxy clusters we see today.</p>
+                </div>
+             </div>
+        </div>
+
+        <!-- Analogy Section -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Analogy: The Hum of a Warm Oven</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>Imagine you walk into a kitchen hours after a big meal has been cooked. The oven is off, but you can still feel a faint, even warmth radiating from it, filling the whole room. You can't see the heat, but you know it's there, left over from when the oven was intensely hot.</p>
+                <p>The Cosmic Microwave Background is like that faint warmth. It's the residual heat of the Big Bang, filling every corner of the universe long after the initial "fire" has gone out. By studying this warmth, we can learn about the oven (the Big Bang) itself.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
