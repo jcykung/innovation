@@ -1,9 +1,9 @@
 a:link {
-    color: red;
+    color: greenyellow;
     text-decoration: dotted;
 }
 a:visited {
-    color: purple;
+    color: greenyellow;
 }
 a:hover {
     background-color: yellowgreen;
