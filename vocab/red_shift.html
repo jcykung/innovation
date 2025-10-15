@@ -1,195 +1,368 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Red Shift Explained - Printable Handout</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
         body {
-            font-family: 'Inter', sans-serif;
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
         }
         .info-section {
-            border: 1px solid #e2e8f0;
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-            border-radius: 0.75rem;
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
         }
-        /* Print-specific styles */
-        @media print {
-            body {
-                font-family: 'Times New Roman', serif;
-                background-color: #ffffff;
-                color: #000000;
-            }
-            .info-section {
-                border: 1px solid #cccccc;
-                padding: 1rem;
-                margin-bottom: 1rem;
-                border-radius: 0;
-                page-break-inside: avoid;
-            }
-            h1, h2, h3, p, li, strong {
-                color: #000000 !important;
-            }
-            .info-section, .bg-white {
-                background-color: #ffffff !important;
-            }
-            svg {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong {
+          color: #000000 !important;
         }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
     </style>
-</head>
-<body class="bg-slate-50 text-slate-800">
-
+  </head>
+  <body class="bg-slate-50 text-slate-800">
     <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Red Shift</h1>
+      </header>
 
-        <!-- Header Section -->
-        <header class="text-center mb-6 p-4 info-section bg-white">
-            <h1 class="text-4xl font-bold text-slate-900">Red Shift</h1>
-        </header>
-
-        <!-- Word Breakdown Section -->
-        <div class="info-section bg-yellow-100">
-            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Term</h2>
-            <div class="flex items-center justify-center text-3xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
-                <span class="text-red-600">Red</span><span class="text-slate-500 mx-2">+</span><span class="text-blue-800">Shift</span>
-            </div>
-            <div class="space-y-2 text-yellow-800">
-                <p><strong class="font-semibold text-yellow-900">Red:</strong> Refers to the color red at one end of the visible light spectrum. Red light has the <strong class="font-semibold">longest wavelength</strong> we can see.</p>
-                <p><strong class="font-semibold text-yellow-900">Shift:</strong> Means a change or movement in position.</p>
-            </div>
-            <hr class="my-4 border-yellow-300">
-            <p class="text-center font-semibold text-yellow-900">So, "Red Shift" literally means the light from an object has moved or shifted towards the red end of the spectrum.</p>
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Term
+        </h2>
+        <div
+          class="flex items-center justify-center text-3xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-red-600">Red</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-blue-800">Shift</span>
         </div>
+        <div class="space-y-2 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">Red:</strong> Refers
+            to the color red at one end of the visible light spectrum. Red light
+            has the <strong class="font-semibold">longest wavelength</strong> we
+            can see.
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">Shift:</strong> Means
+            a change or movement in position.
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, "Red Shift" literally means the light from an object has moved or
+          shifted towards the red end of the spectrum.
+        </p>
+      </div>
 
-        <!-- Meaning 1: Light as a Wave -->
-        <div class="info-section bg-blue-100">
-            <h2 class="text-2xl font-bold text-blue-900 mb-3">Concept #1: Light is a Wave</h2>
-            <p class="text-blue-800 mb-4">
-                Light travels in waves. The distance between the peaks of these waves is called the <strong class="font-semibold">wavelength</strong>. Different colors have different wavelengths. Blue and violet light have short wavelengths, while red light has long wavelengths.
+      <!-- Meaning 1: Light as a Wave -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          Concept #1: Light is a Wave
+        </h2>
+        <p class="text-blue-800 mb-4">
+          Light travels in waves. The distance between the peaks of these waves
+          is called the <strong class="font-semibold">wavelength</strong>.
+          Different colors have different wavelengths. Blue and violet light
+          have short wavelengths, while red light has long wavelengths.
+        </p>
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <h3 class="font-bold text-blue-900 text-lg">The Visible Spectrum</h3>
+          <div class="w-full mt-2">
+            <svg viewBox="0 0 150 40" class="w-full max-w-lg mx-auto">
+              <title>Visible Light Spectrum</title>
+              <defs>
+                <linearGradient id="spectrum" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#9400D3" />
+                  <stop offset="16%" stop-color="#4B0082" />
+                  <stop offset="33%" stop-color="#0000FF" />
+                  <stop offset="50%" stop-color="#00FF00" />
+                  <stop offset="67%" stop-color="#FFFF00" />
+                  <stop offset="84%" stop-color="#FFA500" />
+                  <stop offset="100%" stop-color="#FF0000" />
+                </linearGradient>
+              </defs>
+              <rect
+                x="5"
+                y="10"
+                width="140"
+                height="15"
+                fill="url(#spectrum)"
+              />
+              <text
+                x="5"
+                y="35"
+                font-size="6"
+                font-weight="bold"
+                fill="#4B0082"
+              >
+                Short Wavelength
+              </text>
+              <text
+                x="145"
+                y="35"
+                text-anchor="end"
+                font-size="6"
+                font-weight="bold"
+                fill="#FF0000"
+              >
+                Long Wavelength
+              </text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Meaning 2: The Doppler Effect -->
+      <div class="info-section bg-indigo-100">
+        <h2 class="text-2xl font-bold text-indigo-900 mb-3">
+          Concept #2: The Doppler Effect (with Sound)
+        </h2>
+        <p class="text-indigo-800 mb-4">
+          You've experienced this with sound. Imagine an ambulance siren. As it
+          comes towards you, the sound waves get compressed, making the pitch
+          higher. As it moves away, the sound waves stretch out, making the
+          pitch lower. This stretching and compressing of waves from a moving
+          source is the <strong class="font-semibold">Doppler Effect</strong>.
+        </p>
+        <div class="w-full mt-4">
+          <svg viewBox="0 0 100 40" class="w-full max-w-md mx-auto">
+            <title>Doppler Effect with Sound</title>
+
+            <!-- Group to shift the main diagram and make space for labels -->
+            <g transform="translate(20, 0)">
+              <!-- Ambulance -->
+              <rect x="45" y="15" width="10" height="5" fill="#EF4444" />
+              <rect x="42" y="20" width="16" height="5" fill="#D1D5DB" />
+              <circle cx="46" cy="25" r="2" fill="#374151" />
+              <circle cx="54" cy="25" r="2" fill="#374151" />
+              <text x="58" y="23" font-size="5">➞</text>
+              <!-- Waves -->
+              <circle
+                cx="50"
+                cy="20"
+                r="10"
+                stroke="#6366F1"
+                stroke-width="0.5"
+                fill="none"
+              />
+              <circle
+                cx="45"
+                cy="20"
+                r="20"
+                stroke="#6366F1"
+                stroke-width="0.5"
+                fill="none"
+              />
+              <circle
+                cx="40"
+                cy="20"
+                r="30"
+                stroke="#6366F1"
+                stroke-width="0.5"
+                fill="none"
+              />
+              <circle
+                cx="35"
+                cy="20"
+                r="40"
+                stroke="#6366F1"
+                stroke-width="0.5"
+                fill="none"
+              />
+            </g>
+
+            <!-- Text labels positioned outside the diagram -->
+            <text
+              x="34"
+              y="18"
+              text-anchor="end"
+              font-size="4"
+              font-weight="bold"
+              fill="#4338CA"
+            >
+              <tspan>Stretched Waves</tspan>
+              <tspan x="34" dy="5">(Lower Pitch)</tspan>
+            </text>
+            <text
+              x="80"
+              y="8"
+              text-anchor="middle"
+              font-size="4"
+              font-weight="bold"
+              fill="#4338CA"
+            >
+              <tspan>Compressed Waves</tspan>
+              <tspan x="80" dy="5">(Higher Pitch)</tspan>
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- The Core Idea: Cosmic Redshift -->
+      <div class="info-section bg-slate-800 text-white">
+        <h2 class="text-2xl font-bold text-white mb-4 text-center">
+          The Core Idea: Redshift in Space
+        </h2>
+        <p class="text-center text-slate-300 mb-4">
+          The Doppler Effect also applies to light! When a star or galaxy moves
+          <strong class="font-semibold text-red-400">away</strong> from us, its
+          light waves stretch out. This stretching shifts the light
+          <strong class="font-semibold text-sky-400">towards</strong> the
+          longer-wavelength (red) end of the spectrum. This is
+          <strong class="font-semibold text-red-400">Redshift</strong>. If it
+          were moving towards us, it would be
+          <strong class="font-semibold text-sky-400">"Blueshifted."</strong>
+        </p>
+        <div class="w-full mt-6">
+          <svg viewBox="0 0 100 50" class="w-full max-w-sm mx-auto">
+            <title>Cosmological Redshift</title>
+            <!-- Earth/Observer -->
+            <circle cx="10" cy="25" r="5" fill="#3B82F6" />
+            <text x="15" y="38" text-anchor="middle" font-size="4" fill="white">
+              You are here
+            </text>
+            <!-- Moving Galaxy -->
+            <ellipse cx="70" cy="25" rx="10" ry="5" fill="#FBBF24" />
+            <text x="90" y="27" font-size="6">➞</text>
+            <text x="70" y="15" text-anchor="middle" font-size="5" fill="white">
+              Galaxy Moving Away
+            </text>
+            <!-- Light Wave -->
+            <path
+              d="M 15 25 Q 25 20, 35 25 T 55 25"
+              stroke="url(#redshift-gradient)"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <defs>
+              <linearGradient
+                id="redshift-gradient"
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="0%"
+              >
+                <stop offset="0%" stop-color="#FBBF24" />
+                <stop offset="100%" stop-color="#F87171" />
+              </linearGradient>
+            </defs>
+            <text x="45" y="45" text-anchor="middle" font-size="4" fill="white">
+              Light waves stretch, shifting to RED
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- What Redshift Tells Us -->
+      <div class="info-section bg-green-100">
+        <h2 class="text-2xl font-bold text-green-900 mb-3">
+          What Redshift Tells Us
+        </h2>
+        <p class="text-green-800 mb-4">
+          Astronomer Edwin Hubble observed that almost all distant galaxies show
+          a redshift. The farther away a galaxy is, the more redshifted its
+          light is. This leads to two huge conclusions:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          <div class="bg-green-50 p-4 rounded-lg">
+            <h3 class="text-lg font-bold text-green-900">
+              1. The Universe is Expanding
+            </h3>
+            <p class="text-green-800 mt-1">
+              If everything is moving away from everything else, the entire
+              universe must be expanding, like the surface of an inflating
+              balloon.
             </p>
-            <div class="bg-blue-50 p-4 rounded-lg">
-                <h3 class="font-bold text-blue-900 text-lg">The Visible Spectrum</h3>
-                <div class="w-full mt-2">
-                     <svg viewBox="0 0 150 40" class="w-full max-w-lg mx-auto">
-                        <title>Visible Light Spectrum</title>
-                        <defs>
-                            <linearGradient id="spectrum" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" stop-color="#9400D3" />
-                                <stop offset="16%" stop-color="#4B0082" />
-                                <stop offset="33%" stop-color="#0000FF" />
-                                <stop offset="50%" stop-color="#00FF00" />
-                                <stop offset="67%" stop-color="#FFFF00" />
-                                <stop offset="84%" stop-color="#FFA500" />
-                                <stop offset="100%" stop-color="#FF0000" />
-                            </linearGradient>
-                        </defs>
-                        <rect x="5" y="10" width="140" height="15" fill="url(#spectrum)" />
-                        <text x="5" y="35" font-size="6" font-weight="bold" fill="#4B0082">Short Wavelength</text>
-                        <text x="145" y="35" text-anchor="end" font-size="6" font-weight="bold" fill="#FF0000">Long Wavelength</text>
-                    </svg>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Meaning 2: The Doppler Effect -->
-        <div class="info-section bg-indigo-100">
-            <h2 class="text-2xl font-bold text-indigo-900 mb-3">Concept #2: The Doppler Effect (with Sound)</h2>
-            <p class="text-indigo-800 mb-4">
-                You've experienced this with sound. Imagine an ambulance siren. As it comes towards you, the sound waves get compressed, making the pitch higher. As it moves away, the sound waves stretch out, making the pitch lower. This stretching and compressing of waves from a moving source is the <strong class="font-semibold">Doppler Effect</strong>.
+          </div>
+          <div class="bg-green-50 p-4 rounded-lg">
+            <h3 class="text-lg font-bold text-green-900">
+              2. Evidence for the Big Bang
+            </h3>
+            <p class="text-green-800 mt-1">
+              If the universe is expanding now, we can rewind time to a point
+              where everything was packed into a single, hot, dense point. This
+              is the core idea of the Big Bang theory.
             </p>
-            <div class="w-full mt-4">
-                <svg viewBox="0 0 100 40" class="w-full max-w-md mx-auto">
-                    <title>Doppler Effect with Sound</title>
-                    
-                    <!-- Group to shift the main diagram and make space for labels -->
-                    <g transform="translate(20, 0)">
-                        <!-- Ambulance -->
-                        <rect x="45" y="15" width="10" height="5" fill="#EF4444"/>
-                        <rect x="42" y="20" width="16" height="5" fill="#D1D5DB"/>
-                        <circle cx="46" cy="25" r="2" fill="#374151"/>
-                        <circle cx="54" cy="25" r="2" fill="#374151"/>
-                        <text x="58" y="23" font-size="5">➞</text>
-                        <!-- Waves -->
-                        <circle cx="50" cy="20" r="10" stroke="#6366F1" stroke-width="0.5" fill="none" />
-                        <circle cx="45" cy="20" r="20" stroke="#6366F1" stroke-width="0.5" fill="none" />
-                        <circle cx="40" cy="20" r="30" stroke="#6366F1" stroke-width="0.5" fill="none" />
-                        <circle cx="35" cy="20" r="40" stroke="#6366F1" stroke-width="0.5" fill="none" />
-                    </g>
-
-                    <!-- Text labels positioned outside the diagram -->
-                    <text x="34" y="18" text-anchor="end" font-size="4" font-weight="bold" fill="#4338CA">
-                        <tspan>Stretched Waves</tspan>
-                        <tspan x="34" dy="5">(Lower Pitch)</tspan>
-                    </text>
-                    <text x="80" y="8" text-anchor="middle" font-size="4" font-weight="bold" fill="#4338CA">
-                        <tspan>Compressed Waves</tspan>
-                        <tspan x="80" dy="5">(Higher Pitch)</tspan>
-                    </text>
-                </svg>
-            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- The Core Idea: Cosmic Redshift -->
-        <div class="info-section bg-slate-800 text-white">
-            <h2 class="text-2xl font-bold text-white mb-4 text-center">The Core Idea: Redshift in Space</h2>
-            <p class="text-center text-slate-300 mb-4">The Doppler Effect also applies to light! When a star or galaxy moves <strong class="font-semibold text-red-400">away</strong> from us, its light waves stretch out. This stretching shifts the light <strong class="font-semibold text-sky-400">towards</strong> the longer-wavelength (red) end of the spectrum. This is <strong class="font-semibold text-red-400">Redshift</strong>. If it were moving towards us, it would be <strong class="font-semibold text-sky-400">"Blueshifted."</strong></p>
-            <div class="w-full mt-6">
-                 <svg viewBox="0 0 100 50" class="w-full max-w-sm mx-auto">
-                    <title>Cosmological Redshift</title>
-                    <!-- Earth/Observer -->
-                    <circle cx="10" cy="25" r="5" fill="#3B82F6"/>
-                    <text x="15" y="38" text-anchor="middle" font-size="4" fill="white">You are here</text>
-                    <!-- Moving Galaxy -->
-                    <ellipse cx="70" cy="25" rx="10" ry="5" fill="#FBBF24" />
-                    <text x="90" y="27" font-size="6">➞</text>
-                    <text x="70" y="15" text-anchor="middle" font-size="5" fill="white">Galaxy Moving Away</text>
-                    <!-- Light Wave -->
-                    <path d="M 15 25 Q 25 20, 35 25 T 55 25" stroke="url(#redshift-gradient)" stroke-width="1.5" fill="none"/>
-                    <defs>
-                       <linearGradient id="redshift-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                           <stop offset="0%" stop-color="#FBBF24" />
-                           <stop offset="100%" stop-color="#F87171" />
-                       </linearGradient>
-                    </defs>
-                    <text x="45" y="45" text-anchor="middle" font-size="4" fill="white">Light waves stretch, shifting to RED</text>
-                </svg>
-            </div>
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Analogy: The Raisin Bread Universe
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            Imagine a lump of raisin bread dough before it's baked. You are on
+            one raisin, and you see all the other raisins around you. As the
+            dough bakes and expands, every raisin moves away from every other
+            raisin. The raisins themselves aren't moving *through* the dough,
+            but the dough itself is carrying them apart.
+          </p>
+          <p>
+            From your perspective on one raisin, a nearby raisin moves away
+            slowly, but a raisin on the far side of the loaf moves away much
+            faster. This is just like
+            <strong class="font-semibold text-slate-900">redshift</strong>. The
+            galaxies are the raisins, and the expanding dough is spacetime. The
+            farther away a galaxy (raisin) is, the faster it appears to move
+            away from us, and the greater its light is redshifted.
+          </p>
         </div>
-
-        <!-- What Redshift Tells Us -->
-        <div class="info-section bg-green-100">
-             <h2 class="text-2xl font-bold text-green-900 mb-3">What Redshift Tells Us</h2>
-             <p class="text-green-800 mb-4">Astronomer Edwin Hubble observed that almost all distant galaxies show a redshift. The farther away a galaxy is, the more redshifted its light is. This leads to two huge conclusions:</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-bold text-green-900">1. The Universe is Expanding</h3>
-                    <p class="text-green-800 mt-1">If everything is moving away from everything else, the entire universe must be expanding, like the surface of an inflating balloon.</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded-lg">
-                    <h3 class="text-lg font-bold text-green-900">2. Evidence for the Big Bang</h3>
-                    <p class="text-green-800 mt-1">If the universe is expanding now, we can rewind time to a point where everything was packed into a single, hot, dense point. This is the core idea of the Big Bang theory.</p>
-                </div>
-             </div>
+      </div>
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4"></h2>
+        <div class="space-y-4 text-slate-700">
+          <iframe
+            src="https://claude.site/public/artifacts/01a1bade-590a-4373-98ad-d1df5c8ff540/embed"
+            title="Claude Artifact"
+            width="100%"
+            height="600"
+            frameborder="0"
+            allow="clipboard-write"
+            allowfullscreen
+          ></iframe>
         </div>
-
-        <!-- Reading in Context -->
-        <div class="info-section bg-slate-100">
-            <h2 class="text-2xl font-bold text-slate-900 mb-4">Analogy: The Raisin Bread Universe</h2>
-            <div class="space-y-4 text-slate-700">
-                <p>Imagine a lump of raisin bread dough before it's baked. You are on one raisin, and you see all the other raisins around you. As the dough bakes and expands, every raisin moves away from every other raisin. The raisins themselves aren't moving *through* the dough, but the dough itself is carrying them apart.</p>
-                <p>From your perspective on one raisin, a nearby raisin moves away slowly, but a raisin on the far side of the loaf moves away much faster. This is just like <strong class="font-semibold text-slate-900">redshift</strong>. The galaxies are the raisins, and the expanding dough is spacetime. The farther away a galaxy (raisin) is, the faster it appears to move away from us, and the greater its light is redshifted.</p>
-            </div>
-        </div>
-
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
-
