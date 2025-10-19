@@ -1,2 +1,0 @@
-# vocab
-Vocabulary Information Sheets
