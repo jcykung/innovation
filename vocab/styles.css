@@ -2,9 +2,9 @@ a:link {
     color: greenyellow;
     text-decoration: dotted;
 }
-a:visited {
+a:hover {
     color: greenyellow;
 }
-a:hover {
+a:visited {
     background-color: orange;
 }
