@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genetics Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link href="styles.css" rel="stylesheet" type="text/css" />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .info-section {
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
+        }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong,
+        text {
+          color: #000000 !important;
+        }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Genetics</h1>
+      </header>
+
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Word: A Morphemic Analysis
+        </h2>
+        <div
+          class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-amber-700">genesis</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-amber-700">-ics</span>
+        </div>
+        <div class="space-y-3 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">Genesis:</strong> A
+            Greek word meaning
+            <strong class="font-semibold">"origin" or "creation."</strong>
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">-ics:</strong> A
+            suffix meaning
+            <strong class="font-semibold"
+              >"the study of" or "the science of."</strong
+            >
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, "genetics" is literally the science of origins—the study of how
+          traits are inherited.
+        </p>
+      </div>
+
+      <!-- The Core Idea -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          The Core Idea: The Instruction Manual for Life
+        </h2>
+        <p class="text-blue-800 mb-4">
+          Genetics is the branch of biology that studies
+          <strong class="font-semibold">heredity</strong>—how physical and
+          behavioural traits, like eye colour or personality, are passed down
+          from one generation to the next. It explores the chemical instructions
+          that make every living thing unique.
+        </p>
+        <div class="w-full">
+          <svg
+            viewBox="0 0 100 60"
+            class="w-full max-w-sm mx-auto"
+            aria-labelledby="genetics-title"
+          >
+            <title id="genetics-title">
+              A diagram showing a family tree with a DNA helix, representing
+              inherited traits.
+            </title>
+            <!-- Parents -->
+            <circle cx="25" cy="15" r="8" fill="#a5f3fc" stroke="#0891b2" />
+            <circle cx="75" cy="15" r="8" fill="#fecaca" stroke="#dc2626" />
+            <!-- Lines to child -->
+            <line
+              x1="25"
+              y1="23"
+              x2="50"
+              y2="35"
+              stroke="#a3a3a3"
+              stroke-width="2"
+            />
+            <line
+              x1="75"
+              y1="23"
+              x2="50"
+              y2="35"
+              stroke="#a3a3a3"
+              stroke-width="2"
+            />
+            <!-- Child -->
+            <circle cx="50" cy="45" r="8" fill="#d8b4fe" stroke="#7e22ce" />
+            <!-- DNA Helix in background -->
+            <path
+              d="M50 5 Q60 15, 50 25 T 50 45 T 50 65"
+              stroke="#d1d5db"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <path
+              d="M50 5 Q40 15, 50 25 T 50 45 T 50 65"
+              stroke="#d1d5db"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <line
+              x1="54"
+              y1="10"
+              x2="46"
+              y2="10"
+              stroke="#a3a3a3"
+              stroke-width="1"
+            />
+            <line
+              x1="58"
+              y1="20"
+              x2="42"
+              y2="20"
+              stroke="#a3a3a3"
+              stroke-width="1"
+            />
+            <line
+              x1="54"
+              y1="30"
+              x2="46"
+              y2="30"
+              stroke="#a3a3a3"
+              stroke-width="1"
+            />
+            <line
+              x1="42"
+              y1="40"
+              x2="58"
+              y2="40"
+              stroke="#a3a3a3"
+              stroke-width="1"
+            />
+            <line
+              x1="46"
+              y1="50"
+              x2="54"
+              y2="50"
+              stroke="#a3a3a3"
+              stroke-width="1"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Key Concepts -->
+      <div class="info-section bg-emerald-100">
+        <h2 class="text-2xl font-bold text-emerald-900 mb-3">
+          The Building Blocks of Heredity
+        </h2>
+        <p class="text-emerald-800 mb-4">
+          Think of it like a library of cookbooks for building a person.
+        </p>
+        <div class="space-y-4">
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Chromosomes: The Bookshelves
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              Found in the nucleus of almost every cell, chromosomes are tightly
+              coiled structures that organize all of your genetic information.
+              Humans have 23 pairs of them.
+            </p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              DNA: The Cookbooks
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              Each chromosome is made of a long molecule called DNA
+              (Deoxyribonucleic Acid). DNA is shaped like a twisted ladder (a
+              double helix) and contains all the instructions needed for an
+              organism to develop, survive, and reproduce.
+            </p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Genes: The Individual Recipes
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              A gene is a specific section of DNA that holds the instructions
+              for one particular trait, like the recipe for making blue eyes or
+              curly hair.
+            </p>
+          </div>
+          <br />
+          Ready to play?
+          <a href="../biology/genetics_interactive.html" target="_blank">
+            Genetics Interactive
+          </a>
+        </div>
+      </div>
+
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Reading in Context: The Science Fair Project
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            For her science fair project, Sarah decided to investigate why her
+            pea plants had different coloured flowers. Some were purple, and
+            some were white. Her research led her to the work of Gregor Mendel,
+            the "father of
+            <strong class="font-semibold text-slate-900">genetics</strong>." She
+            learned that a specific gene determines flower colour, and this gene
+            comes in two versions, or alleles: one for purple and one for white.
+          </p>
+          <p>
+            She discovered that the purple allele was "dominant." This meant
+            that if a plant inherited even one copy of the purple gene, its
+            flowers would be purple. The only way for a plant to have white
+            flowers was to inherit two copies of the "recessive" white gene. By
+            understanding these basic principles of
+            <strong class="font-semibold text-slate-900">genetics</strong>,
+            Sarah could predict the flower colours of the next generation of
+            plants, showing how traits are passed down in a predictable way.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
