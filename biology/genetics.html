@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DNA & Genetics Review Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-dark: #111827;
+        --bg-med: #1f2937;
+        --bg-light: #374151;
+        --text-primary: #f9fafb;
+        --text-secondary: #9ca3af;
+        --accent: #38bdf8;
+        --accent-hover: #0ea5e9;
+        --success: #22c55e;
+        --error: #ef4444;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+      }
+
+      .font-mono {
+        font-family: "Roboto Mono", monospace;
+      }
+
+      /* --- Custom Scrollbar --- */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg-med);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--bg-light);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #4b5563;
+      }
+
+      /* --- Tab Navigation --- */
+      .tab-btn {
+        transition: all 0.2s ease-in-out;
+        border-bottom: 3px solid transparent;
+      }
+
+      .tab-btn.active {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
+
+      /* --- General Interactive Styles --- */
+      .interactive-section {
+        display: none;
+      }
+      .interactive-section.active {
+        display: block;
+      }
+      .interactive-container {
+        background-color: var(--bg-med);
+        border-radius: 1rem;
+        border: 1px solid var(--bg-light);
+        min-height: 600px;
+      }
+      .draggable {
+        cursor: grab;
+        user-select: none;
+      }
+      .dragging {
+        opacity: 0.5;
+        cursor: grabbing;
+        transform: scale(1.05);
+      }
+      .drop-target {
+        transition: background-color 0.2s ease;
+      }
+      .drop-target.over {
+        background-color: rgba(56, 189, 248, 0.2);
+        outline: 2px dashed var(--accent);
+      }
+      .feedback-message {
+        transition: opacity 0.3s ease;
+      }
+      .action-btn {
+        padding: 0.75rem 1.5rem;
+        background-color: var(--accent);
+        color: var(--bg-dark);
+        font-weight: bold;
+        border-radius: 0.5rem;
+        transition: background-color 0.2s ease;
+      }
+      .action-btn:hover {
+        background-color: var(--accent-hover);
+      }
+      .action-btn:disabled {
+        background-color: var(--bg-light);
+        cursor: not-allowed;
+        color: var(--text-secondary);
+      }
+      .back-btn {
+        background-color: var(--bg-light);
+        color: var(--text-primary);
+      }
+      .back-btn:hover {
+        background-color: #4b5563;
+      }
+      .hidden {
+        display: none !important;
+      }
+
+      /* --- 1. DNA Pairing --- */
+      .dna-strand {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .base,
+      .base-dropzone {
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.25rem;
+        border-radius: 0.375rem;
+      }
+      .base-A {
+        background-color: #34d399;
+        color: #064e3b;
+      }
+      .base-T {
+        background-color: #f87171;
+        color: #7f1d1d;
+      }
+      .base-U {
+        background-color: #f472b6;
+        color: #831843;
+      }
+      .base-C {
+        background-color: #60a5fa;
+        color: #1e3a8a;
+      }
+      .base-G {
+        background-color: #fbbf24;
+        color: #78350f;
+      }
+      .base-dropzone {
+        background-color: var(--bg-light);
+        border: 2px dashed #4b5563;
+      }
+
+      /* --- 2. Karyotype --- */
+      .karyotype-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 0.75rem;
+        align-items: start;
+      }
+      .karyotype-pair-wrapper {
+        background-color: var(--bg-dark);
+        border: 1px solid var(--bg-light);
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .chromosome-container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .chromosome-slot {
+        border-style: dashed;
+        background-color: transparent;
+        border: 2px dashed var(--bg-light);
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .chromosome-slot.empty {
+        background-color: rgba(34, 197, 94, 0.25);
+        border-color: rgba(34, 197, 94, 0.8);
+        border-style: solid;
+      }
+      .chromosome-pair {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.25rem;
+      }
+      .chromosome-pair-flex {
+        display: flex;
+        justify-content: center;
+        gap: 4px;
+        height: 90px;
+        align-items: flex-end;
+      }
+      #interactive-3 .chromosome-pair-flex {
+        height: auto;
+        align-items: center;
+      }
+      .chromosome {
+        position: relative;
+      }
+      .chromosome .arm {
+        position: absolute;
+        background-color: #737f92;
+        border: 1px solid var(--text-primary);
+        border-radius: 10px / 30px;
+        top: 50%;
+        left: 50%;
+        overflow: hidden;
+      }
+      .chromosome .arm.a {
+        transform: translate(-50%, -50%) rotate(20deg);
+      }
+      .chromosome .arm.b {
+        transform: translate(-50%, -50%) rotate(-20deg);
+      }
+      .chromosome .band {
+        position: absolute;
+        width: 100%;
+        background-color: var(--bg-dark);
+      }
+      .chromosome-slot.filled {
+        border-style: solid;
+        border-color: var(--success);
+        background-color: transparent;
+      }
+
+      /* --- 4. Central Dogma --- */
+      .dogma-step {
+        display: none;
+      }
+      .dogma-step.active {
+        display: block;
+      }
+      .codon-input {
+        width: 70px;
+        height: 50px;
+        font-size: 1.25rem;
+        text-align: center;
+        background-color: var(--bg-dark);
+        border: 2px solid var(--bg-light);
+        border-radius: 0.5rem;
+        color: var(--text-primary);
+        text-transform: uppercase;
+      }
+      .dna-strand-horizontal {
+        display: flex;
+        gap: 2px;
+        transition: transform 0.5s ease-in-out;
+      }
+      .mrna-strand-container {
+        opacity: 0;
+        transition: opacity 0.5s ease 0.5s;
+      }
+      #transcription-visual.unzipped .coding-strand-label {
+        transform: translateY(-40px);
+      }
+      #transcription-visual.unzipped #template-mrna-group {
+        transform: translateY(40px);
+      }
+      #transcription-visual.unzipped .mrna-strand-container {
+        opacity: 1;
+      }
+
+      #codon-chart-grid {
+        display: grid;
+        grid-template-columns: auto auto 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto 1fr 1fr 1fr 1fr;
+        gap: 2px;
+        background-color: var(--bg-light);
+        border: 1px solid var(--bg-light);
+        border-radius: 0.5rem;
+        overflow: hidden;
+      }
+      #codon-chart-grid > div {
+        background-color: var(--bg-dark);
+        padding: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+      #codon-chart-grid .header {
+        font-weight: bold;
+        font-size: 1.1rem;
+        color: var(--accent);
+        background-color: #0c121e;
+      }
+      #codon-chart-grid .v-header {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+      }
+      #codon-chart-grid .cell-content {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        gap: 2px;
+        width: 100%;
+        height: 100%;
+        font-size: 0.7rem;
+        text-align: center;
+      }
+      #codon-chart-grid .acid-entry {
+        background-color: var(--bg-med);
+        border-radius: 3px;
+        padding: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        gap: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+      #codon-chart-grid .acid-entry:hover {
+        background-color: var(--accent);
+        color: var(--bg-dark);
+      }
+      #codon-chart-grid .acid-entry .codon {
+        font-family: "Roboto Mono", monospace;
+      }
+      #codon-chart-container {
+        background-color: #0c121e;
+        border: 1px solid var(--bg-light);
+      }
+      #codon-chart-container .acid-group {
+        border-bottom: 1px solid var(--bg-light);
+      }
+      #codon-chart-container .acid-group:last-child {
+        border-bottom: none;
+      }
+      .amino-acid {
+        padding: 8px 12px;
+        border-radius: 9999px;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+      .amino-acid-clickable {
+        cursor: pointer;
+        transition: transform 0.1s ease, background-color 0.1s ease;
+      }
+      .amino-acid-clickable:hover {
+        transform: scale(1.05);
+        background-color: var(--accent);
+      }
+      #ribosome-mrna-window {
+        overflow: hidden;
+        width: 80px; /* Exact width for 3 bases */
+        height: 50px;
+        border-radius: 1rem;
+        position: relative;
+        z-index: 10;
+      }
+      #mrna-in-ribosome {
+        transition: transform 0.5s ease;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+      }
+    </style>
+  </head>
+  <body class="antialiased p-4 md:p-8">
+    <div class="container mx-auto max-w-7xl">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-white">
+          DNA & Genetics Review Tool
+        </h1>
+        <p class="mt-2 text-lg text-gray-400">
+          An interactive suite for exploring the building blocks of life
+        </p>
+      </header>
+
+      <!-- Navigation -->
+      <nav class="flex flex-wrap justify-center border-b border-gray-700 mb-8">
+        <button
+          data-tab="1"
+          class="tab-btn active py-4 px-6 text-lg font-medium text-gray-300 hover:text-sky-300"
+        >
+          1. DNA Pairing
+        </button>
+        <button
+          data-tab="2"
+          class="tab-btn py-4 px-6 text-lg font-medium text-gray-300 hover:text-sky-300"
+        >
+          2. Karyotype
+        </button>
+        <button
+          data-tab="3"
+          class="tab-btn py-4 px-6 text-lg font-medium text-gray-300 hover:text-sky-300"
+        >
+          3. Sex Chromosomes
+        </button>
+        <button
+          data-tab="4"
+          class="tab-btn py-4 px-6 text-lg font-medium text-gray-300 hover:text-sky-300"
+        >
+          4. Central Dogma
+        </button>
+      </nav>
+
+      <main>
+        <!-- 1. DNA Base Pairing -->
+        <section id="interactive-1" class="interactive-section active">
+          <div class="interactive-container p-8">
+            <h2 class="text-2xl font-bold mb-2 text-center">
+              DNA Base Pairing Challenge
+            </h2>
+            <p class="text-gray-400 mb-8 text-center max-w-2xl mx-auto">
+              Drag the correct nucleotide bases from the pool to build the
+              complementary strand of DNA. Remember, Adenine (A) pairs with
+              Thymine (T), and Cytosine (C) pairs with Guanine (G).
+            </p>
+            <div
+              class="flex flex-col md:flex-row justify-center items-start gap-12"
+            >
+              <div class="flex gap-4 items-center">
+                <div class="dna-strand" id="template-strand"></div>
+                <div class="dna-strand" id="complementary-strand"></div>
+              </div>
+              <div
+                class="flex flex-col items-center gap-4 p-4 bg-gray-800 rounded-lg"
+              >
+                <h3 class="font-semibold text-lg">Base Pool</h3>
+                <div id="base-pool" class="grid grid-cols-2 gap-4"></div>
+                <button
+                  id="reset-pairing-btn"
+                  class="mt-4 w-full px-4 py-2 bg-sky-600 hover:bg-sky-500 rounded-lg font-semibold transition-colors"
+                >
+                  New Strand
+                </button>
+              </div>
+            </div>
+            <div
+              id="pairing-feedback"
+              class="feedback-message text-center mt-6 h-6 font-semibold text-lg opacity-0"
+            ></div>
+          </div>
+        </section>
+
+        <!-- 2. Karyotype Practice -->
+        <section id="interactive-2" class="interactive-section">
+          <div class="interactive-container p-8">
+            <h2 class="text-2xl font-bold mb-2 text-center">
+              Human Karyotype Matching
+            </h2>
+            <p class="text-gray-400 mb-8 text-center max-w-2xl mx-auto">
+              A human karyotype has 23 pairs of chromosomes. Most are already
+              organized below. Drag the remaining chromosomes from the pool to
+              complete the karyotype based on size and banding patterns.
+            </p>
+            <div class="mb-8 p-4 bg-gray-800 rounded-lg min-h-[150px]">
+              <h3 class="text-lg font-semibold text-center mb-4">
+                Chromosome Pool
+              </h3>
+              <div
+                id="chromosome-pool"
+                class="flex flex-wrap gap-6 justify-center items-end"
+              ></div>
+            </div>
+            <div
+              id="karyotype-grid"
+              class="karyotype-grid p-4 border border-dashed border-gray-600 rounded-lg"
+            ></div>
+            <div
+              id="karyotype-feedback"
+              class="feedback-message text-center mt-6 h-6 font-semibold text-lg opacity-0"
+            ></div>
+            <div class="text-center mt-4">
+              <button id="reset-karyotype-btn" class="action-btn">
+                New Practice
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Sex Chromosomes -->
+        <section id="interactive-3" class="interactive-section">
+          <div
+            class="interactive-container p-8 flex flex-col items-center justify-center"
+          >
+            <h2 class="text-2xl font-bold mb-2 text-center">
+              Determining Biological Sex
+            </h2>
+            <p class="text-gray-400 mb-8 text-center max-w-2xl mx-auto">
+              The 23rd pair of chromosomes determines biological sex. Drag an X
+              and a Y chromosome from the pool into the slots to see the
+              resulting pair.
+            </p>
+            <div class="flex items-center gap-12">
+              <div
+                class="flex flex-col items-center gap-4 p-4 bg-gray-800 rounded-lg"
+              >
+                <h3 class="font-semibold text-lg">Chromosome Pool</h3>
+                <div id="sex-chromosome-pool" class="flex gap-4"></div>
+              </div>
+              <div class="flex items-center gap-4">
+                <span class="text-2xl font-bold text-gray-500">Pair 23:</span>
+                <div class="chromosome-pair-flex gap-4">
+                  <div
+                    id="sex-slot-1"
+                    class="chromosome-slot !w-24 !h-40"
+                  ></div>
+                  <div
+                    id="sex-slot-2"
+                    class="chromosome-slot !w-24 !h-40"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div id="sex-result" class="mt-8 text-center">
+              <h3 class="text-3xl font-bold h-10"></h3>
+              <p class="text-gray-400 text-lg h-6"></p>
+            </div>
+            <button
+              id="reset-sex-btn"
+              class="mt-4 px-6 py-2 bg-sky-600 hover:bg-sky-500 rounded-lg font-semibold transition-colors"
+            >
+              Reset
+            </button>
+          </div>
+        </section>
+
+        <!-- 4. Central Dogma -->
+        <section id="interactive-4" class="interactive-section">
+          <div class="interactive-container p-8">
+            <h2 class="text-2xl font-bold mb-2 text-center">
+              The Central Dogma: From DNA to Protein
+            </h2>
+            <p
+              id="dogma-intro-p"
+              class="text-gray-400 mb-8 text-center max-w-3xl mx-auto"
+            >
+              Follow the journey from a DNA sequence to a protein. Type 3-base
+              codons into the boxes below. The sequence must start with 'ATG'.
+            </p>
+
+            <div id="dogma-step-1" class="dogma-step active text-center">
+              <h3 class="text-xl font-semibold mb-4 text-sky-300">
+                Step 1: Provide DNA Coding Strand
+              </h3>
+              <div id="codon-input-container" class="flex justify-center gap-2">
+                <input
+                  type="text"
+                  maxlength="3"
+                  class="codon-input font-mono"
+                  data-index="0"
+                />
+                <input
+                  type="text"
+                  maxlength="3"
+                  class="codon-input font-mono"
+                  data-index="1"
+                />
+                <input
+                  type="text"
+                  maxlength="3"
+                  class="codon-input font-mono"
+                  data-index="2"
+                />
+                <input
+                  type="text"
+                  maxlength="3"
+                  class="codon-input font-mono"
+                  data-index="3"
+                />
+                <input
+                  type="text"
+                  maxlength="3"
+                  class="codon-input font-mono"
+                  data-index="4"
+                />
+              </div>
+              <div
+                id="dogma-error"
+                class="text-red-500 font-semibold mt-2 h-5"
+              ></div>
+              <button id="start-dogma-btn" class="mt-4 action-btn">
+                Start Process
+              </button>
+            </div>
+
+            <div id="dogma-step-2" class="dogma-step text-center">
+              <h3 class="text-xl font-semibold mb-4 text-sky-300">
+                Step 2: DNA Double Helix
+              </h3>
+              <p class="text-gray-400 mb-6">
+                Here is the DNA molecule with both the coding and template
+                strands.
+              </p>
+              <div
+                id="step2-dna-container"
+                class="font-mono text-lg flex flex-col items-center gap-2 p-4 bg-gray-900 rounded-lg max-w-full overflow-x-auto mx-auto"
+              >
+                <!-- Content will be generated by JS -->
+              </div>
+              <div class="mt-6 flex justify-center gap-4">
+                <button
+                  data-step="1"
+                  class="back-dogma-btn action-btn back-btn"
+                >
+                  Back
+                </button>
+                <button id="unzip-btn" class="action-btn">Unzip DNA</button>
+              </div>
+            </div>
+
+            <div id="dogma-step-3" class="dogma-step text-center">
+              <h3 class="text-xl font-semibold mb-4 text-sky-300">
+                Step 3: Transcription
+              </h3>
+              <p class="text-gray-400 mb-6">
+                The DNA has unzipped. An mRNA molecule is built using the
+                template strand.
+              </p>
+              <div
+                id="transcription-visual"
+                class="font-mono text-lg flex flex-col justify-center items-center gap-4 p-4 bg-gray-900 rounded-lg max-w-full overflow-x-auto mx-auto min-h-[200px]"
+              ></div>
+              <div class="mt-6 flex justify-center gap-4">
+                <button
+                  data-step="2"
+                  class="back-dogma-btn action-btn back-btn"
+                >
+                  Back
+                </button>
+                <button id="transcribe-btn" class="action-btn">
+                  Transcribe to mRNA
+                </button>
+                <button id="dogma-proceed-3" class="action-btn hidden">
+                  Proceed to Translation
+                </button>
+              </div>
+            </div>
+
+            <div id="dogma-step-4" class="dogma-step">
+              <h3 class="text-xl font-semibold mb-4 text-sky-300 text-center">
+                Step 4: Translation
+              </h3>
+              <p class="text-gray-400 mb-6 max-w-3xl mx-auto text-center">
+                The mRNA travels to a ribosome. Using the chart, drag the
+                correct amino acid to the ribosome to match the highlighted mRNA
+                codon.
+              </p>
+              <div
+                class="flex flex-col xl:flex-row gap-8 items-center xl:items-start justify-center"
+              >
+                <div class="flex-grow w-full max-w-lg">
+                  <div
+                    id="ribosome-container"
+                    class="relative my-4 h-48 flex items-center justify-center"
+                  >
+                    <svg
+                      viewBox="0 0 200 120"
+                      class="absolute inset-0 z-0 text-gray-700 h-full w-auto"
+                    >
+                      <!-- mRNA track -->
+                      <rect
+                        x="0"
+                        y="55"
+                        width="200"
+                        height="10"
+                        rx="5"
+                        fill="#374151"
+                        class="opacity-80"
+                      />
+                      <!-- Small Subunit -->
+                      <ellipse
+                        cx="100"
+                        cy="45"
+                        rx="60"
+                        ry="25"
+                        fill="#4B5563"
+                      />
+                      <!-- Large Subunit -->
+                      <ellipse
+                        cx="100"
+                        cy="80"
+                        rx="70"
+                        ry="35"
+                        fill="#6B7280"
+                      />
+                    </svg>
+                    <div id="ribosome-mrna-window" class="flex items-center">
+                      <div id="mrna-in-ribosome"></div>
+                    </div>
+                  </div>
+                  <div
+                    id="polypeptide-chain"
+                    class="mt-4 flex flex-wrap justify-center gap-2 min-h-[40px] p-2 rounded"
+                  ></div>
+                  <div
+                    id="translation-feedback"
+                    class="feedback-message mt-4 h-6 font-semibold text-lg opacity-0 text-center"
+                  ></div>
+                </div>
+                <div class="flex-shrink-0 w-full max-w-md lg:w-96">
+                  <h4 class="font-semibold text-center mb-2">
+                    Amino Acid Chart
+                  </h4>
+                  <div id="codon-chart-grid-container" class="text-sm"></div>
+                </div>
+              </div>
+              <div class="mt-6 flex justify-center gap-4">
+                <button
+                  data-step="3"
+                  class="back-dogma-btn action-btn back-btn"
+                >
+                  Back
+                </button>
+              </div>
+            </div>
+
+            <div id="dogma-step-5" class="dogma-step text-center">
+              <h3 class="text-xl font-semibold mb-4 text-green-400">
+                Process Complete!
+              </h3>
+              <p class="text-gray-300 mb-4 text-lg">
+                You have successfully created a polypeptide chain.
+              </p>
+              <div
+                id="final-polypeptide"
+                class="flex flex-wrap justify-center gap-2 p-4 bg-gray-900 rounded-lg"
+              ></div>
+              <div class="mt-6 flex justify-center gap-4">
+                <button
+                  data-step="4"
+                  class="back-dogma-btn action-btn back-btn"
+                >
+                  Back
+                </button>
+                <button id="reset-dogma-btn" class="action-btn">
+                  Start Over
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Main Navigation ---
+        const tabs = document.querySelectorAll(".tab-btn");
+        const sections = document.querySelectorAll(".interactive-section");
+
+        tabs.forEach((tab) => {
+          tab.addEventListener("click", () => {
+            const tabNumber = tab.dataset.tab;
+            tabs.forEach((t) => t.classList.remove("active"));
+            tab.classList.add("active");
+            sections.forEach((s) => s.classList.remove("active"));
+            document
+              .getElementById(`interactive-${tabNumber}`)
+              .classList.add("active");
+          });
+        });
+
+        // --- Generic Drag & Drop Logic ---
+        let draggedItem = null;
+        document.addEventListener("dragstart", (e) => {
+          if (e.target.classList.contains("draggable")) {
+            draggedItem = e.target;
+            e.dataTransfer.setData(
+              "text/plain",
+              e.target.dataset.acid ||
+                e.target.dataset.base ||
+                e.target.dataset.id
+            );
+            setTimeout(() => e.target.classList.add("dragging"), 0);
+          }
+        });
+        document.addEventListener("dragend", (e) => {
+          if (draggedItem) {
+            draggedItem.classList.remove("dragging");
+            draggedItem = null;
+          }
+        });
+        document.addEventListener("dragover", (e) => e.preventDefault());
+        document.addEventListener("dragenter", (e) => {
+          e.preventDefault();
+          const dropTarget = e.target.closest(".drop-target");
+          if (dropTarget) dropTarget.classList.add("over");
+        });
+        document.addEventListener("dragleave", (e) => {
+          const dropTarget = e.target.closest(".drop-target");
+          if (dropTarget) dropTarget.classList.remove("over");
+        });
+        document.addEventListener("drop", (e) => {
+          e.preventDefault();
+          const dropTarget = e.target.closest(".drop-target");
+          if (dropTarget) dropTarget.classList.remove("over");
+        });
+
+        // --- Shared Data ---
+        const pairingMap = { A: "T", T: "A", C: "G", G: "C" };
+        const baseColors = {
+          A: "base-A",
+          T: "base-T",
+          C: "base-C",
+          G: "base-G",
+          U: "base-U",
+        };
+        const codonMap = {
+          GCU: "Ala",
+          GCC: "Ala",
+          GCA: "Ala",
+          GCG: "Ala",
+          CGU: "Arg",
+          CGC: "Arg",
+          CGA: "Arg",
+          CGG: "Arg",
+          AGA: "Arg",
+          AGG: "Arg",
+          AAU: "Asn",
+          AAC: "Asn",
+          GAU: "Asp",
+          GAC: "Asp",
+          UGU: "Cys",
+          UGC: "Cys",
+          GAA: "Glu",
+          GAG: "Glu",
+          CAA: "Gln",
+          CAG: "Gln",
+          GGU: "Gly",
+          GGC: "Gly",
+          GGA: "Gly",
+          GGG: "Gly",
+          CAU: "His",
+          CAC: "His",
+          AUU: "Ile",
+          AUC: "Ile",
+          AUA: "Ile",
+          UUA: "Leu",
+          UUG: "Leu",
+          CUU: "Leu",
+          CUC: "Leu",
+          CUA: "Leu",
+          CUG: "Leu",
+          AAA: "Lys",
+          AAG: "Lys",
+          AUG: "Met",
+          UUU: "Phe",
+          UUC: "Phe",
+          CCU: "Pro",
+          CCC: "Pro",
+          CCA: "Pro",
+          CCG: "Pro",
+          UCU: "Ser",
+          UCC: "Ser",
+          UCA: "Ser",
+          UCG: "Ser",
+          AGU: "Ser",
+          AGC: "Ser",
+          ACU: "Thr",
+          ACC: "Thr",
+          ACA: "Thr",
+          ACG: "Thr",
+          UGG: "Trp",
+          UAU: "Tyr",
+          UAC: "Tyr",
+          GUU: "Val",
+          GUC: "Val",
+          GUA: "Val",
+          GUG: "Val",
+          UAA: "Stop",
+          UAG: "Stop",
+          UGA: "Stop",
+        };
+        const aminoAcidColors = { default: "bg-sky-500 text-white" };
+
+        // --- Interactive 1: DNA Pairing ---
+        // Unchanged and working.
+        const templateStrandEl = document.getElementById("template-strand");
+        const complementaryStrandEl = document.getElementById(
+          "complementary-strand"
+        );
+        const basePoolEl = document.getElementById("base-pool");
+        const pairingFeedback = document.getElementById("pairing-feedback");
+        const resetPairingBtn = document.getElementById("reset-pairing-btn");
+        const bases = ["A", "T", "C", "G"];
+        function setupPairingGame() {
+          templateStrandEl.innerHTML = "";
+          complementaryStrandEl.innerHTML = "";
+          basePoolEl.innerHTML = "";
+          pairingFeedback.textContent = "";
+          pairingFeedback.style.opacity = "0";
+          const templateSequence = Array.from(
+            { length: 8 },
+            () => bases[Math.floor(Math.random() * bases.length)]
+          ).join("");
+          templateSequence.split("").forEach((base) => {
+            templateStrandEl.innerHTML += `<div class="base ${baseColors[base]}">${base}</div>`;
+            complementaryStrandEl.innerHTML += `<div class="base-dropzone drop-target" data-correct="${pairingMap[base]}"></div>`;
+          });
+          bases.forEach((base) => {
+            basePoolEl.innerHTML += `<div class="base ${baseColors[base]} draggable" draggable="true" data-base="${base}">${base}</div>`;
+          });
+        }
+        complementaryStrandEl.addEventListener("drop", (e) => {
+          const dropzone = e.target.closest(".base-dropzone");
+          if (dropzone && !dropzone.hasChildNodes() && draggedItem) {
+            if (draggedItem.dataset.base === dropzone.dataset.correct) {
+              const newBase = draggedItem.cloneNode(true);
+              newBase.classList.remove("draggable", "dragging");
+              newBase.draggable = false;
+              dropzone.appendChild(newBase);
+              dropzone.style.borderColor = "var(--success)";
+              if (
+                Array.from(
+                  complementaryStrandEl.querySelectorAll(".base-dropzone")
+                ).every((dz) => dz.hasChildNodes())
+              ) {
+                pairingFeedback.textContent =
+                  "Congratulations! Strand complete!";
+                pairingFeedback.style.color = "var(--success)";
+                pairingFeedback.style.opacity = "1";
+              }
+            } else {
+              pairingFeedback.textContent = "Incorrect pair!";
+              pairingFeedback.style.color = "var(--error)";
+              pairingFeedback.style.opacity = "1";
+              setTimeout(() => (pairingFeedback.style.opacity = "0"), 2000);
+            }
+          }
+        });
+        resetPairingBtn.addEventListener("click", setupPairingGame);
+
+        // --- Interactive 2: Karyotype ---
+        const chromosomePoolEl = document.getElementById("chromosome-pool");
+        const karyotypeGridEl = document.getElementById("karyotype-grid");
+        const karyotypeFeedback = document.getElementById("karyotype-feedback");
+        const resetKaryotypeBtn = document.getElementById(
+          "reset-karyotype-btn"
+        );
+
+        const humanChromosomeData = [
+          { id: 1, h: 70, b: [10, 25, 40, 70, 90] },
+          { id: 2, h: 68, b: [15, 30, 60, 80] },
+          { id: 3, h: 66, b: [20, 50, 75] },
+          { id: 4, h: 64, b: [10, 35, 65, 85] },
+          { id: 5, h: 62, b: [25, 55, 80] },
+          { id: 6, h: 59, b: [15, 45, 75, 90] },
+          { id: 7, h: 57, b: [10, 30, 50, 70, 90] },
+          { id: 8, h: 55, b: [20, 40, 60, 80] },
+          { id: 9, h: 53, b: [10, 50, 85] },
+          { id: 10, h: 51, b: [15, 45, 75] },
+          { id: 11, h: 48, b: [20, 50, 80] },
+          { id: 12, h: 47, b: [10, 35, 65, 90] },
+          { id: 13, h: 44, b: [25, 50, 75] },
+          { id: 14, h: 42, b: [15, 55, 85] },
+          { id: 15, h: 39, b: [30, 60, 80] },
+          { id: 16, h: 38, b: [20, 45, 70] },
+          { id: 17, h: 35, b: [10, 40, 65] },
+          { id: 18, h: 33, b: [15, 50, 80] },
+          { id: 19, h: 31, b: [25, 55] },
+          { id: 20, h: 29, b: [30, 60] },
+          { id: 21, h: 27, b: [40, 70] },
+          { id: 22, h: 24, b: [50] },
+          { id: "X", h: 57, b: [10, 30, 50, 70, 90] },
+          { id: "Y", h: 22, b: [30] },
+        ];
+
+        function createChromosome(data) {
+          const container = document.createElement("div");
+          container.className = "chromosome-container";
+          container.style.width = `${data.h * 0.6}px`;
+          container.style.height = `${data.h}px`;
+
+          const chromo = document.createElement("div");
+          chromo.className = "chromosome";
+          chromo.dataset.id = data.id;
+
+          const armWidth = data.id === "Y" ? data.h * 0.18 : data.h * 0.22;
+          const armHeight = data.id === "Y" ? data.h * 0.7 : data.h;
+
+          let bandsHTML = "";
+          data.b.forEach((bPos) => {
+            bandsHTML += `<div class="band" style="top: ${bPos}%; height: ${
+              1 + (data.id.toString().charCodeAt(0) % 2)
+            }px;"></div>`;
+          });
+
+          chromo.innerHTML = `
+            <div class="arm a" style="width:${armWidth}px; height:${armHeight}px;">${bandsHTML}</div>
+            <div class="arm b" style="width:${armWidth}px; height:${armHeight}px;">${bandsHTML}</div>
+        `;
+          container.appendChild(chromo);
+          return container;
+        }
+
+        function setupKaryotypeGame() {
+          chromosomePoolEl.innerHTML = "";
+          karyotypeGridEl.innerHTML = "";
+          karyotypeFeedback.style.opacity = "0";
+
+          const allPairIdentifiers = [...Array(22).keys()]
+            .map((i) => String(i + 1))
+            .concat(["Sex"]);
+          allPairIdentifiers.sort(() => 0.5 - Math.random());
+          const pairsToSolve = allPairIdentifiers.slice(0, 4);
+
+          let chromosomesForPool = [];
+          pairsToSolve.forEach((pairId) => {
+            if (pairId === "Sex") {
+              chromosomesForPool.push("X", "Y");
+            } else {
+              chromosomesForPool.push(pairId);
+            }
+          });
+
+          chromosomesForPool.sort(() => Math.random() - 0.5);
+          chromosomesForPool.forEach((chromoId) => {
+            const data = humanChromosomeData.find((c) => c.id == chromoId);
+            if (!data) return;
+            const chromoEl = createChromosome(data);
+            chromoEl.classList.add("draggable");
+            chromoEl.draggable = true;
+            chromoEl.dataset.id = data.id;
+            chromosomePoolEl.appendChild(chromoEl);
+          });
+
+          humanChromosomeData.slice(0, 22).forEach((data) => {
+            const isPairToSolve = pairsToSolve.includes(String(data.id));
+            const wrapper = document.createElement("div");
+            wrapper.className = "karyotype-pair-wrapper";
+
+            const pairContainer = document.createElement("div");
+            pairContainer.className = "chromosome-pair";
+            pairContainer.innerHTML = `<div class="chromosome-pair-flex"></div><span class="font-bold text-sm">${data.id}</span>`;
+            const pairFlex = pairContainer.querySelector(
+              ".chromosome-pair-flex"
+            );
+
+            const slotWidth = data.h * 0.6;
+            const slotHeight = data.h;
+
+            const slot1 = document.createElement("div");
+            slot1.className = "chromosome-slot";
+            slot1.style.width = `${slotWidth + 8}px`;
+            slot1.style.height = `${slotHeight + 8}px`;
+
+            const slot2 = document.createElement("div");
+            slot2.className = "chromosome-slot";
+            slot2.style.width = `${slotWidth + 8}px`;
+            slot2.style.height = `${slotHeight + 8}px`;
+
+            if (isPairToSolve) {
+              slot1.appendChild(createChromosome(data));
+              slot2.classList.add("empty", "drop-target");
+              slot2.dataset.id = data.id;
+            } else {
+              slot1.appendChild(createChromosome(data));
+              slot2.appendChild(createChromosome(data));
+            }
+
+            pairFlex.appendChild(slot1);
+            pairFlex.appendChild(slot2);
+            wrapper.appendChild(pairContainer);
+            karyotypeGridEl.appendChild(wrapper);
+          });
+
+          const isSexPairToSolve = pairsToSolve.includes("Sex");
+          const sexWrapper = document.createElement("div");
+          sexWrapper.className = "karyotype-pair-wrapper";
+          const sexPair = document.createElement("div");
+          sexPair.className = "chromosome-pair";
+          const xData = humanChromosomeData.find((c) => c.id === "X");
+          const yData = humanChromosomeData.find((c) => c.id === "Y");
+
+          sexPair.innerHTML = `<div class="chromosome-pair-flex"></div><span class="font-bold text-sm">23 (Sex)</span>`;
+          const sexPairFlex = sexPair.querySelector(".chromosome-pair-flex");
+
+          const slotX = document.createElement("div");
+          slotX.className = "chromosome-slot";
+          slotX.style.width = `${xData.h * 0.6 + 8}px`;
+          slotX.style.height = `${xData.h + 8}px`;
+
+          const slotY = document.createElement("div");
+          slotY.className = "chromosome-slot";
+          slotY.style.width = `${yData.h * 0.6 + 8}px`;
+          slotY.style.height = `${yData.h + 8}px`;
+
+          if (isSexPairToSolve) {
+            slotX.classList.add("empty", "drop-target");
+            slotX.dataset.id = "X";
+            slotY.classList.add("empty", "drop-target");
+            slotY.dataset.id = "Y";
+          } else {
+            slotX.appendChild(createChromosome(xData));
+            slotY.appendChild(createChromosome(yData));
+          }
+
+          sexPairFlex.appendChild(slotX);
+          sexPairFlex.appendChild(slotY);
+          sexWrapper.appendChild(sexPair);
+          karyotypeGridEl.appendChild(sexWrapper);
+        }
+
+        karyotypeGridEl.addEventListener("drop", (e) => {
+          const slot = e.target.closest(".chromosome-slot.empty");
+          if (slot && !slot.hasChildNodes() && draggedItem) {
+            const draggedId = draggedItem.dataset.id;
+            const slotId = slot.dataset.id;
+            const isMatch = draggedId == slotId;
+
+            if (isMatch) {
+              draggedItem.classList.remove("draggable", "dragging");
+              draggedItem.draggable = false;
+              slot.appendChild(draggedItem);
+              slot.classList.add("filled");
+              slot.classList.remove("empty", "drop-target");
+              if (chromosomePoolEl.children.length === 0) {
+                karyotypeFeedback.textContent =
+                  "Karyotype complete! Well done!";
+                karyotypeFeedback.style.color = "var(--success)";
+                karyotypeFeedback.style.opacity = "1";
+              }
+            } else {
+              karyotypeFeedback.textContent =
+                "That chromosome does not match the pair.";
+              karyotypeFeedback.style.color = "var(--error)";
+              karyotypeFeedback.style.opacity = "1";
+              setTimeout(() => (karyotypeFeedback.style.opacity = "0"), 2000);
+            }
+          }
+        });
+        resetKaryotypeBtn.addEventListener("click", setupKaryotypeGame);
+
+        // --- Interactive 3: Sex Chromosomes ---
+        const sexChromosomePoolEl = document.getElementById(
+          "sex-chromosome-pool"
+        );
+        const sexSlot1 = document.getElementById("sex-slot-1");
+        const sexSlot2 = document.getElementById("sex-slot-2");
+        const sexResultEl = document
+          .getElementById("sex-result")
+          .querySelector("h3");
+        const sexResultDesc = document
+          .getElementById("sex-result")
+          .querySelector("p");
+        const resetSexBtn = document.getElementById("reset-sex-btn");
+        function createSexChromosome(type) {
+          const data = humanChromosomeData.find((c) => c.id === type);
+          const chromo = createChromosome(data);
+          chromo.classList.add("draggable", "sex-chromosome");
+          chromo.draggable = true;
+          chromo.dataset.type = type;
+          chromo.dataset.id = type;
+          return chromo;
+        }
+        function setupSexDetermination() {
+          sexChromosomePoolEl.innerHTML = "";
+          sexSlot1.innerHTML = "";
+          sexSlot2.innerHTML = "";
+          sexResultEl.textContent = "";
+          sexResultDesc.textContent = "";
+          sexSlot1.classList.add("drop-target");
+          sexSlot2.classList.add("drop-target");
+          sexChromosomePoolEl.appendChild(createSexChromosome("X"));
+          sexChromosomePoolEl.appendChild(createSexChromosome("Y"));
+        }
+        [sexSlot1, sexSlot2].forEach((slot) => {
+          slot.addEventListener("drop", (e) => {
+            if (draggedItem?.classList.contains("sex-chromosome")) {
+              const newChromo = draggedItem.cloneNode(true);
+              newChromo.classList.remove("draggable", "dragging");
+              newChromo.draggable = false;
+              slot.innerHTML = ""; // Clear previous before adding new
+              slot.appendChild(newChromo);
+
+              if (sexSlot1.hasChildNodes() && sexSlot2.hasChildNodes()) {
+                const combo = [
+                  sexSlot1.querySelector(".chromosome-container").dataset.type,
+                  sexSlot2.querySelector(".chromosome-container").dataset.type,
+                ]
+                  .sort()
+                  .join("");
+                sexResultEl.textContent =
+                  combo === "XX"
+                    ? "Biological Female (XX)"
+                    : combo === "XY"
+                    ? "Biological Male (XY)"
+                    : "Invalid Combination";
+                if (combo === "YY")
+                  sexResultEl.textContent = "Non-viable Combination (YY)";
+                sexResultDesc.textContent =
+                  combo === "XX"
+                    ? "Two X chromosomes typically result in a female phenotype."
+                    : combo === "XY"
+                    ? "An X and a Y chromosome typically result in a male phenotype."
+                    : "";
+              }
+            }
+          });
+        });
+        resetSexBtn.addEventListener("click", setupSexDetermination);
+
+        // --- Interactive 4: Central Dogma ---
+        const allDogmaSteps = document.querySelectorAll(".dogma-step");
+        const codonInputs = document.querySelectorAll(".codon-input");
+        const dogmaError = document.getElementById("dogma-error");
+        const startDogmaBtn = document.getElementById("start-dogma-btn");
+        const dogmaIntroP = document.getElementById("dogma-intro-p");
+        const step2DNAContainer = document.getElementById(
+          "step2-dna-container"
+        );
+        const unzipBtn = document.getElementById("unzip-btn");
+        const transcriptionVisual = document.getElementById(
+          "transcription-visual"
+        );
+        const transcribeBtn = document.getElementById("transcribe-btn");
+        const dogmaProceed3 = document.getElementById("dogma-proceed-3");
+        const ribosomeContainer = document.getElementById("ribosome-container");
+        const mrnaInRibosome = document.getElementById("mrna-in-ribosome");
+        const codonChartContainerEl = document.getElementById(
+          "codon-chart-grid-container"
+        );
+        const polypeptideChainEl = document.getElementById("polypeptide-chain");
+        const translationFeedback = document.getElementById(
+          "translation-feedback"
+        );
+        const finalPolypeptide = document.getElementById("final-polypeptide");
+        const resetDogmaBtn = document.getElementById("reset-dogma-btn");
+        const backDogmaBtns = document.querySelectorAll(".back-dogma-btn");
+
+        let dnaCodingSeq = "",
+          dnaTemplateSeq = "",
+          mrnaSeq = "",
+          currentCodonIndex = 0;
+
+        codonInputs.forEach((input) => {
+          input.addEventListener("input", (e) => {
+            const target = e.target;
+            const next = target.nextElementSibling;
+            if (
+              target.value.length >= 3 &&
+              next &&
+              next.classList.contains("codon-input")
+            ) {
+              next.focus();
+            }
+          });
+          input.addEventListener("keyup", (e) => {
+            const target = e.target;
+            const prev = target.previousElementSibling;
+            if (
+              e.key === "Backspace" &&
+              target.value.length === 0 &&
+              prev &&
+              prev.classList.contains("codon-input")
+            ) {
+              prev.focus();
+            }
+          });
+        });
+
+        function renderBaseSpan(base) {
+          return `<span class="base ${baseColors[base]} !w-auto !h-auto px-1.5 py-0.5">${base}</span>`;
+        }
+
+        function goToDogmaStep(stepNum, direction = "forward") {
+          const currentStep = document.querySelector(".dogma-step.active");
+          const nextStep = document.getElementById(`dogma-step-${stepNum}`);
+          if (currentStep) currentStep.classList.remove("active");
+          if (nextStep) nextStep.classList.add("active");
+
+          if (stepNum === 3 && direction === "forward") {
+            setupTranscriptionVisual();
+          }
+          dogmaIntroP.classList.toggle("hidden", stepNum !== 1);
+        }
+
+        backDogmaBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const targetStep = parseInt(btn.dataset.step);
+            if (targetStep === 1) resetDogma();
+            else goToDogmaStep(targetStep, "backward");
+          });
+        });
+
+        startDogmaBtn.addEventListener("click", () => {
+          let sequence = "";
+          for (const input of codonInputs) {
+            sequence += input.value.trim().toUpperCase();
+          }
+          if (!/^[ATCG]*$/.test(sequence)) {
+            dogmaError.textContent = "Invalid characters. Use only A, T, C, G.";
+            return;
+          }
+          const firstCodon = codonInputs[0].value.trim().toUpperCase();
+          if (firstCodon !== "ATG") {
+            dogmaError.textContent = "Sequence must start with ATG.";
+            return;
+          }
+          if (sequence.length > 0 && sequence.length % 3 !== 0) {
+            dogmaError.textContent =
+              "Please fill boxes in sets of 3, or leave them empty.";
+            return;
+          }
+          dogmaError.textContent = "";
+          dnaCodingSeq = sequence;
+          dnaTemplateSeq = dnaCodingSeq
+            .split("")
+            .map((b) => pairingMap[b])
+            .join("");
+
+          step2DNAContainer.innerHTML = `
+            <div class="flex items-center gap-4">
+                <span class="text-sm font-bold text-gray-400 w-24 text-right">Coding Strand</span>
+                <div class="dna-strand-horizontal">${dnaCodingSeq
+                  .split("")
+                  .map(renderBaseSpan)
+                  .join("")}</div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-sm font-bold text-gray-400 w-24 text-right">Template Strand</span>
+                <div class="dna-strand-horizontal">${dnaTemplateSeq
+                  .split("")
+                  .map(renderBaseSpan)
+                  .join("")}</div>
+            </div>
+        `;
+          goToDogmaStep(2);
+        });
+
+        unzipBtn.addEventListener("click", () => {
+          goToDogmaStep(3);
+          // Use a microtask/timeout to ensure the element is rendered before class is added for transition
+          setTimeout(() => {
+            transcriptionVisual.classList.add("unzipped");
+          }, 10);
+        });
+
+        function setupTranscriptionVisual() {
+          transcriptionVisual.classList.remove("unzipped");
+          transcribeBtn.classList.remove("hidden");
+          transcribeBtn.disabled = false;
+          dogmaProceed3.classList.add("hidden");
+          transcriptionVisual.innerHTML = `
+            <div class="coding-strand-label flex items-center gap-4 transition-transform duration-500">
+                <span class="text-sm font-bold text-gray-400 w-24 text-right">Coding Strand</span>
+                <div class="dna-strand-horizontal">${dnaCodingSeq
+                  .split("")
+                  .map(renderBaseSpan)
+                  .join("")}</div>
+            </div>
+            <div id="template-mrna-group" class="transition-transform duration-500">
+                <div class="mrna-strand-container flex items-center gap-4 mb-1">
+                    <span class="text-sm font-bold text-purple-400 w-24 text-right">mRNA</span>
+                    <div id="mrna-build-area" class="dna-strand-horizontal min-h-[26px]"></div>
+                </div>
+                <div class="template-strand-label flex items-center gap-4">
+                    <span class="text-sm font-bold text-gray-400 w-24 text-right">Template Strand</span>
+                    <div class="dna-strand-horizontal">${dnaTemplateSeq
+                      .split("")
+                      .map(renderBaseSpan)
+                      .join("")}</div>
+                </div>
+            </div>
+        `;
+        }
+
+        transcribeBtn.addEventListener("click", () => {
+          transcribeBtn.disabled = true;
+
+          mrnaSeq = dnaCodingSeq.replace(/T/g, "U");
+          const mrnaArea = document.getElementById("mrna-build-area");
+          mrnaArea.innerHTML = "";
+
+          const mrnaBases = mrnaSeq.split("");
+          let baseIndex = 0;
+          const interval = setInterval(() => {
+            if (baseIndex >= mrnaBases.length) {
+              clearInterval(interval);
+              transcribeBtn.classList.add("hidden");
+              dogmaProceed3.classList.remove("hidden");
+              return;
+            }
+            const base = mrnaBases[baseIndex];
+            const baseSpan = document.createElement("span");
+            baseSpan.className = "base base-U !w-auto !h-auto px-1.5 py-0.5";
+            baseSpan.textContent = base;
+            mrnaArea.appendChild(baseSpan);
+
+            baseIndex++;
+          }, 100);
+        });
+
+        dogmaProceed3.addEventListener("click", () => {
+          setupTranslation();
+          goToDogmaStep(4);
+        });
+
+        function setupCodonGridChart() {
+          const bases = ["U", "C", "A", "G"];
+          const chart = document.createElement("div");
+          chart.id = "codon-chart-grid";
+
+          // Headers
+          // Row 1: two empty cells, then "Second Base" spanning 4 columns
+          let headerHTML = `<div class="header"></div><div class="header"></div><div class="header" style="grid-column: 3 / 7;">Second Base</div>`;
+
+          // Row 2: two empty cells, then U, C, A, G headers
+          headerHTML += `<div class="header"></div><div class="header"></div><div class="header">U</div><div class="header">C</div><div class="header">A</div><div class="header">G</div>`;
+
+          // Vertical Header for rows 3-6
+          headerHTML += `<div class="header v-header" style="grid-row: 3 / 7;">First Base</div>`;
+
+          chart.innerHTML = headerHTML;
+
+          bases.forEach((firstBase) => {
+            // First base header for the row (U, C, A, G)
+            chart.innerHTML += `<div class="header">${firstBase}</div>`;
+            bases.forEach((secondBase) => {
+              let cellHTML = '<div class="cell-content">';
+              bases.forEach((thirdBase) => {
+                const codon = firstBase + secondBase + thirdBase;
+                const acid = codonMap[codon];
+                const clickable = acid !== "Stop" ? "amino-acid-clickable" : "";
+                cellHTML += `
+                        <div class="acid-entry ${clickable}" data-acid="${acid}">
+                           <span class="codon">${codon}</span>
+                           <span class="font-bold">${acid}</span>
+                        </div>
+                    `;
+              });
+              cellHTML += "</div>";
+              chart.innerHTML += `<div>${cellHTML}</div>`;
+            });
+          });
+
+          codonChartContainerEl.innerHTML = "";
+          codonChartContainerEl.appendChild(chart);
+        }
+
+        codonChartContainerEl.addEventListener("click", (e) => {
+          const clickedAcidEl = e.target.closest(".amino-acid-clickable");
+          if (clickedAcidEl) {
+            checkAminoAcid(clickedAcidEl.dataset.acid);
+          }
+        });
+
+        function setupTranslation() {
+          currentCodonIndex = 0;
+          polypeptideChainEl.innerHTML = "";
+          mrnaInRibosome.innerHTML = `<div class="dna-strand-horizontal">${mrnaSeq
+            .split("")
+            .map(renderBaseSpan)
+            .join("")}</div>`;
+          setupCodonGridChart();
+          highlightNextCodon();
+        }
+
+        function highlightNextCodon() {
+          const codonSpans = mrnaInRibosome.querySelectorAll(".base");
+          const codon = mrnaSeq.substring(
+            currentCodonIndex * 3,
+            currentCodonIndex * 3 + 3
+          );
+          if (codon.length < 3 || codonMap[codon] === "Stop" || !codon) {
+            finalPolypeptide.innerHTML = polypeptideChainEl.innerHTML;
+            goToDogmaStep(5);
+            return;
+          }
+
+          codonSpans.forEach((s) => (s.style.filter = "brightness(0.7)"));
+          for (let i = 0; i < 3; i++) {
+            if (codonSpans[currentCodonIndex * 3 + i]) {
+              codonSpans[currentCodonIndex * 3 + i].style.filter =
+                "brightness(1.2)";
+            }
+          }
+
+          const offset = codonSpans[currentCodonIndex * 3].offsetLeft;
+          const windowWidth = mrnaInRibosome.parentElement.clientWidth;
+          const baseWidth = codonSpans[0].clientWidth;
+          const targetOffset = -(offset - windowWidth / 2 + baseWidth * 1.5);
+
+          mrnaInRibosome.querySelector(
+            ".dna-strand-horizontal"
+          ).style.transform = `translateX(${targetOffset}px)`;
+        }
+
+        function checkAminoAcid(acid) {
+          if (!acid) return;
+          const codon = mrnaSeq.substring(
+            currentCodonIndex * 3,
+            currentCodonIndex * 3 + 3
+          );
+          const correctAcid = codonMap[codon];
+
+          if (acid === correctAcid) {
+            const color = aminoAcidColors["default"];
+            polypeptideChainEl.innerHTML += `<div class="amino-acid ${color}">${correctAcid}</div>`;
+            currentCodonIndex++;
+            translationFeedback.textContent = "Correct!";
+            translationFeedback.style.color = "var(--success)";
+            translationFeedback.style.opacity = "1";
+            highlightNextCodon();
+          } else {
+            translationFeedback.textContent =
+              "Incorrect amino acid. Try again.";
+            translationFeedback.style.color = "var(--error)";
+            translationFeedback.style.opacity = "1";
+          }
+          setTimeout(() => (translationFeedback.style.opacity = "0"), 1500);
+        }
+
+        ribosomeContainer.addEventListener("drop", (e) => {
+          // This is now handled by click, but we keep the drop target visuals
+          const droppedAcid = e.dataTransfer.getData("text/plain");
+          checkAminoAcid(droppedAcid);
+        });
+
+        function resetDogma() {
+          codonInputs.forEach((input) => (input.value = ""));
+          dnaCodingSeq = "";
+          transcribeBtn.disabled = false;
+          transcribeBtn.classList.remove("hidden");
+          dogmaProceed3.classList.add("hidden");
+          transcriptionVisual.classList.remove("unzipped");
+          goToDogmaStep(1);
+        }
+        resetDogmaBtn.addEventListener("click", resetDogma);
+
+        // --- Initial Setup Calls ---
+        setupPairingGame();
+        setupKaryotypeGame();
+        setupSexDetermination();
+      });
+    </script>
+  </body>
+</html>
