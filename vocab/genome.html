@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genome Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .info-section {
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
+        }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong,
+        text {
+          color: #000000 !important;
+        }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 sm-p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Genome</h1>
+      </header>
+
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Word: A Morphemic Analysis
+        </h2>
+        <div
+          class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-amber-700">gene</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-amber-700">-ome</span>
+        </div>
+        <div class="space-y-3 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">Gene:</strong> From
+            the Greek word "genos," meaning
+            <strong class="font-semibold"
+              >"origin" or "that which generates."</strong
+            >
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">-ome:</strong> A
+            suffix in biology meaning the
+            <strong class="font-semibold">"complete set of"</strong> something
+            (like microbiome or proteome).
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, a "genome" is the complete set of all genes in an organism.
+        </p>
+      </div>
+
+      <!-- The Core Idea -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          The Core Idea: The Master Blueprint for a Lifeform
+        </h2>
+        <p class="text-blue-800 mb-4">
+          If a gene is a single recipe, the
+          <strong class="font-semibold">genome</strong> is the entire library of
+          cookbooks. It's the complete set of DNA instructions—all the genes and
+          all the other information in between—that is needed to build and
+          maintain an organism. Every organism, from a bacterium to a human, has
+          a unique genome.
+        </p>
+        <div class="w-full">
+          <svg
+            viewBox="0 0 100 60"
+            class="w-full max-w-xs mx-auto"
+            aria-labelledby="genome-title"
+          >
+            <title id="genome-title">
+              A diagram showing a book representing the complete genome.
+            </title>
+            <!-- Book Cover -->
+            <rect
+              x="20"
+              y="10"
+              width="60"
+              height="40"
+              fill="#a5b4fc"
+              stroke="#4338ca"
+              rx="3"
+            />
+            <rect x="20" y="10" width="5" height="40" fill="#6366f1" />
+            <text
+              x="50"
+              y="25"
+              font-size="7"
+              text-anchor="middle"
+              font-weight="bold"
+              fill="#312e81"
+            >
+              The Human
+            </text>
+            <text
+              x="50"
+              y="35"
+              font-size="7"
+              text-anchor="middle"
+              font-weight="bold"
+              fill="#312e81"
+            >
+              Genome
+            </text>
+            <text
+              x="50"
+              y="45"
+              font-size="4"
+              text-anchor="middle"
+              fill="#312e81"
+            >
+              (Complete Instructions)
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Genome vs. Genetics -->
+      <div class="info-section bg-emerald-100">
+        <h2 class="text-2xl font-bold text-emerald-900 mb-3">
+          Genetics vs. Genomics
+        </h2>
+        <p class="text-emerald-800 mb-4">
+          The difference is about focus: looking at one piece versus the big
+          picture.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          <!-- Genetics -->
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Genetics (The Single Recipe)
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              This is the study of
+              <strong class="font-semibold">single genes</strong> and their role
+              in heredity. It answers questions like, "Which gene is responsible
+              for brown eyes?"
+            </p>
+          </div>
+          <!-- Genomics -->
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Genomics (The Whole Library)
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              This is the study of the
+              <strong class="font-semibold">entire genome</strong>. It looks at
+              how all the genes work together as a system and interact with the
+              environment. It answers complex questions like, "Which combination
+              of genes increases the risk for heart disease?"
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Reading in Context: The Human Genome Project
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            In 1990, scientists from around the world began an ambitious
+            mission: the Human Genome Project. Their goal was to read and map
+            the entire human
+            <strong class="font-semibold text-slate-900">genome</strong>—all 3
+            billion letters of our DNA. Before this project, scientists had
+            studied individual genes, but they had never seen the complete
+            blueprint. It was like having a few pages of an encyclopedia but
+            wanting to read the whole set.
+          </p>
+          <p>
+            By 2003, they had successfully sequenced the vast majority of the
+            human <strong class="font-semibold text-slate-900">genome</strong>.
+            This achievement revolutionized medicine. For the first time,
+            doctors could look at a person's complete genetic makeup to
+            understand their risk for diseases like cancer or Alzheimer's. The
+            study of the
+            <strong class="font-semibold text-slate-900">genome</strong>, known
+            as genomics, opened the door for personalized medicine, where
+            treatments can be tailored to an individual's unique genetic code.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

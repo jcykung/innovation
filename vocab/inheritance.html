@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inheritance Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .info-section {
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
+        }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong,
+        text {
+          color: #000000 !important;
+        }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Inheritance</h1>
+      </header>
+
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Word: A Morphemic Analysis
+        </h2>
+        <div
+          class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-amber-700">in-</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-amber-700">heres</span>
+        </div>
+        <div class="space-y-3 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">In-:</strong> A Latin
+            prefix meaning
+            <strong class="font-semibold">"into" or "in."</strong>
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">Heres:</strong> The
+            Latin word for <strong class="font-semibold">"heir."</strong>
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, "inheritance" is literally the process of an heir receiving
+          something—in genetics, that "something" is genetic traits.
+        </p>
+      </div>
+
+      <!-- The Core Idea -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          The Core Idea: Passing Traits to the Next Generation
+        </h2>
+        <p class="text-blue-800 mb-4">
+          Genetic <strong class="font-semibold">inheritance</strong> is the
+          process by which parents pass on their genes to their children. Each
+          child inherits a unique combination of genes from their parents, which
+          is why family members often look similar, but are never identical
+          (unless they are identical twins).
+        </p>
+        <div class="w-full" style="transform: translateY(-4mm)">
+          <svg
+            viewBox="0 0 100 60"
+            class="w-full max-w-sm mx-auto"
+            aria-labelledby="inheritance-title"
+          >
+            <title id="inheritance-title">
+              A diagram showing parents passing genes to a child.
+            </title>
+            <!-- Parent 1 -->
+            <rect
+              x="10"
+              y="10"
+              width="20"
+              height="20"
+              fill="#a5f3fc"
+              stroke="#0891b2"
+              rx="2"
+            ></rect>
+            <text
+              x="20"
+              y="22"
+              font-size="5"
+              text-anchor="middle"
+              font-weight="bold"
+            >
+              Parent 1
+            </text>
+            <!-- Parent 2 -->
+            <rect
+              x="70"
+              y="10"
+              width="20"
+              height="20"
+              fill="#fecaca"
+              stroke="#dc2626"
+              rx="2"
+            />
+            <text
+              x="80"
+              y="22"
+              font-size="5"
+              text-anchor="middle"
+              font-weight="bold"
+            >
+              Parent 2
+            </text>
+            <!-- Lines (no arrowheads) -->
+            <line
+              x1="25"
+              y1="30"
+              x2="45"
+              y2="40"
+              stroke="#a3a3a3"
+              stroke-width="2"
+            />
+            <line
+              x1="75"
+              y1="30"
+              x2="55"
+              y2="40"
+              stroke="#a3a3a3"
+              stroke-width="2"
+            />
+            <!-- Child -->
+            <rect
+              x="40"
+              y="40"
+              width="20"
+              height="20"
+              fill="#d8b4fe"
+              stroke="#7e22ce"
+              rx="2"
+            />
+            <text
+              x="50"
+              y="52"
+              font-size="5"
+              text-anchor="middle"
+              font-weight="bold"
+            >
+              Child
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Key Concepts -->
+      <div class="info-section bg-emerald-100">
+        <h2 class="text-2xl font-bold text-emerald-900 mb-3">
+          The Rules of Inheritance
+        </h2>
+        <p class="text-emerald-800 mb-4">
+          For many traits, inheritance follows predictable patterns discovered
+          by Gregor Mendel.
+        </p>
+        <div class="space-y-4">
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Alleles: Different Versions of a Gene
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              For any given gene (like for eye colour), you inherit one version
+              from each parent. These different versions are called
+              <strong class="font-semibold">alleles</strong>. For example, there
+              are alleles for brown eyes and alleles for blue eyes.
+            </p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Dominant vs. Recessive Alleles
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              Some alleles are <strong class="font-semibold">dominant</strong>,
+              meaning you only need to inherit one copy for that trait to show
+              up. Other alleles are
+              <strong class="font-semibold">recessive</strong>, meaning you need
+              to inherit two copies for the trait to appear. The brown eye
+              allele (B) is dominant over the blue eye allele (b).
+            </p>
+            <p class="text-sm text-emerald-700 mt-2"></p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Genotype vs. Phenotype
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              <strong class="font-semibold">Genotype</strong> is the actual set
+              of alleles an organism has (e.g., BB, Bb, or bb). The
+              <strong class="font-semibold">phenotype</strong> is the observable
+              physical trait that results from the genotype (e.g., brown eyes or
+              blue eyes).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Reading in Context: The Family Reunion
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            At the family reunion, Leo was looking at an old black and white
+            photo of his great-grandparents. He noticed that his
+            great-grandfather had a distinctive widow's peak hairline, just like
+            his grandfather and his own dad. "It looks like you all got that
+            from him," Leo's mom said. "That's a classic example of genetic
+            <strong class="font-semibold text-slate-900">inheritance</strong>.
+            The gene for a widow's peak is dominant."
+          </p>
+          <p>
+            Leo, who didn't have a widow's peak, was confused. "If it's
+            dominant, why don't I have it?" His mom smiled. "Because of your
+            <strong class="font-semibold text-slate-900">inheritance</strong>
+            from me! You get half your genes from Dad and half from me. I have a
+            straight hairline, which is a recessive trait. You must have
+            received a recessive allele from Dad and one from me, so the widow's
+            peak didn't show up for you. Your genetic lottery was just
+            different."
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
