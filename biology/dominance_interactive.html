@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genetics: Dominance Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .tab-btn.active {
+        border-color: #6366f1;
+        background-color: #312e81;
+        color: #e0e7ff;
+        font-weight: 600;
+      }
+      .punnett-square {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 360px;
+        height: 360px;
+        border: 2px solid #4b5563;
+      }
+      .punnett-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #374151;
+        font-size: 1.5rem;
+        font-weight: 600;
+        position: relative;
+      }
+      .punnett-header {
+        background-color: #374151;
+      }
+      .punnett-cell.corner {
+        border: none;
+        background: none;
+      }
+      .phenotype-swatch {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      .phenotype-swatch-roan {
+        background: linear-gradient(45deg, #f87171 50%, #e5e7eb 50%);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-900 text-slate-200">
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-indigo-400">
+          Genetics Dominance Practice Tool
+        </h1>
+        <p class="text-lg text-slate-400 mt-2">
+          An interactive way to learn about inheritance patterns.
+        </p>
+      </header>
+
+      <!-- Tabs Navigation -->
+      <div class="mb-6 border-b border-slate-700">
+        <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+          <button
+            class="tab-btn active w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('complete')"
+          >
+            Complete Dominance
+          </button>
+          <button
+            class="tab-btn w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('incomplete')"
+          >
+            Incomplete Dominance
+          </button>
+          <button
+            class="tab-btn w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('codominance')"
+          >
+            Codominance
+          </button>
+          <button
+            class="tab-btn w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('blood')"
+          >
+            Codominance: Blood Type
+          </button>
+        </nav>
+      </div>
+
+      <!-- Tab Content -->
+      <main id="tab-content">
+        <!-- Complete Dominance -->
+        <div id="complete" class="tab-pane space-y-6">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <h2 class="text-2xl font-bold text-indigo-400 mb-2">
+              Complete Dominance
+            </h2>
+            <p class="text-slate-300">
+              In complete dominance, the dominant allele (<span
+                class="font-mono font-bold"
+                >A</span
+              >) completely masks the effect of the recessive allele (<span
+                class="font-mono font-bold"
+                >a</span
+              >). The phenotype of the heterozygote (<span
+                class="font-mono font-bold"
+                >Aa</span
+              >) is identical to the homozygous dominant (<span
+                class="font-mono font-bold"
+                >AA</span
+              >).
+            </p>
+            <p class="text-slate-300 mt-2">
+              <strong>Example:</strong> Pea plant flower color. Purple (<span
+                class="font-mono font-bold"
+                >P</span
+              >) is dominant to white (<span class="font-mono font-bold">p</span
+              >).
+            </p>
+          </div>
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Punnett Square Simulator</h3>
+                <div>
+                  <label
+                    for="cd-parent1"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 1 Genotype:</label
+                  >
+                  <select
+                    id="cd-parent1"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md text-white"
+                  >
+                    <option>PP</option>
+                    <option selected>Pp</option>
+                    <option>pp</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="cd-parent2"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 2 Genotype:</label
+                  >
+                  <select
+                    id="cd-parent2"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 rounded-md text-white"
+                  >
+                    <option>PP</option>
+                    <option>Pp</option>
+                    <option>pp</option>
+                  </select>
+                </div>
+                <button
+                  onclick="generatePunnett('cd')"
+                  class="w-full bg-indigo-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors"
+                >
+                  Generate Cross
+                </button>
+                <div id="cd-ratios-output">
+                  <!-- Ratios table will be generated here -->
+                </div>
+              </div>
+              <div
+                id="cd-square-output"
+                class="flex flex-col items-center md:items-start"
+              >
+                <!-- Punnett Square will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Incomplete Dominance -->
+        <div id="incomplete" class="tab-pane space-y-6 hidden">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <h2 class="text-2xl font-bold text-teal-400 mb-2">
+              Incomplete Dominance
+            </h2>
+            <p class="text-slate-300">
+              In incomplete dominance, the heterozygous phenotype is an
+              intermediate blend of the two homozygous phenotypes. Neither
+              allele is fully dominant.
+            </p>
+            <p class="text-slate-300 mt-2">
+              <strong>Example:</strong> Snapdragon flower color. Crossing a Red
+              (<span class="font-mono font-bold"
+                >C<sup>R</sup>C<sup>R</sup></span
+              >) with a White (<span class="font-mono font-bold"
+                >C<sup>W</sup>C<sup>W</sup></span
+              >) flower results in a Pink (<span class="font-mono font-bold"
+                >C<sup>R</sup>C<sup>W</sup></span
+              >) flower.
+            </p>
+          </div>
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Punnett Square Simulator</h3>
+                <div>
+                  <label
+                    for="id-parent1"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 1 Genotype:</label
+                  >
+                  <select
+                    id="id-parent1"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-teal-500 focus:border-teal-500 rounded-md text-white"
+                  >
+                    <option value="RR">CᴿCᴿ (Red)</option>
+                    <option value="RW" selected>CᴿCᵂ (Pink)</option>
+                    <option value="WW">CᵂCᵂ (White)</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="id-parent2"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 2 Genotype:</label
+                  >
+                  <select
+                    id="id-parent2"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-teal-500 focus:border-teal-500 rounded-md text-white"
+                  >
+                    <option value="RR">CᴿCᴿ (Red)</option>
+                    <option value="RW">CᴿCᵂ (Pink)</option>
+                    <option value="WW">CᵂCᵂ (White)</option>
+                  </select>
+                </div>
+                <button
+                  onclick="generatePunnett('id')"
+                  class="w-full bg-teal-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors"
+                >
+                  Generate Cross
+                </button>
+                <div id="id-ratios-output">
+                  <!-- Ratios table will be generated here -->
+                </div>
+              </div>
+              <div
+                id="id-square-output"
+                class="flex flex-col items-center md:items-start"
+              >
+                <!-- Punnett Square will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Codominance -->
+        <div id="codominance" class="tab-pane space-y-6 hidden">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <h2 class="text-2xl font-bold text-red-400 mb-2">Codominance</h2>
+            <p class="text-slate-300">
+              In codominance, both alleles in the heterozygote are fully and
+              separately expressed. There is no blending; both traits appear.
+            </p>
+            <p class="text-slate-300 mt-2">
+              <strong>Example:</strong> Roan cattle coat color. An allele for
+              red hair (<span class="font-mono font-bold">C<sup>R</sup></span
+              >) and an allele for white hair (<span class="font-mono font-bold"
+                >C<sup>W</sup></span
+              >) are codominant. A heterozygous cow (<span
+                class="font-mono font-bold"
+                >C<sup>R</sup>C<sup>W</sup></span
+              >) has a roan coat with both red and white hairs.
+            </p>
+          </div>
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Punnett Square Simulator</h3>
+                <div>
+                  <label
+                    for="co-parent1"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 1 Genotype:</label
+                  >
+                  <select
+                    id="co-parent1"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-red-500 focus:border-red-500 rounded-md text-white"
+                  >
+                    <option value="RR">CᴿCᴿ (Red)</option>
+                    <option value="RW" selected>CᴿCᵂ (Roan)</option>
+                    <option value="WW">CᵂCᵂ (White)</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="co-parent2"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 2 Genotype:</label
+                  >
+                  <select
+                    id="co-parent2"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-red-500 focus:border-red-500 rounded-md text-white"
+                  >
+                    <option value="RR">CᴿCᴿ (Red)</option>
+                    <option value="RW">CᴿCᵂ (Roan)</option>
+                    <option value="WW">CᵂCᵂ (White)</option>
+                  </select>
+                </div>
+                <button
+                  onclick="generatePunnett('co')"
+                  class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                >
+                  Generate Cross
+                </button>
+                <div id="co-ratios-output">
+                  <!-- Ratios table will be generated here -->
+                </div>
+              </div>
+              <div
+                id="co-square-output"
+                class="flex flex-col items-center md:items-start"
+              >
+                <!-- Punnett Square will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blood Type Practice -->
+        <div id="blood" class="tab-pane space-y-6 hidden">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <h2 class="text-2xl font-bold text-sky-400 mb-2">
+              Example of Codominance: ABO Blood Type
+            </h2>
+            <p class="text-slate-300">
+              Human blood type is a perfect real-world example of
+              <strong>codominance</strong>. It also shows
+              <strong>multiple alleles</strong>, because there are three
+              possible alleles (A, B, O) for this single gene.
+            </p>
+            <p class="text-slate-300 mt-2">
+              The alleles for Type A (<span class="font-mono font-bold">Ⅰᴬ</span
+              >) and Type B (<span class="font-mono font-bold">Ⅰᴮ</span>) are
+              codominant. If a person inherits both, they have Type AB blood,
+              with both markers expressed. Both
+              <span class="font-mono font-bold">Ⅰᴬ</span> and
+              <span class="font-mono font-bold">Ⅰᴮ</span> are dominant over the
+              recessive allele <span class="font-mono font-bold">i</span> (Type
+              O).
+            </p>
+          </div>
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Blood Type Punnett Square</h3>
+                <div>
+                  <label
+                    for="blood-parent1"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 1 Genotype:</label
+                  >
+                  <select
+                    id="blood-parent1"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-sky-500 focus:border-sky-500 rounded-md text-white"
+                  >
+                    <option value="AA">ⅠᴬⅠᴬ (Type A)</option>
+                    <option value="AO" selected>Ⅰᴬi (Type A)</option>
+                    <option value="BB">ⅠᴮⅠᴮ (Type B)</option>
+                    <option value="BO">Ⅰᴮi (Type B)</option>
+                    <option value="AB">ⅠᴬⅠᴮ (Type AB)</option>
+                    <option value="OO">ii (Type O)</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="blood-parent2"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 2 Genotype:</label
+                  >
+                  <select
+                    id="blood-parent2"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-sky-500 focus:border-sky-500 rounded-md text-white"
+                  >
+                    <option value="AA">ⅠᴬⅠᴬ (Type A)</option>
+                    <option value="AO">Ⅰᴬi (Type A)</option>
+                    <option value="BB">ⅠᴮⅠᴮ (Type B)</option>
+                    <option value="BO" selected>Ⅰᴮi (Type B)</option>
+                    <option value="AB">ⅠᴬⅠᴮ (Type AB)</option>
+                    <option value="OO">ii (Type O)</option>
+                  </select>
+                </div>
+                <button
+                  onclick="generatePunnett('blood')"
+                  class="w-full bg-sky-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors"
+                >
+                  Generate Cross
+                </button>
+                <div id="blood-ratios-output">
+                  <!-- Ratios table will be generated here -->
+                </div>
+              </div>
+              <div
+                id="blood-square-output"
+                class="flex flex-col items-center md:items-start"
+              >
+                <!-- Punnett Square will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      const DOMINANCE_TYPES = {
+        cd: {
+          name: "Complete Dominance",
+          alleles: ["P", "p"],
+          phenotypes: {
+            PP: { name: "Purple", color: "#8b5cf6" },
+            Pp: { name: "Purple", color: "#8b5cf6" },
+            pp: { name: "White", color: "#d1d5db" },
+          },
+          getGenotype(val) {
+            return val;
+          },
+        },
+        id: {
+          name: "Incomplete Dominance",
+          alleles: ["R", "W"],
+          phenotypes: {
+            RR: { name: "Red", color: "#dc2626" },
+            RW: { name: "Pink", color: "#f9a8d4" },
+            WW: { name: "White", color: "#e5e7eb" },
+          },
+          getGenotype(val) {
+            return val
+              .split("")
+              .map((char) => `C<sup>${char}</sup>`)
+              .join("");
+          },
+        },
+        co: {
+          name: "Codominance",
+          alleles: ["R", "W"],
+          phenotypes: {
+            RR: { name: "Red", color: "#ef4444" },
+            RW: { name: "Roan", color: "roan" },
+            WW: { name: "White", color: "#e5e7eb" },
+          },
+          getGenotype(val) {
+            return val
+              .split("")
+              .map((char) => `C<sup>${char}</sup>`)
+              .join("");
+          },
+        },
+        blood: {
+          name: "Codominance: Blood Type",
+          alleles: ["A", "B", "O"],
+          phenotypes: {
+            AA: { name: "Type A", color: "#fca5a5" },
+            AO: { name: "Type A", color: "#fca5a5" },
+            BB: { name: "Type B", color: "#93c5fd" },
+            BO: { name: "Type B", color: "#93c5fd" },
+            AB: { name: "Type AB", color: "#d8b4fe" },
+            OO: { name: "Type O", color: "#e5e7eb" },
+          },
+          getGenotype(val) {
+            const bloodAlleleMap = { A: "Ⅰᴬ", B: "Ⅰᴮ", O: "i" };
+            if (val.length === 2) {
+              return `${bloodAlleleMap[val[0]]}${bloodAlleleMap[val[1]]}`;
+            }
+            return bloodAlleleMap[val];
+          },
+        },
+      };
+
+      function showTab(tabName) {
+        // Hide all tab panes
+        document.querySelectorAll(".tab-pane").forEach((pane) => {
+          pane.classList.add("hidden");
+        });
+        // Deactivate all tab buttons
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        // Show the selected tab pane
+        document.getElementById(tabName).classList.remove("hidden");
+        // Activate the selected tab button
+        const activeButton = Array.from(
+          document.querySelectorAll(".tab-btn")
+        ).find((btn) => btn.getAttribute("onclick").includes(`'${tabName}'`));
+        if (activeButton) {
+          activeButton.classList.add("active");
+        }
+      }
+
+      function generatePunnett(type) {
+        const config = DOMINANCE_TYPES[type];
+        const p1Val = document.getElementById(`${type}-parent1`).value;
+        const p2Val = document.getElementById(`${type}-parent2`).value;
+
+        const p1Alleles = p1Val.split("");
+        const p2Alleles = p2Val.split("");
+
+        const squareOutputDiv = document.getElementById(
+          `${type}-square-output`
+        );
+        const ratiosOutputDiv = document.getElementById(
+          `${type}-ratios-output`
+        );
+
+        const genotypes = {};
+        const phenotypes = {};
+
+        const results = [];
+        // Generate the 4 inner cells' genotypes
+        for (let i = 0; i < 2; i++) {
+          for (let j = 0; j < 2; j++) {
+            // Sort alleles for consistent representation (e.g., Pp not pP, AO not OA)
+            let combo = [p1Alleles[i], p2Alleles[j]].sort().join("");
+            results.push(combo);
+
+            const phenotypeInfo = config.phenotypes[combo];
+            genotypes[combo] = (genotypes[combo] || 0) + 1;
+            phenotypes[phenotypeInfo.name] =
+              (phenotypes[phenotypeInfo.name] || 0) + 1;
+          }
+        }
+
+        // Function to render a single result cell
+        const renderCell = (combo) => {
+          const phenotypeInfo = config.phenotypes[combo];
+          let style = `background-color: ${phenotypeInfo.color}; color: #1e293b;`;
+          if (phenotypeInfo.color === "roan") {
+            style =
+              "background: linear-gradient(45deg, #ef4444 49%, #e5e7eb 51%); color: #1e293b;";
+          } else if (combo === "pp" || combo === "WW" || combo === "OO") {
+            style = `background-color: ${phenotypeInfo.color}; color: #1e293b; border: 1px solid #4b5563;`;
+          }
+          return `<div class="punnett-cell" style="${style}">${config.getGenotype(
+            combo
+          )}</div>`;
+        };
+
+        // Build the HTML for the Punnett Square grid
+        const squareHTML = `
+                <h4 class="text-lg font-semibold mb-2">Punnett Square</h4>
+                <div class="punnett-square">
+                    <!-- Row 1: Corner + Parent 2 headers -->
+                    <div class="punnett-cell corner"></div>
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p2Alleles[0]
+                    )}</div>
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p2Alleles[1]
+                    )}</div>
+                    
+                    <!-- Row 2: Parent 1 Header + results -->
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p1Alleles[0]
+                    )}</div>
+                    ${renderCell(results[0])}
+                    ${renderCell(results[1])}
+
+                    <!-- Row 3: Parent 1 Header + results -->
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p1Alleles[1]
+                    )}</div>
+                    ${renderCell(results[2])}
+                    ${renderCell(results[3])}
+                </div>
+            `;
+
+        let resultsHTML = `
+            <div class="mt-4 border border-slate-700 rounded-lg p-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <h5 class="font-semibold text-md mb-2">Genotype Ratios:</h5>
+                        <ul class="list-disc list-inside space-y-1">`;
+        for (const g in genotypes) {
+          resultsHTML += `<li>${(genotypes[g] / 4) * 100}% ${config.getGenotype(
+            g
+          )}</li>`;
+        }
+        resultsHTML += `
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-md mb-2">Phenotype Ratios:</h5>
+                        <ul class="list-none space-y-2">`;
+        for (const p in phenotypes) {
+          const phenotypeInfo = Object.values(config.phenotypes).find(
+            (info) => info.name === p
+          );
+          let swatch = `<span class="phenotype-swatch" style="background-color: ${phenotypeInfo.color};"></span>`;
+          if (phenotypeInfo.color === "roan") {
+            swatch = `<span class="phenotype-swatch phenotype-swatch-roan"></span>`;
+          }
+          resultsHTML += `<li>${swatch} ${
+            (phenotypes[p] / 4) * 100
+          }% ${p}</li>`;
+        }
+        resultsHTML += `
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+
+        squareOutputDiv.innerHTML = squareHTML;
+        ratiosOutputDiv.innerHTML = resultsHTML;
+      }
+
+      // Initial setup on page load
+      window.onload = () => {
+        generatePunnett("cd");
+        generatePunnett("id");
+        generatePunnett("co");
+        generatePunnett("blood");
+        showTab("complete");
+      };
+    </script>
+  </body>
+</html>

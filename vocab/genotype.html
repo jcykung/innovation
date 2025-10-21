@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genotype Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .info-section {
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
+        }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong,
+        text {
+          color: #000000 !important;
+        }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Genotype</h1>
+      </header>
+
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Word: A Morphemic Analysis
+        </h2>
+        <div
+          class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-amber-700">geno-</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-amber-700">-type</span>
+        </div>
+        <div class="space-y-3 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">Geno-:</strong> From
+            the Greek word "genos," meaning
+            <strong class="font-semibold">"origin" or "generation."</strong>
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">-type:</strong> From
+            the Greek word "typos," meaning
+            <strong class="font-semibold">"mark" or "model."</strong>
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, a "genotype" is the specific genetic model or blueprint an
+          organism inherits.
+        </p>
+      </div>
+
+      <!-- The Core Idea -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          The Core Idea: Your Specific Genetic Code
+        </h2>
+        <p class="text-blue-800 mb-4">
+          The <strong class="font-semibold">genotype</strong> is the specific
+          combination of alleles (gene versions) that an individual has for a
+          particular gene. It's the "behind-the-scenes" genetic information
+          written in your DNA. You can't see a genotype just by looking at
+          someone.
+        </p>
+        <div class="w-full">
+          <svg
+            viewBox="0 0 100 60"
+            class="w-full max-w-sm mx-auto"
+            aria-labelledby="genotype-title"
+          >
+            <title id="genotype-title">
+              A diagram showing a pair of chromosomes with a specific genotype
+              (Bb) for eye colour.
+            </title>
+            <!-- Chromosome Pair -->
+            <path
+              d="M25 10 L 35 50"
+              stroke="#a5f3fc"
+              stroke-width="8"
+              stroke-linecap="round"
+            />
+            <path
+              d="M35 10 L 25 50"
+              stroke="#a5f3fc"
+              stroke-width="8"
+              stroke-linecap="round"
+            />
+            <path
+              d="M65 10 L 75 50"
+              stroke="#fecaca"
+              stroke-width="8"
+              stroke-linecap="round"
+            />
+            <path
+              d="M75 10 L 65 50"
+              stroke="#fecaca"
+              stroke-width="8"
+              stroke-linecap="round"
+            />
+            <!-- Alleles -->
+            <text
+              x="30"
+              y="33"
+              font-size="8"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              B
+            </text>
+            <text
+              x="70"
+              y="33"
+              font-size="8"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              b
+            </text>
+            <!-- Genotype Label -->
+            <text
+              x="50"
+              y="57"
+              font-size="6"
+              font-weight="bold"
+              text-anchor="middle"
+              fill="#1e293b"
+            >
+              Genotype: Bb
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Key Concepts -->
+      <div class="info-section bg-emerald-100">
+        <h2 class="text-2xl font-bold text-emerald-900 mb-3">
+          Genotype vs. Phenotype: The Code vs. The Result
+        </h2>
+        <p class="text-emerald-800 mb-4">
+          This is the most important distinction in genetics. The genotype is
+          the instruction, and the phenotype is the final product.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          <!-- Genotype -->
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Genotype (The Genetic Code)
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              The specific combination of alleles. <br /><strong
+                >Examples: BB, Bb, bb</strong
+              >
+            </p>
+          </div>
+          <!-- Phenotype -->
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">
+              Phenotype (The Physical Trait)
+            </h3>
+            <p class="text-emerald-800 mt-1">
+              The observable characteristic that is expressed. <br /><strong
+                >Examples: Brown Eyes, Blue Eyes</strong
+              >
+            </p>
+          </div>
+        </div>
+        <div class="bg-emerald-50 p-4 rounded-lg mt-6">
+          <p class="text-emerald-800 text-center">
+            Notice how different genotypes (<strong class="font-semibold"
+              >BB</strong
+            >
+            and <strong class="font-semibold">Bb</strong>) can result in the
+            same phenotype (Brown Eyes) because the 'B' allele is dominant.
+          </p>
+        </div>
+      </div>
+
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Reading in Context: The Chocolate Lab
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            Anna's family breeds Labrador retrievers. Their black lab, Shadow,
+            just had puppies with another black lab. Most of the puppies were
+            black, but one was chocolate brown! A friend asked how that was
+            possible. "It's all in their
+            <strong class="font-semibold text-slate-900">genotype</strong>,"
+            Anna explained. "In labs, the black coat allele (B) is dominant over
+            the brown coat allele (b)."
+          </p>
+          <p>
+            "Both parent dogs are black, so that's their phenotype. But for them
+            to have a brown puppy, their
+            <strong class="font-semibold text-slate-900">genotype</strong> must
+            be Bb. They each carry the recessive brown allele," she said. "The
+            brown puppy inherited the 'b' allele from both of them, giving it a
+            'bb' <strong class="font-semibold text-slate-900">genotype</strong>,
+            which is the only way to get a chocolate-coloured phenotype."
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
