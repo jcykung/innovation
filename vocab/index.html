@@ -20,132 +20,221 @@
       }
     </style>
   </head>
-  <body class="bg-slate-50 text-slate-800">
+  <!-- Switched to a new "cyber glow" dark theme -->
+  <body class="bg-gray-900 text-gray-100">
     <div class="min-h-screen flex flex-col items-center justify-center p-4">
-      <div class="w-full max-w-3xl mx-auto">
+      <div class="w-full max-w-4xl mx-auto">
         <header class="text-center mb-12">
-          <h1 class="text-5xl md:text-6xl font-bold text-slate-900">
+          <h1 class="text-5xl md:text-6xl font-bold text-white">
             Innovation 10 Vocabulary
           </h1>
-          <p class="mt-4 text-lg text-slate-600">
+          <p class="mt-4 text-lg text-gray-400">
             Select a term to start learning.
           </p>
         </header>
 
-        <main>
-          <!-- 
-                  This section should be dynamically populated.
-                  For each file in your "vocab" folder, create a link.
-                  The script below demonstrates how you could do this if you have a list of the files.
-                -->
-          <div
-            id="vocab-list"
-            class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
+        <main class="space-y-8">
+          <!-- English Section -->
+          <section
+            class="bg-purple-900/40 p-8 rounded-2xl border border-purple-700/50 shadow-xl"
           >
-            <!-- Placeholder Links - Sorted Alphabetically -->
-            <a
-              href="allegory.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Allegory</span>
-            </a>
-            <a
-              href="ethical_dilemma.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Ethical Dilemma</span>
-            </a>
-            <a
-              href="scapegoat.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Scapegoat</span>
-            </a>
-            <a
-              href="utilitarian.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Utilitarian</span>
-            </a>
-            <a
-              href="red_shift.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Red Shift</span>
-            </a>
-            <a
-              href="cmb.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">CMB</span>
-            </a>
-            <a
-              href="evidence.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Evidence</span>
-            </a>
-            <a
-              href="confederation.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Confederation</span>
-            </a>
-            <a
-              href="genetics.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Genetics</span>
-            </a>
-            <a
-              href="genome.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Genome</span>
-            </a>
-            <a
-              href="chromosome.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Chromosome</span>
-            </a>
-            <a
-              href="inheritance.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Inheritance</span>
-            </a>
-            <a
-              href="gene.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Gene</span>
-            </a>
-            <a
-              href="allele.html"
-              class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
-              target="_blank"
-            >
-              <span class="font-semibold text-slate-700">Allele</span>
-            </a>
-          </div>
+            <h2 class="text-2xl font-bold text-purple-300 mb-4">English</h2>
+            <!-- Alphabetized links -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <a
+                href="allegory.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Allegory</span></a
+              >
+              <a
+                href="ethical_dilemma.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Ethical Dilemma</span
+                ></a
+              >
+              <a
+                href="scapegoat.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Scapegoat</span></a
+              >
+              <a
+                href="utilitarian.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Utilitarian</span
+                ></a
+              >
+            </div>
+          </section>
+
+          <!-- Social Studies Section -->
+          <section
+            class="bg-emerald-900/40 p-8 rounded-2xl border border-emerald-700/50 shadow-xl"
+          >
+            <h2 class="text-2xl font-bold text-emerald-300 mb-4">
+              Social Studies
+            </h2>
+            <!-- Alphabetized links (only one here) -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <a
+                href="confederation.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Confederation</span
+                ></a
+              >
+            </div>
+          </section>
+
+          <!-- Science Section -->
+          <section
+            class="bg-sky-900/40 p-8 rounded-2xl border border-sky-700/50 shadow-xl"
+          >
+            <h2 class="text-2xl font-bold text-sky-300 mb-4">Science</h2>
+            <!-- Alphabetized links -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <a
+                href="allele.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Allele</span></a
+              >
+              <a
+                href="chromosome.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Chromosome</span></a
+              >
+              <a
+                href="cmb.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">CMB</span></a
+              >
+              <a
+                href="evidence.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Evidence</span></a
+              >
+              <a
+                href="gene.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Gene</span></a
+              >
+              <a
+                href="genetics.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Genetics</span></a
+              >
+              <a
+                href="genome.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Genome</span></a
+              >
+              <a
+                href="genotype.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Genotype</span></a
+              >
+              <a
+                href="heterozygous.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Heterozygous</span
+                ></a
+              >
+              <a
+                href="homozygous.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Homozygous</span></a
+              >
+              <a
+                href="inheritance.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Inheritance</span
+                ></a
+              >
+              <a
+                href="phenotype.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Phenotype</span></a
+              >
+              <a
+                href="punnett.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700"
+                  >Punnett Square</span
+                ></a
+              >
+              <a
+                href="redshift.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Redshift</span></a
+              >
+            </div>
+          </section>
+
+          <!-- Interactives Section -->
+          <section
+            class="bg-rose-900/40 p-8 rounded-2xl border border-rose-700/50 shadow-xl"
+          >
+            <h2 class="text-2xl font-bold text-rose-300 mb-4">Interactives</h2>
+            <!-- Alphabetized links -->
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <a
+                href="..\cosmology\cmb_interactive.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">CMB</span></a
+              >
+              <a
+                href="..\biology\dominance_interactive.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Dominance</span></a
+              >
+              <a
+                href="..\biology\genetics_interactive.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Genetics</span></a
+              >
+              <a
+                href="..\biology\mutation_interactive.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Mutations</span></a
+              >
+              <a
+                href="..\cosmology\redshift_interactive.html"
+                class="block p-5 bg-white border border-slate-200 rounded-xl hover:bg-slate-100 hover:shadow-lg transition-all duration-300 text-center"
+                target="_blank"
+                ><span class="font-semibold text-slate-700">Redshift</span></a
+              >
+            </div>
+          </section>
         </main>
 
         <footer class="text-center mt-12">
-          <p class="text-slate-500">
+          <p class="text-gray-500">
             Created to make learning vocabulary simple and elegant.
           </p>
         </footer>
