@@ -1,0 +1,663 @@
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mutation Explorer</title>
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Load Inter font -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      /* Custom class for highlighting DNA/RNA changes */
+      .highlight {
+        background-color: #fef08a; /* yellow-200 */
+        border-radius: 4px;
+        padding: 0; /* No padding to keep spacing consistent */
+        color: #b45309; /* amber-700 */
+      }
+      .dark .highlight {
+        background-color: #fde047; /* yellow-400 */
+        color: #1f2937; /* gray-800 */
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-100 dark:bg-gray-900 min-h-screen flex items-center justify-center p-4"
+  >
+    <div class="max-w-4xl w-full mx-auto">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-gray-100">
+          Mutation Explorer
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
+          See how small changes in DNA can have big effects... or no effect at
+          all.
+        </p>
+      </header>
+
+      <main class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 md:p-10">
+        <!-- Mutation Display Area -->
+        <!-- Use a 3-column grid on desktop, with a narrow auto center column for the arrow -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-4 items-center"
+        >
+          <!-- Original Sequence -->
+          <div
+            class="bg-orange-50 dark:bg-orange-900/50 border border-orange-200 dark:border-orange-700 rounded-lg p-4 h-full"
+          >
+            <h3
+              class="text-lg font-semibold text-orange-800 dark:text-orange-300 mb-3"
+            >
+              Original DNA Sequence
+            </h3>
+            <code
+              id="original-dna"
+              class="text-xl font-mono text-orange-900 dark:text-orange-200 break-all font-bold"
+            ></code>
+            <p
+              class="text-sm font-semibold text-orange-700 dark:text-orange-400 mt-4"
+            >
+              Original Trait:
+            </p>
+            <!-- Added min-h-[3.5rem] to stabilize the height -->
+            <p
+              id="original-trait"
+              class="text-base text-orange-900 dark:text-orange-200 min-h-[3.5rem]"
+            ></p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="text-center hidden md:block">
+            <svg
+              class="w-12 h-12 text-gray-500 dark:text-gray-400 inline-block"
+              fill="none"
+              stroke-width="2.5"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Mutated Sequence -->
+          <div id="mutated-sequence-box" class="rounded-lg p-4 h-full">
+            <!-- Static classes match Original box to ensure same font size -->
+            <h3 id="mutated-dna-title" class="text-lg font-semibold mb-3">
+              Mutated DNA Sequence
+            </h3>
+            <code
+              id="mutated-dna"
+              class="text-xl font-mono break-all font-bold"
+            ></code>
+            <p id="mutated-trait-label" class="text-sm font-semibold mt-4">
+              Mutated Trait:
+            </p>
+            <!-- Added min-h-[3.5rem] to stabilize the height -->
+            <p id="mutated-trait" class="text-base min-h-[3.5rem]"></p>
+          </div>
+        </div>
+
+        <!-- Explanation Area -->
+        <div class="mt-8">
+          <div id="result-card" class="rounded-lg shadow-md p-5 border-t-4">
+            <h2 id="result-type" class="text-2xl font-bold mb-3"></h2>
+            <!-- Added min-h-[8rem] to stabilize the height for the longest explanation -->
+            <p
+              id="result-explanation"
+              class="text-base md:text-lg text-gray-700 dark:text-gray-300 min-h-[8rem]"
+            ></p>
+          </div>
+        </div>
+
+        <!-- Button Controls -->
+        <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <p
+            class="text-center text-gray-600 dark:text-gray-400 font-semibold mb-4"
+          >
+            Generate a new example:
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <button
+              id="btn-all"
+              class="px-5 py-2 rounded-lg bg-gray-600 dark:bg-gray-700 text-white font-semibold shadow-md hover:bg-gray-700 dark:hover:bg-gray-600 transition-all"
+            >
+              Show Any Mutation
+            </button>
+            <button
+              id="btn-positive"
+              class="px-5 py-2 rounded-lg bg-green-600 dark:bg-green-700 text-white font-semibold shadow-md hover:bg-green-700 dark:hover:bg-green-600 transition-all"
+            >
+              Show Positive
+            </button>
+            <button
+              id="btn-negative"
+              class="px-5 py-2 rounded-lg bg-red-600 dark:bg-red-700 text-white font-semibold shadow-md hover:bg-red-700 dark:hover:bg-red-600 transition-all"
+            >
+              Show Negative
+            </button>
+            <button
+              id="btn-neutral"
+              class="px-5 py-2 rounded-lg bg-blue-600 dark:bg-blue-700 text-white font-semibold shadow-md hover:bg-blue-700 dark:hover:bg-blue-600 transition-all"
+            >
+              Show Neutral
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // --- Database of Mutation Examples ---
+      const mutations = [
+        // --- Original Examples ---
+        {
+          type: "Negative",
+          original_dna: "GAG CTC CTC TTC",
+          mutated_dna: "GAG CAC CTC TTC",
+          original_trait: "Normal Hemoglobin (Round Red Blood Cells)",
+          mutated_trait: "Sickle-Cell Hemoglobin (Sickle-Shaped Cells)",
+          explanation:
+            "This single DNA base change causes sickle-cell anemia. The misshapen red blood cells can block blood flow and carry less oxygen. This is harmful to the individual's health and survival.",
+        },
+        {
+          type: "Positive",
+          original_dna: "TCC TGG GAC TGT", // Simplified regulatory gene
+          mutated_dna: "TCC TGG GAC CGT",
+          original_trait: "Lactase enzyme production stops in adulthood.",
+          mutated_trait:
+            "Lactase enzyme production continues (Lactase Persistence).",
+          explanation:
+            "This mutation allows adults to digest lactose (milk sugar). In populations that domesticated cattle, this provided a valuable new food source, which was a significant survival advantage.",
+        },
+        {
+          type: "Neutral",
+          original_dna: "ATA TTC GCA TGG", // Codons: Ile-Phe-Ala-Trp
+          mutated_dna: "ATA TTT GCA TGG", // Codons: Ile-Phe-Ala-Trp
+          original_trait: "Produces normal Protein 'X'.",
+          mutated_trait: "Produces normal Protein 'X'.",
+          explanation:
+            "This is a 'silent' mutation. Even though the DNA code changed (TTC to TTT), both codons code for the exact same amino acid (Phenylalanine). The final protein is identical, so there is no change to the organism.",
+        },
+        {
+          type: "Positive",
+          original_dna: "GCA GAT TCG AAT", // Bacteria gene
+          mutated_dna: "GCA AAT TCG AAT",
+          original_trait: "Bacterium is vulnerable to antibiotics.",
+          mutated_trait: "Bacterium is resistant to antibiotics.",
+          explanation:
+            "For the bacterium, this mutation is highly positive. It allows the bacterium to survive and reproduce even when antibiotics are present, giving it a major advantage in that environment.",
+        },
+        {
+          type: "Negative",
+          original_dna: "ATG ACC AAT TGA", // Start-Thr-Asn-Stop
+          mutated_dna: "ATG ACC AAT TAA", // Start-Thr-Asn-Stop (Different stop)
+          original_trait: "Produces a specific type of skin pigment.",
+          mutated_trait: "Produces non-functional pigment (Albinism).",
+          explanation:
+            "A mutation in a gene for pigment production (like tyrosinase) can result in a non-functional enzyme. This leads to albinism, a condition that can cause vision problems and a high risk of skin cancer, which is generally negative for survival.",
+        },
+        {
+          type: "Neutral",
+          original_dna: "TGG GCA CTA TCG", // Simplified
+          mutated_dna: "TGG ACA CTA TCG",
+          original_trait: "Trait: Brown Eyes",
+          mutated_trait: "Trait: Blue Eyes",
+          explanation:
+            "This mutation changes eye color. In most human environments, having blue eyes instead of brown does not offer a significant survival advantage or disadvantage. It is simply a variation, making it a neutral mutation.",
+        },
+
+        // --- New Positive Examples ---
+        {
+          type: "Positive",
+          original_dna: "AGC TGA GCT GGC", // Gene related to bone density
+          mutated_dna: "AGC TAA GCT GGC",
+          original_trait: "Average bone density.",
+          mutated_trait: "Unusually high bone density (LRP5 mutation).",
+          explanation:
+            "A mutation in the LRP5 gene can lead to exceptionally dense, strong bones that are highly resistant to fractures. This is a positive trait, especially for preventing osteoporosis.",
+        },
+        {
+          type: "Positive",
+          original_dna: "ATG GGT CTC TGA", // Gene for apolipoprotein
+          mutated_dna: "ATG GGT CTC TAA", // Simplified nonsense mutation
+          original_trait: "Normal production of PCSK9 protein.",
+          mutated_trait: "Non-functional PCSK9 protein.",
+          explanation:
+            "PCSK9 protein breaks down LDL (bad) cholesterol receptors. A mutation that *disables* this protein leads to more receptors, which clear more bad cholesterol from the blood, dramatically reducing the risk of heart disease.",
+        },
+        {
+          type: "Positive",
+          original_dna: "TCA GTC ATT GGG", // Gene in Himalayan populations
+          mutated_dna: "TCA GTT ATT GGG",
+          original_trait: "Normal red blood cell production at high altitude.",
+          mutated_trait: "Efficient oxygen use (EPAS1 mutation).",
+          explanation:
+            "This mutation, common in Tibetan highlanders, allows their bodies to function normally with less oxygen. Unlike lowlanders who produce more red blood cells (making blood thick), this mutation avoids that dangerous response, providing a major survival advantage at high altitude.",
+        },
+
+        // --- New Negative Examples ---
+        {
+          type: "Negative",
+          original_dna: "CAG CAG CAG CAG", // Huntington gene
+          mutated_dna: "CAG CAG CAG ...[x40]... CAG", // Simplified
+          original_trait: "Normal brain function.",
+          mutated_trait: "Huntington's Disease.",
+          explanation:
+            "This is a 'repeat expansion' mutation. A 'CAG' triplet in the HTT gene repeats too many times (e.g., >40). This causes the resulting protein to be toxic to nerve cells, leading to a fatal neurodegenerative disorder.",
+        },
+        {
+          type: "Negative",
+          original_dna: "TTC TTT GGT CCG", // CFTR gene
+          mutated_dna: "TTT GGT CCG", // Deletion of TTC
+          original_trait: "Functional CFTR protein (moves salt/water).",
+          mutated_trait: "Non-functional CFTR protein (Cystic Fibrosis).",
+          explanation:
+            "The deletion of just three DNA bases (one codon) in the CFTR gene is the most common cause of Cystic Fibrosis. The resulting protein is misfolded and cannot move chloride ions, leading to thick, sticky mucus in the lungs and digestive tract.",
+        },
+        {
+          type: "Negative",
+          original_dna: "GAA TTC GAG AAG", // Dystrophin gene
+          mutated_dna: "GAA TAA GAG AAG", // Nonsense mutation
+          original_trait: "Produces Dystrophin (protects muscle fibers).",
+          mutated_trait: "Stops production of Dystrophin.",
+          explanation:
+            "A nonsense mutation (a premature STOP codon) in this gene stops the protein from being completed. Without dystrophin, muscle cells are easily damaged, leading to Duchenne Muscular Dystrophy, a severe muscle-wasting disease.",
+        },
+
+        // --- New Neutral Examples ---
+        {
+          type: "Neutral",
+          original_dna: "GCA GCT GCC GCG", // All code for Alanine
+          mutated_dna: "GCA GCT GCC GCT",
+          original_trait: "Produces Protein 'Y' with Alanine.",
+          mutated_trait: "Produces Protein 'Y' with Alanine.",
+          explanation:
+            "This is another example of a 'silent' mutation. The genetic code is redundant, meaning multiple codons can code for the same amino acid. The change from GCG to GCT still results in the amino acid Alanine, so the protein is unchanged.",
+        },
+        {
+          type: "Neutral",
+          original_dna: "ATG GTT TGG TGA", // A gene in a non-coding region
+          mutated_dna: "ATG GTT TGG TTA",
+          original_trait: "No specific trait (in 'junk' DNA).",
+          mutated_trait: "No specific trait (in 'junk' DNA).",
+          explanation:
+            "This mutation occurred in a non-coding region of DNA (sometimes called 'junk DNA'). Since this section does not code for a protein and is not a key regulatory switch, the change has no observable effect on the organism.",
+        },
+        {
+          type: "Neutral",
+          original_dna: "TGC GTT GAC", // Cys-Val-Asp
+          mutated_dna: "TGC ATT GAC", // Cys-Ile-Asp
+          original_trait: "A protein with a Valine at position 2.",
+          mutated_trait: "A protein with an Isoleucine at position 2.",
+          explanation:
+            "This mutation changes one amino acid (Valine) to another (Isoleucine). However, both are very similar in size and chemical properties. This change does not affect the protein's overall shape or function, so it has no effect.",
+        },
+      ];
+
+      // --- Filtered lists and indices for cycling ---
+      const positiveMutations = mutations.filter((m) => m.type === "Positive");
+      const negativeMutations = mutations.filter((m) => m.type === "Negative");
+      const neutralMutations = mutations.filter((m) => m.type === "Neutral");
+
+      let positiveIndex = 0;
+      let negativeIndex = 0;
+      let neutralIndex = 0;
+
+      // --- DOM Elements ---
+      const originalDnaEl = document.getElementById("original-dna");
+      const mutatedDnaEl = document.getElementById("mutated-dna");
+      const originalTraitEl = document.getElementById("original-trait");
+      const mutatedTraitEl = document.getElementById("mutated-trait");
+
+      const mutatedSequenceBox = document.getElementById(
+        "mutated-sequence-box"
+      );
+      const mutatedDnaTitleEl = document.getElementById("mutated-dna-title");
+      const mutatedTraitLabelEl = document.getElementById(
+        "mutated-trait-label"
+      );
+
+      const resultCardEl = document.getElementById("result-card");
+      const resultTypeEl = document.getElementById("result-type");
+      const resultExplanationEl = document.getElementById("result-explanation");
+
+      const btnAll = document.getElementById("btn-all");
+      const btnPositive = document.getElementById("btn-positive");
+      const btnNegative = document.getElementById("btn-negative");
+      const btnNeutral = document.getElementById("btn-neutral");
+
+      // --- Functions ---
+
+      /**
+       * Compares two DNA strings and returns an HTML string
+       * with the differences highlighted.
+       */
+      function getHighlightedDiff(original, mutated) {
+        // Handle the repeat expansion case
+        if (mutated.includes("...[x40]...")) {
+          const parts = mutated.split("...[x40]...");
+          return `<span class="highlight">${parts[0]}</span>...[x40]...<span class="highlight">${parts[1]}</span>`;
+        }
+        // Handle the deletion case
+        if (original.length > mutated.length && original.includes(mutated)) {
+          const diffStart = original.indexOf(mutated.substring(0, 3)); // Find where it starts
+          if (diffStart > 0) {
+            // Deletion is not at the start
+            const deletedPart = original.substring(0, diffStart);
+            return (
+              `<span class="highlight" style="text-decoration: line-through;">${deletedPart}</span>` +
+              mutated
+            );
+          } else {
+            // Deletion is at the start
+            const deletedPart = original.substring(mutated.length);
+            return (
+              mutated +
+              `<span class="highlight" style="text-decoration: line-through;">${deletedPart}</span>`
+            );
+          }
+        }
+
+        // Standard substitution
+        const originalChars = original.split("");
+        const mutatedChars = mutated.split("");
+        let highlightedHtml = "";
+
+        for (let i = 0; i < mutatedChars.length; i++) {
+          if (
+            i >= originalChars.length ||
+            originalChars[i] !== mutatedChars[i]
+          ) {
+            highlightedHtml += `<span class="highlight">${mutatedChars[i]}</span>`;
+          } else {
+            highlightedHtml += mutatedChars[i];
+          }
+        }
+        return highlightedHtml;
+      }
+
+      /**
+       * Clears all dynamic color classes from an element.
+       * Now includes dark mode prefixes.
+       * Only removes specific color classes, not all 'text-' classes.
+       */
+      function clearColorClasses(
+        element,
+        prefixes = [
+          "bg-",
+          "border-",
+          "dark:bg-",
+          "dark:border-",
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]
+      ) {
+        // Need to handle classList for SVG elements
+        if (element.classList) {
+          element.className.split(" ").forEach((cls) => {
+            if (prefixes.some((prefix) => cls.startsWith(prefix))) {
+              element.classList.remove(cls);
+            }
+          });
+        } else if (element.className && element.className.baseVal) {
+          // Special handling for SVG className (which is an object)
+          let classes = element.className.baseVal.split(" ");
+          let newClasses = classes
+            .filter((cls) => !prefixes.some((prefix) => cls.startsWith(prefix)))
+            .join(" ");
+          element.setAttribute("class", newClasses);
+        }
+      }
+
+      /**
+       * Updates the UI with the mutation data.
+       */
+      function displayMutation(mutation) {
+        // Update DNA and traits
+        originalDnaEl.innerHTML = mutation.original_dna;
+        mutatedDnaEl.innerHTML = getHighlightedDiff(
+          mutation.original_dna,
+          mutation.mutated_dna
+        );
+        originalTraitEl.textContent = mutation.original_trait;
+        mutatedTraitEl.textContent = mutation.mutated_trait;
+
+        // Update explanation card
+        resultTypeEl.textContent = `${mutation.type} Mutation`;
+        resultExplanationEl.textContent = mutation.explanation;
+
+        // Clear previous color classes from mutated sequence box
+        clearColorClasses(mutatedSequenceBox, [
+          "bg-",
+          "border-",
+          "dark:bg-",
+          "dark:border-",
+        ]);
+        clearColorClasses(mutatedDnaEl, [
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]);
+        clearColorClasses(mutatedDnaTitleEl, [
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]);
+        clearColorClasses(mutatedTraitLabelEl, [
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]);
+        clearColorClasses(mutatedTraitEl, [
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]);
+
+        // Clear previous color classes from result card
+        clearColorClasses(resultCardEl, [
+          "border-",
+          "bg-",
+          "dark:border-",
+          "dark:bg-",
+        ]);
+        clearColorClasses(resultTypeEl, [
+          "text-green-",
+          "text-red-",
+          "text-blue-",
+          "dark:text-green-",
+          "dark:text-red-",
+          "dark:text-blue-",
+        ]);
+
+        // Add static "h-full" class back to mutated box in case it was cleared
+        mutatedSequenceBox.classList.add("h-full");
+
+        // Apply new styles based on mutation type
+        if (mutation.type === "Positive") {
+          // Mutated Sequence Box
+          mutatedSequenceBox.classList.add(
+            "bg-green-50",
+            "border",
+            "border-green-200",
+            "dark:bg-green-900/60",
+            "dark:border-green-700"
+          );
+          mutatedDnaTitleEl.classList.add(
+            "text-green-800",
+            "dark:text-green-300"
+          );
+          mutatedDnaEl.classList.add("text-green-900", "dark:text-green-200");
+          mutatedTraitLabelEl.classList.add(
+            "text-green-700",
+            "dark:text-green-400"
+          );
+          mutatedTraitEl.classList.add("text-green-900", "dark:text-green-200");
+
+          // Result Card
+          resultCardEl.classList.add(
+            "border-green-500",
+            "bg-green-50",
+            "dark:border-green-600",
+            "dark:bg-green-900/60"
+          );
+          resultTypeEl.classList.add("text-green-700", "dark:text-green-300");
+        } else if (mutation.type === "Negative") {
+          // Mutated Sequence Box
+          mutatedSequenceBox.classList.add(
+            "bg-red-50",
+            "border",
+            "border-red-200",
+            "dark:bg-red-900/60",
+            "dark:border-red-700"
+          );
+          mutatedDnaTitleEl.classList.add("text-red-800", "dark:text-red-300");
+          mutatedDnaEl.classList.add("text-red-900", "dark:text-red-200");
+          mutatedTraitLabelEl.classList.add(
+            "text-red-700",
+            "dark:text-red-400"
+          );
+          mutatedTraitEl.classList.add("text-red-900", "dark:text-red-200");
+
+          // Result Card
+          resultCardEl.classList.add(
+            "border-red-500",
+            "bg-red-50",
+            "dark:border-red-600",
+            "dark:bg-red-900/60"
+          );
+          resultTypeEl.classList.add("text-red-700", "dark:text-red-300");
+        } else {
+          // Neutral
+          // Mutated Sequence Box
+          mutatedSequenceBox.classList.add(
+            "bg-blue-50",
+            "border",
+            "border-blue-200",
+            "dark:bg-blue-900/60",
+            "dark:border-blue-700"
+          );
+          mutatedDnaTitleEl.classList.add(
+            "text-blue-800",
+            "dark:text-blue-300"
+          );
+          mutatedDnaEl.classList.add("text-blue-900", "dark:text-blue-200");
+          mutatedTraitLabelEl.classList.add(
+            "text-blue-700",
+            "dark:text-blue-400"
+          );
+          mutatedTraitEl.classList.add("text-blue-900", "dark:text-blue-200");
+
+          // Result Card
+          resultCardEl.classList.add(
+            "border-blue-500",
+            "bg-blue-50",
+            "dark:border-blue-600",
+            "dark:bg-blue-900/60"
+          );
+          resultTypeEl.classList.add("text-blue-700", "dark:text-blue-300");
+        }
+      }
+
+      /**
+       * Gets a random mutation, optionally filtered by type.
+       * This is used by the "Show Any Mutation" button and on initial load.
+       */
+      function generateMutation(filterType = "all") {
+        let filteredMutations = mutations;
+
+        if (filterType !== "all") {
+          filteredMutations = mutations.filter((m) => m.type === filterType);
+        }
+
+        const randomIndex = Math.floor(
+          Math.random() * filteredMutations.length
+        );
+        const selectedMutation = filteredMutations[randomIndex];
+
+        displayMutation(selectedMutation);
+      }
+
+      /**
+       * Gets the NEXT mutation for a specific type and cycles.
+       */
+      function generateNextMutation(type) {
+        let mutationToShow;
+
+        switch (type) {
+          case "Positive":
+            mutationToShow = positiveMutations[positiveIndex];
+            positiveIndex++;
+            if (positiveIndex >= positiveMutations.length) {
+              positiveIndex = 0; // Loop back to the start
+            }
+            break;
+          case "Negative":
+            mutationToShow = negativeMutations[negativeIndex];
+            negativeIndex++;
+            if (negativeIndex >= negativeMutations.length) {
+              negativeIndex = 0;
+            }
+            break;
+          case "Neutral":
+            mutationToShow = neutralMutations[neutralIndex];
+            neutralIndex++;
+            if (neutralIndex >= neutralMutations.length) {
+              neutralIndex = 0;
+            }
+            break;
+        }
+
+        if (mutationToShow) {
+          displayMutation(mutationToShow);
+        }
+      }
+
+      // --- Event Listeners ---
+      btnAll.addEventListener("click", () => generateMutation("all"));
+      btnPositive.addEventListener("click", () =>
+        generateNextMutation("Positive")
+      );
+      btnNegative.addEventListener("click", () =>
+        generateNextMutation("Negative")
+      );
+      btnNeutral.addEventListener("click", () =>
+        generateNextMutation("Neutral")
+      );
+
+      // --- Initial Load ---
+      window.addEventListener("load", () => {
+        generateMutation("all");
+      });
+    </script>
+  </body>
+</html>
