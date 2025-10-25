@@ -1,0 +1,1620 @@
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
+
+// --- Icon Components (Lucide-React) ---
+// Using inline SVGs to avoid external dependencies
+const Check = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <polyline points="20 6 9 17 4 12"></polyline>
+  </svg>
+);
+const X = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+const RefreshCw = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M3 2v6h6"></path>
+    <path d="M21 12A9 9 0 0 0 6 5.3L3 8"></path>
+    <path d="M21 22v-6h-6"></path>
+    <path d="M3 12a9 9 0 0 0 15 6.7l3-2.7"></path>
+  </svg>
+);
+const Lightbulb = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M9 18h6"></path>
+    <path d="M10 22h4"></path>
+    <path d="M12 2a7 7 0 0 0-7 7c0 3 2 5 2 7h10c0-2 2-4 2-7a7 7 0 0 0-7-7z"></path>
+  </svg>
+);
+const Trophy = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+    <path d="M4 22h16"></path>
+    <path d="M10 14.66V17c0 .55-.47.98-1.07 1.28S7.4 18.78 7 19H6c-1.1 0-2-.9-2-2v-3.34"></path>
+    <path d="M14 14.66V17c0 .55.47.98 1.07 1.28S16.6 18.78 17 19h1c1.1 0 2-.9 2-2v-3.34"></path>
+    <path d="M18 4H6v5a6 6 0 0 0 12 0V4z"></path>
+  </svg>
+);
+const ChevronRight = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="m9 18 6-6-6-6"></path>
+  </svg>
+);
+const ChevronLeft = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="m15 18-6-6 6-6"></path>
+  </svg>
+);
+const Sun = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+);
+const Moon = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+);
+
+// --- React Components ---
+
+// Tab 1: Sense of Scale
+const SenseOfScaleTab = () => {
+  const [currentActivity, setCurrentActivity] = useState(1);
+  const [selectedAnswers, setSelectedAnswers] = useState({});
+  const [feedback, setFeedback] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [usedItemIds, setUsedItemIds] = useState([]);
+
+  // State for Activity 2
+  const [measureWidth, setMeasureWidth] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [roomMeasured, setRoomMeasured] = useState(false);
+  const [measureFeedback, setMeasureFeedback] = useState(null);
+  const roomRef = useRef(null);
+
+  // Use useMemo for allItems to prevent re-creation
+  const allItems = useMemo(() => [
+    { 
+      id: 1, 
+      name: 'Thickness of a phone', 
+      correct: 'mm', 
+      image: '📱', 
+      correctValue: '8 mm',
+      type: 'distance',
+      wrongFeedback: { 
+        cm: { value: '0.8 cm', reason: 'Awkward decimal - not as clear as 8 mm' }, 
+        m: { value: '0.008 m', reason: 'Way too many zeros - hard to picture!' }, 
+        km: { value: '0.000008 km', reason: 'Ridiculously tiny number - impossible to visualize!' } 
+      } 
+    },
+    { 
+      id: 2, 
+      name: 'Height of a person', 
+      correct: 'cm', 
+      image: '🧍', 
+      correctValue: '170 cm',
+      type: 'distance',
+      wrongFeedback: { 
+        mm: { value: '1700 mm', reason: 'Too many digits - harder to read than 170 cm' }, 
+        m: { value: '1.7 m', reason: 'Works, but 170 cm is more commonly used for height' }, 
+        km: { value: '0.0017 km', reason: 'Way too small - nobody measures height in km!' } 
+      } 
+    },
+    { 
+      id: 3, 
+      name: 'Distance to school', 
+      correct: 'km', 
+      image: '🏫', 
+      correctValue: '2 km',
+      type: 'distance',
+      wrongFeedback: { 
+        mm: { value: '2,000,000 mm', reason: 'Huge number - impossible to imagine!' }, 
+        cm: { value: '200,000 cm', reason: 'Still too large a number to be practical!' }, 
+        m: { value: '2000 m', reason: 'Big number - much nicer as 2 km!' } 
+      } 
+    },
+    { 
+      id: 4, 
+      name: 'Length of a pen', 
+      correct: 'cm', 
+      image: '✏️', 
+      correctValue: '15 cm',
+      type: 'distance',
+      wrongFeedback: { 
+        mm: { value: '150 mm', reason: 'Works but cm is more standard for pen length' }, 
+        m: { value: '0.15 m', reason: 'Awkward decimal - not as clear as 15 cm' }, 
+        km: { value: '0.00015 km', reason: 'Absurdly small number!' } 
+      } 
+    },
+    { 
+      id: 5, 
+      name: 'Medicine dose', 
+      correct: 'mg', 
+      image: '💊', 
+      correctValue: '500 mg',
+      type: 'mass',
+      wrongFeedback: { 
+        g: { value: '0.5 g', reason: 'Decimal makes it less clear than 500 mg' }, 
+        kg: { value: '0.0005 kg', reason: 'Way too small - impossible to work with!' }, 
+        mL: { value: 'N/A', reason: 'That measures volume, not mass!' } 
+      } 
+    },
+    { 
+      id: 6, 
+      name: 'Cooking oil in recipe', 
+      correct: 'mL', 
+      image: '🧈', 
+      correctValue: '250 mL',
+      type: 'volume',
+      wrongFeedback: { 
+        L: { value: '0.25 L', reason: 'Awkward decimal - easier to say 250 mL' }, 
+        mg: { value: 'N/A', reason: 'That measures mass, not volume!' }, 
+        g: { value: 'N/A', reason: 'Liquids are measured by volume in cooking!' } 
+      } 
+    },
+    { 
+      id: 7, 
+      name: 'Marathon time', 
+      correct: 'hours', 
+      image: '🏃', 
+      correctValue: '3 hours',
+      type: 'time',
+      wrongFeedback: { 
+        seconds: { value: '10,800 seconds', reason: 'Huge number - too hard to picture!' }, 
+        minutes: { value: '180 minutes', reason: 'Large number - much clearer as 3 hours' }, 
+        days: { value: '0.125 days', reason: 'Weird decimal - not practical!' },
+        ms: { value: '10,800,000 ms', reason: 'Absurdly huge number!' }
+      } 
+    },
+    { 
+      id: 8, 
+      name: 'Blink of an eye', 
+      correct: 'ms', 
+      image: '👁️', 
+      correctValue: '300 ms',
+      type: 'time',
+      wrongFeedback: { 
+        seconds: { value: '0.3 seconds', reason: 'Decimal - milliseconds are more precise' }, 
+        minutes: { value: '0.005 minutes', reason: 'Absurdly small decimal!' }, 
+        hours: { value: '0.000083 hours', reason: 'Impossible to visualize!' },
+        days: { value: '0.0000035 days', reason: 'Ridiculously tiny number!' }
+      } 
+    },
+    { 
+      id: 9, 
+      name: 'Width of a fingernail', 
+      correct: 'mm', 
+      image: '💅', 
+      correctValue: '10 mm',
+      type: 'distance',
+      wrongFeedback: { 
+        cm: { value: '1 cm', reason: 'Works, but mm is more precise for small items' }, 
+        m: { value: '0.01 m', reason: 'Tiny decimal - hard to visualize!' }, 
+        km: { value: '0.00001 km', reason: 'Absurdly small number!' } 
+      } 
+    },
+    { 
+      id: 10, 
+      name: 'Weight of a car', 
+      correct: 'kg', 
+      image: '🚗', 
+      correctValue: '1500 kg',
+      type: 'mass',
+      wrongFeedback: { 
+        mg: { value: '1,500,000,000 mg', reason: 'Impossibly huge number!' }, 
+        g: { value: '1,500,000 g', reason: 'Still way too many digits!' } 
+      } 
+    },
+    { 
+      id: 11, 
+      name: 'Movie runtime', 
+      correct: 'minutes', 
+      image: '🎬', 
+      correctValue: '120 minutes',
+      type: 'time',
+      wrongFeedback: { 
+        seconds: { value: '7200 seconds', reason: 'Large number - easier as 120 minutes' }, 
+        hours: { value: '2 hours', reason: 'Works well too! Minutes are also common' }, 
+        ms: { value: '7,200,000 ms', reason: 'Absurdly huge number!' },
+        days: { value: '0.083 days', reason: 'Strange decimal!' }
+      } 
+    },
+    { 
+      id: 12, 
+      name: 'Swimming pool volume', 
+      correct: 'L', 
+      image: '🏊', 
+      correctValue: '50000 L',
+      type: 'volume',
+      wrongFeedback: { 
+        mL: { value: '50,000,000 mL', reason: 'Way too many zeros!' } 
+      } 
+    },
+    { 
+      id: 13, 
+      name: 'Eraser thickness', 
+      correct: 'mm', 
+      image: '🧽', 
+      correctValue: '12 mm',
+      type: 'distance',
+      wrongFeedback: { 
+        cm: { value: '1.2 cm', reason: 'Decimal makes it less clear than 12 mm' }, 
+        m: { value: '0.012 m', reason: 'Too many zeros!' }, 
+        km: { value: '0.000012 km', reason: 'Ridiculously tiny!' } 
+      } 
+    },
+    { 
+      id: 14, 
+      name: 'Sleeping time', 
+      correct: 'hours', 
+      image: '😴', 
+      correctValue: '8 hours',
+      type: 'time',
+      wrongFeedback: { 
+        seconds: { value: '28,800 seconds', reason: 'Huge number - impossible to picture!' }, 
+        minutes: { value: '480 minutes', reason: 'Large number - better as 8 hours!' }, 
+        ms: { value: '28,800,000 ms', reason: 'Absurdly huge!' },
+        days: { value: '0.33 days', reason: 'Weird fraction!' }
+      } 
+    },
+    { 
+      id: 15, 
+      name: 'Weight of an apple', 
+      correct: 'g', 
+      image: '🍎', 
+      correctValue: '180 g',
+      type: 'mass',
+      wrongFeedback: { 
+        mg: { value: '180,000 mg', reason: 'Too many digits!' }, 
+        kg: { value: '0.18 kg', reason: 'Awkward decimal - easier as 180 g' } 
+      } 
+    },
+  ], []);
+
+  // Use useCallback for functions
+  const generateNewExamples = useCallback(() => {
+    // Get items that haven't been used yet
+    const availableItems = allItems.filter(item => !usedItemIds.includes(item.id));
+    
+    // If we've used all items, reset the used list
+    if (availableItems.length < 3) {
+      setUsedItemIds([]);
+      const shuffled = [...allItems].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, 3);
+      setCurrentItems(selected);
+      setUsedItemIds(selected.map(item => item.id));
+    } else {
+      // Shuffle available items and take 3
+      const shuffled = [...availableItems].sort(() => Math.random() - 0.5);
+      const selected = shuffled.slice(0, 3);
+      setCurrentItems(selected);
+      setUsedItemIds(prev => [...prev, ...selected.map(item => item.id)]);
+    }
+    
+    setSelectedAnswers({});
+    setFeedback({});
+    setShowResults(false);
+  }, [allItems, usedItemIds]);
+
+  // Initialize with random 3 items on first load
+  useEffect(() => {
+    if (currentItems.length === 0) {
+      generateNewExamples();
+    }
+  }, [currentItems, generateNewExamples]);
+
+  const unitOptions = useMemo(() => ({
+    distance: ['mm', 'cm', 'm', 'km'],
+    mass: ['mg', 'g', 'kg'],
+    volume: ['mL', 'L'],
+    time: ['ms', 'seconds', 'minutes', 'hours', 'days']
+  }), []);
+
+  const getUnitType = useCallback((unit) => {
+    for (const [type, units] of Object.entries(unitOptions)) {
+      if (units.includes(unit)) return type;
+    }
+    return null;
+  }, [unitOptions]);
+
+  const handleAnswer = (itemId, unit) => {
+    // Activity 1: Immediate feedback
+    const item = currentItems.find(i => i.id === itemId);
+    setSelectedAnswers(prev => ({ ...prev, [itemId]: unit }));
+    
+    const unitType = getUnitType(unit);
+    
+    // Check if wrong type of unit entirely
+    if (unitType !== item.type) {
+      const typeNames = {
+        distance: 'distance/length',
+        mass: 'mass/weight',
+        volume: 'volume',
+        time: 'time'
+      };
+      setFeedback(prev => ({ 
+        ...prev, 
+        [itemId]: { 
+          correct: false, 
+          wrongType: true,
+          message: `Wait! ${unit} measures ${typeNames[unitType]}, but you need to measure ${typeNames[item.type]} here. Try a different type of unit!` 
+        } 
+      }));
+      return;
+    }
+    
+    // Give immediate feedback for correct type but wrong size
+    if (unit === item.correct) {
+      setFeedback(prev => ({ 
+        ...prev, 
+        [itemId]: { 
+          correct: true, 
+          message: `Perfect! ${item.correctValue} is clear and easy to understand.` 
+        } 
+      }));
+    } else if (item.wrongFeedback[unit]) {
+      setFeedback(prev => ({ 
+        ...prev, 
+        [itemId]: { 
+          correct: false, 
+          value: item.wrongFeedback[unit].value,
+          message: item.wrongFeedback[unit].reason
+        } 
+      }));
+    } else {
+      // This case should be rare due to the flat list of all units
+      setFeedback(prev => ({ 
+        ...prev, 
+        [itemId]: { 
+          correct: false, 
+          wrongType: true,
+          message: `That's the wrong type of measurement!`
+        } 
+      }));
+    }
+  };
+  
+  // --- Activity 2 Handlers ---
+  const getRoomWidth = () => {
+    return roomRef.current ? roomRef.current.offsetWidth : 0;
+  };
+
+  const handleMeasureStart = (e) => {
+    if (roomMeasured) return;
+    setIsDragging(true);
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    setStartX(clientX - roomRef.current.getBoundingClientRect().left);
+    setMeasureWidth(0); // Reset on new drag
+  };
+
+  const handleMeasureMove = (e) => {
+    if (!isDragging || roomMeasured) return;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const roomRect = roomRef.current.getBoundingClientRect();
+    const roomWidth = roomRect.width;
+    let currentX = clientX - roomRect.left;
+    let width = currentX - startX;
+    
+    if (width < 0) width = 0;
+    if (width > roomWidth) width = roomWidth;
+    
+    setMeasureWidth(width);
+  };
+
+  const handleMeasureEnd = () => {
+    if (!isDragging) return;
+    setIsDragging(false);
+    const roomWidth = getRoomWidth();
+    const tolerance = 20; // 20px tolerance
+    
+    if (measureWidth >= roomWidth - tolerance) {
+      setMeasureWidth(roomWidth); // Snap to full width
+      setRoomMeasured(true);
+      setMeasureFeedback(null); // Clear any "keep dragging" feedback
+    } else {
+      setMeasureFeedback({ type: 'warn', message: 'Not quite! Keep dragging to measure the whole width.' });
+    }
+  };
+
+  const handleUnitChoice = (choice) => {
+    if (!roomMeasured) return;
+    if (choice.correct) {
+      setMeasureFeedback({ type: 'good', message: `Perfect! "${choice.value}" is very clear and easy to understand.` });
+    } else {
+      setMeasureFeedback({ type: 'bad', message: choice.explanation });
+    }
+  };
+
+  const resetActivity2 = () => {
+    setMeasureWidth(0);
+    setIsDragging(false);
+    setRoomMeasured(false);
+    setMeasureFeedback(null);
+  };
+  
+  // --- Render Logic ---
+
+  if (currentActivity === 1) {
+    const allAnswered = Object.keys(selectedAnswers).length === currentItems.length;
+
+    return (
+      <div>
+        <h2 className="text-2xl font-bold mb-4 text-blue-400">Activity 1: Choose the Right Unit</h2>
+        <p className="text-gray-300 mb-6">Select the most appropriate unit for measuring each item. Think about which unit makes the number easiest to understand!</p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          {currentItems.map(item => (
+            <div key={item.id} className="bg-gray-700 rounded-lg p-6">
+              <div className="text-5xl mb-3 text-center">{item.image}</div>
+              <h3 className="text-lg font-semibold mb-3 text-center">{item.name}</h3>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {Object.values(unitOptions).flat().filter((v, i, a) => a.indexOf(v) === i).map(unit => (
+                  <button
+                    key={unit}
+                    onClick={() => handleAnswer(item.id, unit)}
+                    className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+                      selectedAnswers[item.id] === unit
+                        ? feedback[item.id]?.correct
+                          ? 'bg-green-600 text-white'
+                          : feedback[item.id]?.correct === false
+                          ? feedback[item.id]?.wrongType
+                            ? 'bg-red-600 text-white'
+                            : 'bg-orange-600 text-white'
+                          : 'bg-blue-600 text-white'
+                        : 'bg-gray-600 text-gray-200 hover:bg-gray-500'
+                    } cursor-pointer`}
+                  >
+                    {unit}
+                  </button>
+                ))}
+              </div>
+              {feedback[item.id] && (
+                <div className={`mt-3 p-3 rounded-lg ${
+                  feedback[item.id].correct ? 'bg-green-900/50 text-green-200' : 
+                  feedback[item.id].wrongType ? 'bg-red-900/50 text-red-200' :
+                  'bg-orange-900/50 text-orange-200'
+                }`}>
+                  <div className="flex items-start gap-2">
+                    {feedback[item.id].correct ? <Check size={20} className="mt-0.5 flex-shrink-0" /> : <X size={20} className="mt-0.5 flex-shrink-0" />}
+                    <div className="text-sm">
+                      {feedback[item.id].value && !feedback[item.id].wrongType && (
+                        <div className="font-bold mb-1">
+                          {item.name}: {feedback[item.id].value}
+                        </div>
+                      )}
+                      <div className={feedback[item.id].wrongType ? 'font-bold' : ''}>
+                        {feedback[item.id].message}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex gap-4 justify-center">
+          <button
+            onClick={generateNewExamples}
+            className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all shadow-lg flex items-center gap-2"
+          >
+            <RefreshCw size={20} /> New Examples
+          </button>
+          {allAnswered && (
+            <button
+              onClick={() => setCurrentActivity(2)}
+              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-semibold transition-all flex items-center gap-2"
+            >
+              Next Activity <ChevronRight size={20} />
+            </button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // --- Activity 2: Why Convert? ---
+  const roomWidthPx = getRoomWidth();
+  const measuredMm = (measureWidth / roomWidthPx * 3750).toFixed(0);
+  const measuredCm = (measuredMm / 10).toFixed(1);
+  const measuredM = (measuredMm / 1000).toFixed(2);
+
+  const unitChoices = [
+    { value: '3750 mm', explanation: 'Too many digits to quickly grasp', correct: false },
+    { value: '375 cm', explanation: 'Better, but still a large number', correct: false },
+    { value: '3.75 m', explanation: 'Perfect! Easy to visualize', correct: true },
+    { value: '0.00375 km', explanation: 'Too small - hard to picture', correct: false }
+  ];
+
+  return (
+    <div 
+      onMouseMove={handleMeasureMove} 
+      onMouseUp={handleMeasureEnd} 
+      onTouchMove={handleMeasureMove} 
+      onTouchEnd={handleMeasureEnd}
+      className="select-none"
+    >
+      <h2 className="text-2xl font-bold mb-4 text-blue-400">Activity 2: Why Do We Convert Units?</h2>
+      <p className="text-gray-300 mb-6">You're measuring a room. Drag the measuring tape to find its width, then pick the best unit to describe it.</p>
+      
+      <div className="bg-gray-700 rounded-lg p-6 md:p-8 mb-6">
+        <div className="text-center mb-4">
+          <div className="text-6xl mb-4">📏</div>
+          <h3 className="text-2xl font-bold mb-6">Measure the Room:</h3>
+        </div>
+
+        {/* --- Interactive Measurement --- */}
+        <div 
+          ref={roomRef}
+          className="relative w-full h-24 bg-gray-800 rounded-lg border-2 border-gray-600 flex items-center justify-between px-4 cursor-grab"
+          onMouseDown={handleMeasureStart}
+          onTouchStart={handleMeasureStart}
+        >
+          {/* Wall markers */}
+          <div className="absolute left-0 top-0 h-full w-2 bg-gray-500 rounded-l-md"></div>
+          <div className="absolute right-0 top-0 h-full w-2 bg-gray-500 rounded-r-md"></div>
+          
+          {/* Measuring Tape */}
+          <div 
+            className="absolute left-0 top-0 h-full bg-yellow-500/30 border-r-4 border-yellow-600 rounded-l-lg flex items-center justify-end pr-2"
+            style={{ width: `${measureWidth}px` }}
+          >
+            <span className="text-yellow-100 font-bold text-lg">{measuredM} m</span>
+          </div>
+          
+          {/* Drag Handle */}
+          <div 
+            className="absolute top-1/2 -translate-y-1/2 w-4 h-12 bg-gray-900 border-2 border-gray-400 rounded-md cursor-grab active:cursor-grabbing"
+            style={{ left: `${measureWidth - 8}px` }}
+          ></div>
+
+          {!roomMeasured && !isDragging && (
+            <span className="text-gray-400 animate-pulse text-center w-full">Click and drag to measure!</span>
+          )}
+        </div>
+        {/* --- End Interactive Measurement --- */}
+
+        {roomMeasured && (
+          <div className="mt-8">
+            <h4 className="text-lg font-semibold text-center mb-4">Great! The room is 3.75 m (or 375 cm). Which way is best?</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              {unitChoices.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => handleUnitChoice(option)}
+                  className="bg-gray-800 p-6 rounded-lg border-2 border-gray-600 hover:border-blue-500 transition-all text-left"
+                >
+                  <div className="text-3xl font-bold text-blue-400 mb-2">{option.value}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {measureFeedback && (
+          <div className={`mt-4 p-3 rounded-lg border-2 ${
+            measureFeedback.type === 'good' ? 'bg-green-900/50 border-green-500' :
+            measureFeedback.type === 'warn' ? 'bg-orange-900/50 border-orange-500' :
+            'bg-red-900/50 border-red-500'
+          }`}>
+            <div className="flex items-start gap-2">
+              {measureFeedback.type === 'good' ? <Check size={20} className="mt-0.5 flex-shrink-0 text-green-400" /> : <X size={20} className="mt-0.5 flex-shrink-0 text-red-400" />}
+              <p className={`text-sm ${
+                measureFeedback.type === 'good' ? 'text-green-200' :
+                measureFeedback.type === 'warn' ? 'text-orange-200' :
+                'text-red-200'
+              }`}>
+                {measureFeedback.message}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-purple-900/30 border-2 border-purple-500 rounded-lg p-6 mb-6">
+        <div className="flex items-start gap-3">
+          <Lightbulb size={24} className="text-yellow-400 mt-1 flex-shrink-0" />
+          <div>
+            <h4 className="font-bold text-lg mb-2 text-purple-300">Key Insight:</h4>
+            <p className="text-gray-200">
+              We convert units to make measurements easier to understand and work with. The "best" unit depends on the size of what we're measuring. Too large or too small numbers with decimals are hard to picture!
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center gap-4">
+        <button
+          onClick={() => setCurrentActivity(1)}
+          className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all"
+        >
+          Back to Activity 1
+        </button>
+        <button
+          onClick={resetActivity2}
+          className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-lg font-semibold transition-all flex items-center gap-2"
+        >
+          <RefreshCw size={18} /> Reset
+        </button>
+      </div>
+    </div>
+  );
+};
+
+// Tab 2: Understanding Conversions
+const UnderstandingConversionsTab = () => {
+  const [sliderValue, setSliderValue] = useState(250); // Base value in cm
+  const [currentUnit, setCurrentUnit] = useState('cm');
+  const [feedback, setFeedback] = useState(null); // State for feedback
+
+  // Memoize conversions object
+  const conversions = React.useMemo(() => ({
+    mm: { value: sliderValue * 10, label: 'millimeters' },
+    cm: { value: sliderValue, label: 'centimeters' },
+    m: { value: sliderValue / 100, label: 'meters' },
+    km: { value: sliderValue / 100000, label: 'kilometers' }
+  }), [sliderValue]);
+
+  // Memoize feedback function
+  const getFeedback = React.useCallback((unit, value) => {
+    switch (unit) {
+      case 'mm':
+        if (value > 1000) return { message: "This number is getting a bit large! 'cm' or 'm' might be clearer.", type: 'warn' };
+        if (value < 10 && value > 0) return { message: "Good for very small things, but 'cm' might be easier to read here.", type: 'ok' };
+        if (value === 0) return { message: "This value is 0!", type: 'ok' };
+        return { message: "Millimeters are great for precise, small measurements.", type: 'ok' };
+      case 'cm':
+        if (value > 300) return { message: "Centimeters work, but 'meters' might be simpler for this length.", type: 'warn' };
+        if (value < 1 && value > 0) return { message: "This is less than 1 cm! 'mm' would be better.", type: 'warn' };
+        return { message: "Centimeters are a great, easy-to-read unit for this size!", type: 'good' };
+      case 'm':
+        if (value > 100) return { message: "This is a large distance! 'km' would be much easier.", type: 'warn' };
+        if (value < 1 && value > 0) return { message: "Using a decimal for meters can be awkward. 'cm' might be clearer.", type: 'warn' };
+        if (value >= 1 && value < 10) return { message: "Meters are perfect for this size, very easy to picture!", type: 'good' };
+        return { message: "Meters work well for this length.", type: 'ok' };
+      case 'km':
+        if (value >= 1) return { message: "Kilometers are for long distances. This is a good unit if you're measuring a road!", type: 'good' };
+        return { message: "This number is tiny! Kilometers are way too big for this measurement.", type: 'bad' };
+      default:
+        return { message: '', type: 'ok' };
+    }
+  }, []);
+
+  // Update feedback when slider or unit changes
+  useEffect(() => {
+    const value = conversions[currentUnit].value;
+    const feedbackMessage = getFeedback(currentUnit, value);
+    setFeedback(feedbackMessage);
+  }, [sliderValue, currentUnit, conversions, getFeedback]);
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4 text-blue-400">Understanding Conversions</h2>
+      <p className="text-gray-300 mb-6">See how the same measurement changes when we convert between units. Notice how the decimal point moves!</p>
+
+      <div className="bg-gray-700 rounded-lg p-8 mb-8">
+        <h3 className="text-xl font-bold mb-6 text-center">Interactive Conversion Explorer (Base: cm)</h3>
+        
+        <div className="mb-8">
+          <label className="block text-sm font-semibold mb-3 text-gray-300">Adjust the measurement: {sliderValue} cm</label>
+          <div className="relative pt-4">
+            <input
+              type="range"
+              min="1"
+              max="500"
+              value={sliderValue}
+              onChange={(e) => setSliderValue(Number(e.target.value))}
+              className="w-full h-2 bg-transparent rounded-lg appearance-none cursor-pointer z-10 relative"
+              style={{
+                // Custom styles for thumb
+                '--slider-thumb-bg': '#3b82f6', // blue-500
+                '--slider-thumb-border': '#1e3a8a', // blue-800
+              }}
+            />
+             {/* Ruler Track */}
+            <div className="absolute top-1/2 left-0 w-full h-2 -translate-y-1/2 bg-gray-600 rounded-lg overflow-hidden">
+                {/* Tick marks */}
+                <div className="absolute top-0 left-0 h-full w-full flex justify-between">
+                  {[...Array(11)].map((_, i) => (
+                    <span key={i} className={`w-0.5 h-full ${i % 5 === 0 ? 'bg-gray-200' : 'bg-gray-400'}`}></span>
+                  ))}
+                </div>
+            </div>
+            {/* Ruler Labels */}
+            <div className="absolute -bottom-6 left-0 w-full flex justify-between text-xs text-gray-400">
+                <span>1</span>
+                <span>100</span>
+                <span>200</span>
+                <span>300</span>
+                <span>400</span>
+                <span>500</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-12">
+          {Object.entries(conversions).map(([unit, data]) => (
+            <div
+              key={unit}
+              onClick={() => setCurrentUnit(unit)} // Just set the current unit
+              className={`p-6 rounded-lg border-2 cursor-pointer transition-all ${
+                currentUnit === unit
+                  ? 'border-blue-500 bg-blue-900/30'
+                  : 'border-gray-600 bg-gray-800 hover:border-gray-500'
+              }`}
+            >
+              <div className="text-3xl font-bold text-blue-400 mb-1">
+                {data.value.toLocaleString(undefined, { 
+                  maximumFractionDigits: unit === 'km' ? 5 : 2, 
+                  minimumFractionDigits: 0 
+                })}
+              </div>
+              <div className="text-sm text-gray-400">{data.label} ({unit})</div>
+            </div>
+          ))}
+        </div>
+
+        {/* --- Feedback Box --- */}
+        {feedback && (
+          <div className={`mb-8 p-4 rounded-lg border-2 ${
+            feedback.type === 'good' ? 'bg-green-900/50 border-green-500' :
+            feedback.type === 'warn' ? 'bg-orange-900/50 border-orange-500' :
+            feedback.type === 'bad' ? 'bg-red-900/50 border-red-500' :
+            'bg-blue-900/30 border-blue-500' // 'ok' type
+          }`}>
+            <div className="flex items-start gap-2">
+              {feedback.type === 'good' ? <Check size={20} className="mt-0.5 flex-shrink-0 text-green-400" /> :
+               feedback.type === 'bad' ? <X size={20} className="mt-0.5 flex-shrink-0 text-red-400" /> :
+               <Lightbulb size={20} className="mt-0.5 flex-shrink-0 text-yellow-400" />}
+              <p className={`text-sm ${
+                feedback.type === 'good' ? 'text-green-200' :
+                feedback.type === 'warn' ? 'text-orange-200' :
+                feedback.type === 'bad' ? 'text-red-200' :
+                'text-blue-200'
+              }`}>
+                {feedback.message}
+              </p>
+            </div>
+          </div>
+        )}
+        {/* --- End Feedback Box --- */}
+
+
+        <div className="bg-gray-800 rounded-lg p-6">
+          <h4 className="font-bold mb-4 text-lg text-blue-300">Conversion Relationships:</h4>
+          <div className="space-y-3 text-gray-200">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-mono bg-gray-700 px-3 py-1 rounded">1 m = 100 cm</span>
+              <span className="text-gray-400">→ multiply by 100 to go from m to cm</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-mono bg-gray-700 px-3 py-1 rounded">1 m = 1000 mm</span>
+              <span className="text-gray-400">→ multiply by 1000 to go from m to mm</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <span className="font-mono bg-gray-700 px-3 py-1 rounded">1 km = 1000 m</span>
+              <span className="text-gray-400">→ multiply by 1000 to go from km to m</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-purple-900/30 border-2 border-purple-500 rounded-lg p-6">
+        <div className="flex items-start gap-3">
+          <Lightbulb size={24} className="text-yellow-400 mt-1 flex-shrink-0" />
+          <div>
+            <h4 className="font-bold text-lg mb-2 text-purple-300">Conversion Factors:</h4>
+            <p className="text-gray-200 mb-3">
+              A conversion factor is a ratio that equals 1, like "100 cm / 1 m". When we multiply by it, we're not changing the actual measurement—just how we express it!
+            </p>
+            <p className="text-gray-200">
+              • Going to a smaller unit? Multiply (the number gets bigger)<br />
+              • Going to a larger unit? Divide (the number gets smaller)
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Fraction Component for Tab 3 ---
+const Fraction = ({ num, den, numCancelled, denCancelled }) => {
+  const [numVal, numUnit] = num.split(' ');
+  const [denVal, denUnit] = den.split(' ');
+  
+  return (
+    <div className="inline-flex flex-col items-center text-lg md:text-xl mx-1 font-mono">
+      <span className="px-2">
+        {numVal}{' '}
+        <span className={`${numCancelled ? 'line-through text-red-400' : ''}`}>
+          {numUnit}
+        </span>
+      </span>
+      <span className="border-t-2 border-gray-400 w-full my-1"></span>
+      <span className="px-2">
+        {denVal}{' '}
+        <span className={`${denCancelled ? 'line-through text-red-400' : ''}`}>
+          {denUnit}
+        </span>
+      </span>
+    </div>
+  );
+};
+
+
+// Tab 3: Unit Cancellation
+const UnitCancellationTab = () => {
+  const [currentLevel, setCurrentLevel] = useState(1);
+  const [selectedFactors, setSelectedFactors] = useState([]);
+  const [showSolution, setShowSolution] = useState(false);
+  const [hint, setHint] = useState(null); // State for Hints
+
+  // Use React.useMemo to avoid redefining this object on every render
+  const levels = React.useMemo(() => ({
+    1: {
+      title: 'Level 1: What is Cancelling?',
+      problem: '150 cm to meters',
+      start: { value: 150, unit: 'cm' },
+      target: 'm',
+      factors: [
+        { num: '1 m', den: '100 cm', correct: true, id: '1-1' },
+        { num: '100 cm', den: '1 m', correct: false, id: '1-2' },
+        { num: '1 km', den: '1000 m', correct: false, id: '1-3' }
+      ],
+      solution: [ '1-1' ],
+      explanation: 'We use the conversion factor with "cm" in the denominator so it cancels with the "cm" in our starting value.',
+      calculation: '( 150 × 1 ) / 100 = 1.5 m'
+    },
+    2: {
+      title: 'Level 2: Multi-Step (cm → m → km)',
+      problem: '250,000 cm to kilometers',
+      start: { value: 250000, unit: 'cm' },
+      target: 'km',
+      factors: [
+        { num: '1 m', den: '100 cm', correct: true, order: 1, id: '2-1' },
+        { num: '1 km', den: '1000 m', correct: true, order: 2, id: '2-2' },
+        { num: '100 cm', den: '1 m', correct: false, id: '2-3' },
+        { num: '1000 m', den: '1 km', correct: false, id: '2-4' }
+      ],
+      solution: ['2-1', '2-2'],
+      explanation: 'First cancel "cm" to get "m", then cancel "m" to get "km". The order matters!',
+      calculation: '( 250000 × 1 × 1 ) / ( 100 × 1000 ) = 2.5 km'
+    },
+    3: {
+      title: 'Level 3: Time Conversion (sec → min → hr)',
+      problem: '7200 seconds to hours',
+      start: { value: 7200, unit: 's' },
+      target: 'hr',
+      factors: [
+        { num: '1 min', den: '60 s', correct: true, order: 1, id: '3-1' },
+        { num: '1 hr', den: '60 min', correct: true, order: 2, id: '3-2' },
+        { num: '60 s', den: '1 min', correct: false, id: '3-3' },
+        { num: '60 min', den: '1 hr', correct: false, id: '3-4' }
+      ],
+      solution: ['3-1', '3-2'],
+      explanation: 'Cancel "seconds" with the first factor, then cancel "minutes" with the second to be left with "hours".',
+      calculation: '( 7200 × 1 × 1 ) / ( 60 × 60 ) = 2 hr'
+    }
+  }), []); // Empty dependency array means this object is created only once
+
+  const currentProblem = levels[currentLevel];
+
+  // This state will track the "live" cancellation as user clicks
+  const [liveCancellation, setLiveCancellation] = useState({});
+
+  // This function updates the live cancellation state and returns the current active unit
+  const updateLiveCancellation = (factors) => {
+    let activeUnit = currentProblem.start.unit;
+    const cancellations = {}; // { '1-1': { num: false, den: true }, 'start': { unit: true } }
+    
+    let startUnitCancelled = false;
+    
+    // Sort factors by selection order for this logic
+    const orderedFactors = factors; 
+
+    for (const factor of orderedFactors) {
+      const [numVal, numUnit] = factor.num.split(' ');
+      const [denVal, denUnit] = factor.den.split(' ');
+      
+      let denCancelled = false;
+      
+      // Check if the denominator cancels the active unit
+      if (denUnit === activeUnit) {
+        denCancelled = true;
+        
+        // Mark the active unit as cancelled
+        if (!startUnitCancelled) {
+          cancellations['start'] = { unit: true };
+          startUnitCancelled = true;
+        } else {
+          // Find the previous factor that provided this unit
+          const prevFactor = orderedFactors.find((f, i) => i < orderedFactors.indexOf(factor) && f.num.split(' ')[1] === activeUnit);
+          if (prevFactor) {
+            cancellations[prevFactor.id] = { ...cancellations[prevFactor.id], num: true };
+          }
+        }
+        
+        // The new active unit is this factor's numerator
+        activeUnit = numUnit;
+      }
+      
+      cancellations[factor.id] = { ...cancellations[factor.id], den: denCancelled };
+    }
+    
+    setLiveCancellation(cancellations);
+    return activeUnit; // Return the new active unit for hint logic
+  };
+
+  const handleFactorClick = (factor) => {
+    if (showSolution) return;
+    
+    const isSelected = selectedFactors.some(f => f.id === factor.id);
+    let newSelectedFactors;
+    if (isSelected) {
+      newSelectedFactors = selectedFactors.filter(f => f.id !== factor.id);
+    } else {
+      newSelectedFactors = [...selectedFactors, factor];
+    }
+    
+    setSelectedFactors(newSelectedFactors);
+    const newActiveUnit = updateLiveCancellation(newSelectedFactors); // Update live cancellation
+
+    // --- Hint Logic ---
+    const startUnit = currentProblem.start.unit;
+    const targetUnit = currentProblem.target;
+    
+    if (newSelectedFactors.length === 0) {
+      setHint(null);
+      return;
+    }
+    
+    // Get the last selected factor and its units
+    const lastFactor = newSelectedFactors[newSelectedFactors.length - 1];
+    const [lastNumVal, lastNumUnit] = lastFactor.num.split(' ');
+    const [lastDenVal, lastDenUnit] = lastFactor.den.split(' ');
+    
+    // Get the active unit *before* this last click
+    let activeUnit = startUnit;
+    let startCancelled = false;
+    for (let i = 0; i < newSelectedFactors.length - 1; i++) {
+        const f = newSelectedFactors[i];
+        const [numU, denU] = [f.num.split(' ')[1], f.den.split(' ')[1]];
+        if (denU === activeUnit) {
+            if (!startCancelled) {
+                startCancelled = true;
+            } else {
+                // This logic finds the *previous* factor that gave us the active unit
+                const pFactors = newSelectedFactors.slice(0, i);
+                const pFactor = pFactors.reverse().find(pf => pf.num.split(' ')[1] === activeUnit);
+            }
+            activeUnit = numU;
+        }
+    }
+
+    // Now check the last factor
+    if (lastDenUnit === activeUnit) {
+      // Correct cancellation
+      if (newActiveUnit === targetUnit) {
+        setHint({ type: 'good', message: `Perfect! You've cancelled "${activeUnit}" and are left with "${newActiveUnit}", which is your target unit!` });
+      } else {
+        setHint({ type: 'good', message: `Good! You've cancelled "${activeUnit}". Now you need to cancel "${newActiveUnit}".` });
+      }
+    } else {
+      // Incorrect cancellation
+      if (activeUnit === targetUnit) {
+         setHint({ type: 'warn', message: `Whoops! You already reached your target unit "${targetUnit}". You don't need any more factors.` });
+      } else {
+         setHint({ type: 'warn', message: `Not this one. To cancel "${activeUnit}", you need a factor with "${activeUnit}" on the bottom (denominator).` });
+      }
+    }
+  };
+
+  const checkAnswer = () => {
+    setShowSolution(true);
+    setHint(null); // Clear hints when checking
+  };
+
+  const reset = () => {
+    setSelectedFactors([]);
+    setShowSolution(false);
+    setHint(null); // Clear hints on reset
+    setLiveCancellation({}); // Clear live cancellation
+  };
+
+  const nextLevel = () => {
+    if (currentLevel < Object.keys(levels).length) {
+      setCurrentLevel(currentLevel + 1);
+      reset();
+    }
+  };
+  
+  const prevLevel = () => {
+    if (currentLevel > 1) {
+      setCurrentLevel(currentLevel - 1);
+      reset();
+    }
+  };
+  
+  // Check if the selected factors are correct
+  let isCorrect = false;
+  if (showSolution) {
+    const selectedIds = selectedFactors.map(f => f.id).sort();
+    const solutionIds = currentProblem.solution.sort();
+    isCorrect = JSON.stringify(selectedIds) === JSON.stringify(solutionIds);
+  }
+
+  // Determine final solution cancellation (when showSolution is true and isCorrect)
+  const finalCancellations = useMemo(() => {
+    // Use liveCancellation if we're not showing the solution yet
+    if (!showSolution) return liveCancellation;
+    // If showing solution but it's wrong, *still* use liveCancellation
+    if (showSolution && !isCorrect) return liveCancellation;
+    
+    // If solution is shown AND correct, calculate the definitive cancellation
+    let activeUnit = currentProblem.start.unit;
+    const cancellations = {};
+    let startUnitCancelled = false;
+
+    // Sort selected factors by the intended order for multi-step problems
+    const orderedFactors = [...selectedFactors].sort((a, b) => (a.order || 0) - (b.order || 0));
+
+    for (const factor of orderedFactors) {
+      const [numVal, numUnit] = factor.num.split(' ');
+      const [denVal, denUnit] = factor.den.split(' ');
+      
+      let denCancelled = false;
+      
+      if (denUnit === activeUnit) {
+        denCancelled = true;
+        if (!startUnitCancelled) {
+          cancellations['start'] = { unit: true };
+          startUnitCancelled = true;
+        } else {
+          // Find the previous factor that provided this unit
+          const prevFactor = orderedFactors.find(f => f.num.split(' ')[1] === activeUnit);
+          if (prevFactor) {
+            cancellations[prevFactor.id] = { ...cancellations[prevFactor.id], num: true };
+          }
+        }
+        activeUnit = numUnit;
+      }
+      cancellations[factor.id] = { ...cancellations[factor.id], den: denCancelled };
+    }
+    return cancellations;
+  }, [showSolution, isCorrect, selectedFactors, currentProblem, liveCancellation]);
+
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4 text-blue-400">Unit Cancellation</h2>
+      <p className="text-gray-300 mb-6">Learn how to use fractions to cancel units and convert measurements step by step.</p>
+
+      <div className="bg-gray-700 rounded-lg p-6 mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-bold text-purple-300">{currentProblem.title}</h3>
+          <div className="flex gap-2">
+            <button
+              onClick={prevLevel}
+              disabled={currentLevel === 1}
+              className="p-2 bg-blue-600 rounded-full disabled:opacity-30 hover:bg-blue-500 transition-all"
+            >
+              <ChevronLeft size={20} className="text-white" />
+            </button>
+            <button
+              onClick={nextLevel}
+              disabled={currentLevel === Object.keys(levels).length}
+              className="p-2 bg-blue-600 rounded-full disabled:opacity-30 hover:bg-blue-500 transition-all"
+            >
+              <ChevronRight size={20} className="text-white" />
+            </button>
+          </div>
+        </div>
+        <p className="text-lg text-gray-200 mb-6">
+          <span className="font-semibold">Problem:</span> Convert <span className="font-bold text-blue-400">{currentProblem.problem}</span>
+        </p>
+        
+        {/* Equation Builder */}
+        <div className="flex flex-wrap items-center bg-gray-800 p-4 rounded-lg min-h-[100px] overflow-x-auto">
+          <div className="inline-flex flex-col items-center text-lg md:text-xl mx-1 font-mono">
+            <span className="px-2">
+              {currentProblem.start.value}{' '}
+              <span className={`${finalCancellations['start']?.unit ? 'line-through text-red-400' : ''}`}>
+                {currentProblem.start.unit}
+              </span>
+            </span>
+            <span className="border-t-2 border-gray-400 w-full my-1"></span>
+            <span className="px-2">1</span>
+          </div>
+          
+          {selectedFactors.length > 0 && <span className="text-2xl mx-2 font-mono">&times;</span>}
+          
+          {selectedFactors.map((factor, index) => (
+             <React.Fragment key={factor.id}>
+              <Fraction 
+                num={factor.num} 
+                den={factor.den} 
+                numCancelled={finalCancellations[factor.id]?.num}
+                denCancelled={finalCancellations[factor.id]?.den}
+              />
+              {index < selectedFactors.length - 1 && <span className="text-2xl mx-2 font-mono">&times;</span>}
+             </React.Fragment>
+           ))}
+          
+          {showSolution && isCorrect && (
+             <span className="text-2xl mx-2 font-mono">=</span>
+          )}
+          {showSolution && isCorrect && (
+            <div className="text-2xl font-bold text-green-400 ml-2">
+              {currentProblem.calculation.split('=')[1]}
+            </div>
+          )}
+        </div>
+
+        {/* Factor Bank */}
+        <div className="my-6">
+          <h4 className="font-semibold mb-3 text-gray-300">Choose your conversion factor(s):</h4>
+          <div className="flex flex-wrap gap-3">
+            {currentProblem.factors.map(factor => {
+              const isSelected = selectedFactors.some(f => f.id === factor.id);
+              return (
+                <button
+                  key={factor.id}
+                  onClick={() => handleFactorClick(factor)}
+                  disabled={showSolution}
+                  className={`transition-all p-2 rounded-lg ${
+                    isSelected
+                      ? 'bg-blue-600 text-white shadow-lg'
+                      : 'bg-gray-600 text-gray-200 hover:bg-gray-500'
+                  } ${showSolution ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                >
+                  <Fraction num={factor.num} den={factor.den} numCancelled={false} denCancelled={false} />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        
+        {/* Hint Box */}
+        {hint && !showSolution && (
+          <div className={`my-4 p-3 rounded-lg border-2 ${
+            hint.type === 'good' ? 'bg-green-900/50 border-green-500' :
+            hint.type === 'warn' ? 'bg-orange-900/50 border-orange-500' :
+            'bg-red-900/50 border-red-500'
+          }`}>
+            <div className="flex items-start gap-2">
+              {hint.type === 'good' ? <Check size={20} className="mt-0.5 flex-shrink-0 text-green-400" /> : <Lightbulb size={20} className="mt-0.5 flex-shrink-0 text-yellow-400" />}
+              <p className={`text-sm ${
+                hint.type === 'good' ? 'text-green-200' :
+                hint.type === 'warn' ? 'text-orange-200' :
+                'text-red-200'
+              }`}>
+                {hint.message}
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Controls */}
+        <div className="flex flex-wrap gap-4 mt-6">
+          <button
+            onClick={checkAnswer}
+            disabled={showSolution}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center gap-2 disabled:opacity-50"
+          >
+            <Check size={20} /> Check Answer
+          </button>
+          <button
+            onClick={reset}
+            className="px-6 py-3 bg-gray-600 hover:bg-gray-500 text-white rounded-lg font-semibold transition-all flex items-center gap-2"
+          >
+            <RefreshCw size={18} /> Reset
+          </button>
+        </div>
+
+        {/* Solution Feedback */}
+        {showSolution && (
+          <div className={`mt-6 p-4 rounded-lg border-2 ${
+            isCorrect ? 'bg-green-900/50 border-green-500' : 'bg-red-900/50 border-red-500'
+          }`}>
+            <div className="flex items-start gap-3">
+              {isCorrect ? <Trophy size={24} className="text-yellow-400" /> : <X size={24} className="text-red-400" />}
+              <div>
+                <h4 className="font-bold text-lg mb-2">
+                  {isCorrect ? 'Correct!' : 'Not Quite!'}
+                </h4>
+                <p className="mb-2">
+                  {isCorrect ? currentProblem.explanation : 'Your selected factors don\'t match the solution. Try again!'}
+                </p>
+                {isCorrect && (
+                  <div className="font-mono bg-gray-800 p-3 rounded mt-2">
+                    Calculation: {currentProblem.calculation}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+
+// Tab 4: Practice
+const PracticeTab = () => {
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [usedQuestionIds, setUsedQuestionIds] = useState([]);
+  const [score, setScore] = useState(0);
+
+  const allQuestions = useMemo(() => [
+    { id: 1, q: 'Convert 5.5 meters to centimeters.', a: 550, unit: 'cm', type: 'simple' },
+    { id: 2, q: 'Convert 2.5 kilometers to meters.', a: 2500, unit: 'm', type: 'simple' },
+    { id: 3, q: 'Convert 1500 grams to kilograms.', a: 1.5, unit: 'kg', type: 'simple' },
+    { id: 4, q: 'Convert 750 milligrams to grams.', a: 0.75, unit: 'g', type: 'simple' },
+    { id: 5, q: 'Convert 3.2 liters to milliliters.', a: 3200, unit: 'mL', type: 'simple' },
+    { id: 6, q: 'Convert 45 seconds to minutes.', a: 0.75, unit: 'min', type: 'simple' },
+    { id: 7, q: 'Convert 2.5 hours to minutes.', a: 150, unit: 'min', type: 'simple' },
+    { id: 8, q: 'How many inches are in 50.8 cm? (1 inch = 2.54 cm)', a: 20, unit: 'in', type: 'mixed' },
+    { id: 9, q: 'How many kilograms is 165 lbs? (1 kg ≈ 2.2 lbs)', a: 75, unit: 'kg', type: 'mixed' },
+    { id: 10, q: 'How many meters are in 1.2 miles? (1 mile ≈ 1.609 km)', a: 1930.8, unit: 'm', type: 'challenge' },
+    { id: 11, q: 'Convert 2 days into seconds.', a: 172800, unit: 's', type: 'challenge' },
+    { id: 12, q: 'Convert 0.5 kg to milligrams.', a: 500000, unit: 'mg', type: 'challenge' },
+    { id: 13, q: 'How many US gallons is 20 liters? (1 gal ≈ 3.785 L)', a: 5.28, unit: 'gal', type: 'mixed' },
+  ], []);
+
+  const generateQuestions = useCallback(() => {
+    let available = allQuestions.filter(q => !usedQuestionIds.includes(q.id));
+    if (available.length < 5) {
+      setUsedQuestionIds([]);
+      available = allQuestions;
+    }
+    
+    const shuffled = [...available].sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, 5);
+    
+    setQuestions(selected);
+    setUsedQuestionIds(prev => [...prev, ...selected.map(q => q.id)]);
+    setCurrentQuestionIndex(0);
+    setUserAnswers({});
+    setShowFeedback(false);
+    setScore(0);
+  }, [allQuestions, usedQuestionIds]);
+
+  useEffect(() => {
+    if (questions.length === 0) {
+      generateQuestions();
+    }
+  }, [questions, generateQuestions]);
+
+  const handleAnswerChange = (e) => {
+    setUserAnswers({
+      ...userAnswers,
+      [currentQuestionIndex]: e.target.value
+    });
+  };
+
+  const checkAnswer = () => {
+    const userAnswer = parseFloat(userAnswers[currentQuestionIndex]);
+    const correctAnswer = questions[currentQuestionIndex].a;
+    
+    // Check for floating point issues
+    const isCorrect = Math.abs(userAnswer - correctAnswer) < 0.01;
+
+    if (isCorrect) {
+      setScore(s => s + 1);
+    }
+    setShowFeedback(true);
+  };
+
+  const nextQuestion = () => {
+    setShowFeedback(false);
+    setCurrentQuestionIndex(i => i + 1);
+  };
+
+  if (questions.length === 0) {
+    return <div>Loading questions...</div>;
+  }
+
+  const isQuizOver = currentQuestionIndex >= questions.length;
+  
+  if (isQuizOver) {
+    return (
+      <div>
+        <h2 className="text-2xl font-bold mb-4 text-blue-400">Practice Complete!</h2>
+        <div className="bg-gray-700 rounded-lg p-8 text-center">
+          <Trophy size={64} className="text-yellow-400 mx-auto mb-6" />
+          <h3 className="text-3xl font-bold mb-4">Your Score: {score} / {questions.length}</h3>
+          <p className="text-gray-300 mb-8">
+            {score === questions.length ? "Amazing work! You're a unit conversion master!" : "Great effort! Keep practicing to improve."}
+          </p>
+          <button
+            onClick={generateQuestions}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all flex items-center gap-2 mx-auto"
+          >
+            <RefreshCw size={20} /> Try New Questions
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const userAnswer = userAnswers[currentQuestionIndex];
+
+  let isCorrect = false;
+  if (showFeedback) {
+    const userAnswerNum = parseFloat(userAnswer);
+    const correctAnswer = currentQuestion.a;
+    isCorrect = Math.abs(userAnswerNum - correctAnswer) < 0.01;
+  }
+
+  return (
+    <div>
+      <h2 className="text-2xl font-bold mb-4 text-blue-400">Practice Zone</h2>
+      <p className="text-gray-300 mb-6">Test your knowledge! Enter the correct number for the conversion.</p>
+
+      <div className="bg-gray-700 rounded-lg p-8">
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-sm font-semibold text-gray-400">Question {currentQuestionIndex + 1} of {questions.length}</span>
+          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+            currentQuestion.type === 'simple' ? 'bg-green-800 text-green-200' :
+            currentQuestion.type === 'mixed' ? 'bg-yellow-800 text-yellow-200' :
+            'bg-red-800 text-red-200'
+          }`}>
+            {currentQuestion.type}
+          </span>
+        </div>
+
+        <h3 className="text-xl font-semibold mb-6 text-gray-200">{currentQuestion.q}</h3>
+        
+        <div className="flex flex-col sm:flex-row gap-2 items-center">
+          <input
+            type="number"
+            step="any"
+            value={userAnswer || ''}
+            onChange={handleAnswerChange}
+            disabled={showFeedback}
+            className="practice-input flex-grow w-full sm:w-auto px-4 py-3 bg-gray-800 border-2 border-gray-600 rounded-lg text-white text-lg focus:outline-none focus:border-blue-500 disabled:opacity-50"
+            placeholder="Type your answer"
+          />
+          <span className="text-lg font-semibold text-gray-300">{currentQuestion.unit}</span>
+        </div>
+
+        {showFeedback && (
+          <div className={`mt-6 p-4 rounded-lg border-2 ${
+            isCorrect ? 'bg-green-900/50 border-green-500' : 'bg-red-900/50 border-red-500'
+          }`}>
+            <div className="flex items-start gap-3">
+              {isCorrect ? <Check size={24} className="text-green-400" /> : <X size={24} className="text-red-400" />}
+              <div>
+                <h4 className="font-bold text-lg mb-1">
+                  {isCorrect ? 'Correct!' : 'Incorrect'}
+                </h4>
+                <p className="text-base">
+                  The correct answer is <span className="font-bold">{currentQuestion.a} {currentQuestion.unit}</span>.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="mt-8">
+          {!showFeedback ? (
+            <button
+              onClick={checkAnswer}
+              disabled={!userAnswer}
+              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all w-full sm:w-auto disabled:opacity-50"
+            >
+              Check Answer
+            </button>
+          ) : (
+            <button
+              onClick={nextQuestion}
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all w-full sm:w-auto"
+            >
+              Next Question <ChevronRight size={20} className="inline" />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+// Main App Component
+const UnitConversionApp = () => {
+  const [activeTab, setActiveTab] = useState(0);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+    
+    if (savedTheme === 'dark') {
+      setIsDarkMode(true);
+    } else if (savedTheme === 'light') {
+      setIsDarkMode(false);
+    } else {
+      setIsDarkMode(prefersDark);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  const tabs = ['Scale', 'Conversions', 'Cancellation', 'Practice'];
+
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 md:p-6 transition-colors duration-300">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-6 md:mb-8 flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-bold mb-1 bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+              Unit Conversion
+            </h1>
+            <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">Learn measurement and unit conversions step by step</p>
+          </div>
+          <button
+            onClick={toggleDarkMode}
+            className="p-2 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700 transition-all"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+          </button>
+        </header>
+
+        {/* Tabs */}
+        <nav className="mb-6 md:mb-8">
+          <div className="flex flex-wrap gap-2 pb-2 -mb-2">
+            {tabs.map((tab, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveTab(index)}
+                className={`px-4 py-2 md:px-6 md:py-3 rounded-lg font-semibold whitespace-nowrap transition-all transform active:scale-95 ${
+                  activeTab === index
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30 dark:shadow-blue-500/50'
+                    : 'bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700 active:bg-gray-400 dark:active:bg-gray-600'
+                }`}
+              >
+                {index + 1}. {tab}
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        {/* Tab Content */}
+        <main className="bg-gray-100 dark:bg-gray-800 rounded-xl p-6 md:p-8 shadow-inner dark:shadow-2xl">
+          {activeTab === 0 && <SenseOfScaleTab />}
+          {activeTab === 1 && <UnderstandingConversionsTab />}
+          {activeTab === 2 && <UnitCancellationTab />}
+          {activeTab === 3 && <PracticeTab />}
+        </main>
+        
+        <footer className="text-center mt-8 text-gray-500 dark:text-gray-600 text-sm">
+          Unit Conversion Tutor App
+        </footer>
+      </div>
+    </div>
+  );
+};
+
+// Error Boundary
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error: error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error("Uncaught error:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="min-h-screen bg-gray-900 text-gray-100 p-6 flex items-center justify-center">
+          <div className="bg-red-900/50 border-2 border-red-500 p-8 rounded-lg max-w-2xl">
+            <h1 className="text-3xl font-bold mb-4 text-red-300">Something went wrong.</h1>
+            <p className="text-lg text-gray-200 mb-6">An error occurred in the application. Please try refreshing the page.</p>
+            <pre className="bg-gray-800 p-4 rounded-lg text-red-200 overflow-x-auto">
+              {this.state.error && this.state.error.toString()}
+            </pre>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+// Final App export
+export default function App() {
+  return (
+    <ErrorBoundary>
+      <UnitConversionApp />
+    </ErrorBoundary>
+  );
+}
+
+// Custom CSS for slider thumb and to hide number input spinners
+const style = document.createElement('style');
+style.textContent = `
+  /* --- Slider Thumb Styles --- */
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background-color: var(--slider-thumb-bg, #3b82f6);
+    border: 2px solid var(--slider-thumb-border, #1e3a8a);
+    border-radius: 50%;
+    cursor: grab;
+    margin-top: -6px; /* Center 20px thumb on 8px track ( (8-20)/2 = -6 ) */
+    transition: background-color 0.2s;
+    z-index: 20; /* Ensure thumb is above track */
+    position: relative; /* Ensure z-index is applied */
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background-color: var(--slider-thumb-bg, #3b82f6);
+    border: 2px solid var(--slider-thumb-border, #1e3a8a);
+    border-radius: 50%;
+    cursor: grab;
+    z-index: 20;
+    position: relative;
+  }
+  input[type=range]:active::-webkit-slider-thumb {
+    background-color: #60a5fa; /* A lighter blue for active state */
+    cursor: grabbing;
+  }
+  input[type=range]:active::-moz-range-thumb {
+    background-color: #60a5fa;
+    cursor: grabbing;
+  }
+
+  /* --- Hide Number Input Spinners --- */
+  .practice-input::-webkit-outer-spin-button,
+  .practice-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .practice-input[type=number] {
+    -moz-appearance: textfield;
+  }
+`;
+document.head.appendChild(style);
