@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genetics: Sex-Linked Traits Practice</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Serif:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Use the Inter font family */
+      body {
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Style for active tab */
+      .tab-btn.active {
+        border-color: #6366f1; /* indigo-500 */
+        background-color: #312e81; /* indigo-900 */
+        color: #e0e7ff; /* indigo-100 */
+        font-weight: 600;
+      }
+
+      /* Punnett Square styles from example */
+      .punnett-square {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        width: 300px; /* Slightly smaller for complex genotypes */
+        height: 300px;
+        border: 2px solid #4b5563; /* gray-600 */
+      }
+      .punnett-cell {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #374151; /* gray-700 */
+        font-size: 1.5rem; /* 24px */
+        font-weight: 600;
+        position: relative;
+      }
+      .punnett-header {
+        background-color: #374151; /* gray-700 */
+      }
+      .punnett-cell.corner {
+        border: none;
+        background: none;
+      }
+
+      /* Phenotype swatch for results */
+      .phenotype-swatch {
+        width: 20px;
+        height: 20px;
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-900 text-slate-200">
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+      <header class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-indigo-400">
+          Genetics Sex-Linked Traits Practice Tool
+        </h1>
+        <p class="text-lg text-slate-400 mt-2">
+          An interactive way to learn about sex-linked traits.
+        </p>
+      </header>
+
+      <!-- Tabs Navigation -->
+      <div class="mb-6 border-b border-slate-700">
+        <nav class="flex flex-wrap -mb-px" aria-label="Tabs">
+          <button
+            class="tab-btn active w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('info')"
+          >
+            What Are They?
+          </button>
+          <button
+            class="tab-btn w-full sm:w-auto text-center text-slate-300 border-b-2 border-transparent py-4 px-6 text-base font-medium hover:bg-slate-800 hover:border-slate-500 focus:outline-none transition-colors duration-200"
+            onclick="showTab('practice')"
+          >
+            Punnett Square Practice
+          </button>
+        </nav>
+      </div>
+
+      <!-- Tab Content -->
+      <main id="tab-content">
+        <!-- Tab 1: What Are They? -->
+        <div id="info" class="tab-pane space-y-6">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700 space-y-4"
+          >
+            <h2 class="text-2xl font-bold text-indigo-400 mb-3">
+              Sex Chromosomes vs. Autosomes
+            </h2>
+            <p class="text-slate-300">
+              Humans have 23 pairs of chromosomes. 22 of these pairs are called
+              <strong>autosomes</strong>, which are the same in both males and
+              females. The 23rd pair consists of the
+              <strong>sex chromosomes</strong>, which determine an individual's
+              biological sex:
+            </p>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+              <li>
+                <strong>Females</strong> typically have two
+                <strong>X</strong> chromosomes (XX).
+              </li>
+              <li>
+                <strong>Males</strong> typically have one <strong>X</strong> and
+                one <strong>Y</strong> chromosome (XY).
+              </li>
+            </ul>
+            <p class="text-slate-300">
+              A <strong>sex-linked trait</strong> is a trait controlled by a
+              gene located on one of the sex chromosomes. Because the X
+              chromosome is much larger than the Y chromosome and carries many
+              more genes, most sex-linked traits are <strong>X-linked</strong>.
+            </p>
+          </div>
+
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700 space-y-4"
+          >
+            <h2 class="text-2xl font-bold text-indigo-400 mb-3">
+              X-Linked Recessive Inheritance
+            </h2>
+            <p class="text-slate-300">
+              This is the most common type of sex-linked inheritance. Here's how
+              it works:
+            </p>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+              <li>
+                <strong>In Males (XY):</strong> Because males have only one X
+                chromosome, they only need one copy of a recessive X-linked
+                allele to express the trait. There is no second X chromosome to
+                "mask" the allele.
+              </li>
+              <li>
+                <strong>In Females (XX):</strong> Females have two X
+                chromosomes. They must inherit two copies of the recessive
+                allele (one from each parent) to express the trait. If they
+                inherit only one copy, they are considered
+                <strong>carriers</strong>—they don't show the trait but can pass
+                the allele to their offspring.
+              </li>
+            </ul>
+            <p
+              class="mt-4 p-4 bg-slate-700 border border-slate-600 rounded-lg text-indigo-200"
+            >
+              <strong
+                >This is why X-linked recessive traits are far more common in
+                males than in females.</strong
+              >
+            </p>
+
+            <h3 class="text-xl font-semibold text-slate-200 mt-6">
+              Common Examples:
+            </h3>
+            <ul class="list-disc list-inside pl-4 space-y-2 text-slate-300">
+              <li>
+                <strong>Red-Green Color Blindness:</strong> This is a classic
+                example. Males are much more likely to be colorblind because the
+                genes for red and green photo-receptors are located on the X
+                chromosome.
+              </li>
+              <li>
+                <strong>Hemophilia:</strong> A disorder where blood does not
+                clot properly. This is also caused by a recessive allele on the
+                X chromosome.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Tab 3: Punnett Square Practice -->
+        <div id="practice" class="tab-pane hidden space-y-6">
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <h2 class="text-2xl font-bold text-red-400 mb-2">
+              Punnett Square Practice (X-Linked)
+            </h2>
+            <p class="text-slate-300">
+              This simulator shows a cross for an X-linked recessive trait, such
+              as red-green color blindness. The allele for normal vision (<span
+                class="font-mono font-bold"
+                >X<sup>B</sup></span
+              >) is dominant to the allele for color blindness (<span
+                class="font-mono font-bold"
+                >X<sup>b</sup></span
+              >).
+            </p>
+            <p class="text-slate-300 mt-2">
+              Because males only have one X chromosome, their phenotype is
+              determined by that single allele. Females must have two recessive
+              alleles (<span class="font-mono font-bold"
+                >X<sup>b</sup>X<sup>b</sup></span
+              >) to be affected.
+            </p>
+          </div>
+          <div
+            class="bg-slate-800 p-6 rounded-lg shadow-md border border-slate-700"
+          >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <div class="space-y-4">
+                <h3 class="text-xl font-semibold">X-Linked Cross Simulator</h3>
+                <div>
+                  <label
+                    for="sl-parent1"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 1 (Mother) Genotype:</label
+                  >
+                  <select
+                    id="sl-parent1"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-red-500 focus:border-red-500 rounded-md text-white"
+                  >
+                    <option value="XB,XB">XᴮXᴮ (Unaffected)</option>
+                    <option value="XB,Xb" selected>XᴮXᵇ (Carrier)</option>
+                    <option value="Xb,Xb">XᵇXᵇ (Affected)</option>
+                  </select>
+                </div>
+                <div>
+                  <label
+                    for="sl-parent2"
+                    class="block text-sm font-medium text-slate-300"
+                    >Parent 2 (Father) Genotype:</label
+                  >
+                  <select
+                    id="sl-parent2"
+                    class="mt-1 block w-full pl-3 pr-10 py-2 text-lg bg-slate-700 border-slate-600 focus:outline-none focus:ring-red-500 focus:border-red-500 rounded-md text-white"
+                  >
+                    <option value="XB,Y" selected>XᴮY (Unaffected)</option>
+                    <option value="Xb,Y">XᵇY (Affected)</option>
+                  </select>
+                </div>
+                <button
+                  onclick="generateSexLinkedPunnett()"
+                  class="w-full bg-red-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                >
+                  Generate Cross
+                </button>
+                <div id="sl-ratios-output">
+                  <!-- Ratios table will be generated here -->
+                </div>
+              </div>
+              <div
+                id="sl-square-output"
+                class="flex flex-col items-center md:items-start"
+              >
+                <!-- Punnett Square will be generated here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // --- Configuration for Sex-Linked Trait Simulator ---
+      const SL_CONFIG = {
+        phenotypes: {
+          XBXB: { name: "Unaffected Female", color: "#fca5a5" }, // light red
+          XBXb: { name: "Carrier Female", color: "#fcd34d" }, // light yellow
+          XbXb: { name: "Affected Female", color: "#ef4444" }, // red-600
+          XBY: { name: "Unaffected Male", color: "#93c5fd" }, // light blue
+          XbY: { name: "Affected Male", color: "#3b82f6" }, // blue-500
+        },
+        getGenotype(val) {
+          // This function formats the raw allele values for display
+          if (val === "XB") return "X<sup>B</sup>";
+          if (val === "Xb") return "X<sup>b</sup>";
+          if (val === "Y") return "Y";
+          if (val === "XBXB") return "X<sup>B</sup>X<sup>B</sup>";
+          if (val === "XBXb") return "X<sup>B</sup>X<sup>b</sup>";
+          if (val === "XbXb") return "X<sup>b</sup>X<sup>b</sup>";
+          if (val === "XBY") return "X<sup>B</sup>Y";
+          if (val === "XbY") return "X<sup>b</sup>Y";
+          return val; // Fallback
+        },
+      };
+
+      // --- Tab Switching Function ---
+      function showTab(tabName) {
+        // Hide all tab panes
+        document.querySelectorAll(".tab-pane").forEach((pane) => {
+          pane.classList.add("hidden");
+        });
+        // Deactivate all tab buttons
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        // Show the selected tab pane
+        document.getElementById(tabName).classList.remove("hidden");
+        // Activate the selected tab button
+        const activeButton = Array.from(
+          document.querySelectorAll(".tab-btn")
+        ).find((btn) => btn.getAttribute("onclick").includes(`'${tabName}'`));
+        if (activeButton) {
+          activeButton.classList.add("active");
+        }
+      }
+
+      // --- Sex-Linked Punnett Square Generator ---
+      function generateSexLinkedPunnett() {
+        const config = SL_CONFIG;
+        const p1Val = document.getElementById("sl-parent1").value;
+        const p2Val = document.getElementById("sl-parent2").value;
+
+        // Alleles are passed as comma-separated values, e.g., "XB,Xb"
+        const p1Alleles = p1Val.split(",");
+        const p2Alleles = p2Val.split(",");
+
+        const squareOutputDiv = document.getElementById("sl-square-output");
+        const ratiosOutputDiv = document.getElementById("sl-ratios-output");
+
+        const genotypes = {};
+        const phenotypes = {};
+
+        const results = [];
+        // Generate the 4 inner cells' genotypes
+        for (let i = 0; i < 2; i++) {
+          // Parent 1 alleles (Mother)
+          for (let j = 0; j < 2; j++) {
+            // Parent 2 alleles (Father)
+            let alleles = [p1Alleles[i], p2Alleles[j]];
+
+            // Custom sort: X alleles must come before Y alleles
+            // And dominant X (XB) before recessive X (Xb)
+            alleles.sort((a, b) => {
+              if (a === "Y" && b !== "Y") return 1; // Y always last
+              if (a !== "Y" && b === "Y") return -1;
+              if (a < b) return -1; // Sorts XB before Xb
+              if (a > b) return 1;
+              return 0;
+            });
+
+            let combo = alleles.join("");
+            results.push(combo);
+
+            const phenotypeInfo = config.phenotypes[combo];
+            if (phenotypeInfo) {
+              genotypes[combo] = (genotypes[combo] || 0) + 1;
+              phenotypes[phenotypeInfo.name] =
+                (phenotypes[phenotypeInfo.name] || 0) + 1;
+            }
+          }
+        }
+
+        // Function to render a single result cell
+        const renderCell = (combo) => {
+          const phenotypeInfo = config.phenotypes[combo];
+          let style = `background-color: ${phenotypeInfo.color}; color: #1e293b;`; // Dark text for light backgrounds
+
+          // Use light text for darker backgrounds
+          if (combo === "XbXb" || combo === "XbY") {
+            style = `background-color: ${phenotypeInfo.color}; color: #e2e8f0;`;
+          }
+
+          return `<div class="punnett-cell" style="${style}">${config.getGenotype(
+            combo
+          )}</div>`;
+        };
+
+        // Build the HTML for the Punnett Square grid
+        const squareHTML = `
+                <h4 class="text-lg font-semibold mb-2">Punnett Square</h4>
+                <div class="punnett-square">
+                    <!-- Row 1: Corner + Parent 2 headers -->
+                    <div class="punnett-cell corner"></div>
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p2Alleles[0]
+                    )}</div>
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p2Alleles[1]
+                    )}</div>
+                    
+                    <!-- Row 2: Parent 1 Header + results -->
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p1Alleles[0]
+                    )}</div>
+                    ${renderCell(results[0])}
+                    ${renderCell(results[1])}
+
+                    <!-- Row 3: Parent 1 Header + results -->
+                    <div class="punnett-cell punnett-header">${config.getGenotype(
+                      p1Alleles[1]
+                    )}</div>
+                    ${renderCell(results[2])}
+                    ${renderCell(results[3])}
+                </div>
+            `;
+
+        // Build the HTML for the results/ratios
+        let resultsHTML = `
+            <div class="mt-4 border border-slate-700 rounded-lg p-4">
+                <h4 class="text-lg font-semibold mb-4 text-center">F1 Offspring</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <h5 class="font-semibold text-md mb-2">Genotype Ratios:</h5>
+                        <ul class="list-disc list-inside space-y-1">`;
+        for (const g in genotypes) {
+          resultsHTML += `<li>${(genotypes[g] / 4) * 100}% ${config.getGenotype(
+            g
+          )}</li>`;
+        }
+        resultsHTML += `
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold text-md mb-2">Phenotype Ratios:</h5>
+                        <ul class="list-none space-y-2">`;
+        for (const p in phenotypes) {
+          const phenotypeInfo = Object.values(config.phenotypes).find(
+            (info) => info.name === p
+          );
+          let swatch = `<span class="phenotype-swatch" style="background-color: ${phenotypeInfo.color};"></span>`;
+          resultsHTML += `<li>${swatch} ${
+            (phenotypes[p] / 4) * 100
+          }% ${p}</li>`;
+        }
+        resultsHTML += `
+                        </ul>
+                    </div>
+                </div>
+            </div>`;
+
+        squareOutputDiv.innerHTML = squareHTML;
+        ratiosOutputDiv.innerHTML = resultsHTML;
+      }
+
+      // --- Initial setup on page load ---
+      window.onload = () => {
+        generateSexLinkedPunnett(); // Run the simulator with default values
+        showTab("info"); // Show the first tab by default
+      };
+    </script>
+  </body>
+</html>
