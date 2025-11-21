@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary Source Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Primary Source</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Term</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Primary</span><span class="text-slate-500 mx-2">+</span><span class="text-amber-700">Source</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Primary:</strong> From the Latin "primus," meaning <strong class="font-semibold">"first."</strong></p>
+                <p><strong class="font-semibold text-yellow-900">Source:</strong> From the Latin "surgere" (to rise), referring to <strong class="font-semibold">"the point of origin"</strong> (like a spring of water).</p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, a "primary source" is the first or original place where information comes from.</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: First-Hand Evidence</h2>
+            <p class="text-blue-800 mb-4">
+                A <strong class="font-semibold">primary source</strong> is a piece of evidence that was created <strong class="font-semibold">at the time of the event</strong> by someone who was there. It is an original record that has not been filtered or interpreted by a historian yet. It is the raw material of history.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 70" class="w-full max-w-lg mx-auto" aria-labelledby="source-title">
+                    <title id="source-title">A diagram showing a primary source created at the same time as the event.</title>
+                    
+                    <!-- Time Line -->
+                    <line x1="10" y1="55" x2="90" y2="55" stroke="#94a3b8" stroke-width="2" marker-end="url(#arrow-p)"/>
+                    <text x="90" y="63" font-size="4" text-anchor="middle" fill="#64748b">Time</text>
+
+                    <!-- The Event (1914) -->
+                    <circle cx="25" cy="55" r="3" fill="#ef4444"/>
+                    <text x="25" y="63" font-size="4" font-weight="bold" text-anchor="middle">The Event</text>
+                    <text x="25" y="67" font-size="3" text-anchor="middle">(e.g., 1914)</text>
+
+                    <!-- Primary Source (Linked to Event) -->
+                    <!-- Shifted down slightly to align centers for horizontal arrow -->
+                    <rect x="20" y="21" width="10" height="14" fill="#fde68a" stroke="#b45309" rx="1"/> <!-- Paper -->
+                    <line x1="22" y1="25" x2="28" y2="25" stroke="#b45309" stroke-width="1"/>
+                    <line x1="22" y1="29" x2="28" y2="29" stroke="#b45309" stroke-width="1"/>
+                    <line x1="25" y1="35" x2="25" y2="52" stroke="#b45309" stroke-width="1.5" stroke-dasharray="2,2"/>
+                    <text x="25" y="16" font-size="4" font-weight="bold" text-anchor="middle" fill="#b45309">Primary Source</text>
+                    <text x="25" y="11" font-size="3" text-anchor="middle" fill="#b45309">(Created THEN)</text>
+
+                    <!-- Secondary Source (Later) -->
+                    <rect x="70" y="20" width="12" height="16" fill="#bfdbfe" stroke="#1e3a8a" rx="1"/> <!-- Book -->
+                    <line x1="72" y1="20" x2="72" y2="36" stroke="#1e3a8a" stroke-width="1"/>
+                    <text x="76" y="28" font-size="8" text-anchor="middle" fill="#1e3a8a">H</text>
+                    
+                    <!-- Horizontal Dotted Arrow -->
+                    <line x1="70" y1="28" x2="33" y2="28" stroke="#1e3a8a" stroke-width="1" stroke-dasharray="2,1" marker-end="url(#arrow-look)"/>
+                    
+                    <text x="76" y="15" font-size="4" font-weight="bold" text-anchor="middle" fill="#1e3a8a">Secondary Source</text>
+                    <text x="76" y="10" font-size="3" text-anchor="middle" fill="#1e3a8a">(Created NOW)</text>
+                    
+                    <defs>
+                        <marker id="arrow-p" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+                        </marker>
+                        <marker id="arrow-look" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e3a8a" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">Primary vs. Secondary Sources</h2>
+            <p class="text-emerald-800 mb-4">
+               The main difference is <strong class="font-semibold">when</strong> it was created and <strong class="font-semibold">who</strong> created it.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Primary Sources</h3>
+                    <p class="text-emerald-800 mt-1 italic">"I was there."</p>
+                    <ul class="list-disc list-inside mt-2 text-emerald-800 text-sm">
+                        <li>Diaries & Journals</li>
+                        <li>Photographs & Videos</li>
+                        <li>Letters & Emails</li>
+                        <li>Artifacts (clothing, tools)</li>
+                        <li>Official Records (birth certificates)</li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Secondary Sources</h3>
+                    <p class="text-emerald-800 mt-1 italic">"I heard/read about it."</p>
+                    <ul class="list-disc list-inside mt-2 text-emerald-800 text-sm">
+                        <li>History Textbooks</li>
+                        <li>Biographies (written later)</li>
+                        <li>Documentaries</li>
+                        <li>Encyclopedia Articles</li>
+                        <li>Teacher's Lectures</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Time Capsule</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>A group of students discovered a dusty metal box buried near the school's foundation stone. It was a time capsule from 1950. Inside, they found a newspaper from that day, a baseball card, a handwritten letter from a student named 'Billy', and a black-and-white photograph of the class.</p>
+                <p>Their teacher explained, "Everything in this box is a <strong class="font-semibold text-slate-900">primary source</strong>. That letter gives us Billy's direct thoughts from 1950, unfiltered by time. The newspaper shows us exactly what people were reading that morning." She held up their history textbook. "This book tells us <em>about</em> the 1950s, but it was written in 2020 by historians who looked at things like this box. That makes the textbook a <strong class="font-semibold text-slate-900">secondary source</strong>. The items in the capsule are the raw evidence; the textbook is the interpretation."</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">History</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Word</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Historia</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p>The word "history" comes from the Ancient Greek word <strong class="font-semibold text-yellow-900">"historia."</strong></p>
+                <p>Surprisingly, it doesn't mean "the past." It translates to <strong class="font-semibold text-yellow-900">"inquiry," "investigation,"</strong> or <strong class="font-semibold text-yellow-900">"knowledge acquired by investigation."</strong></p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, "history" isn't just what happened; it is the active process of investigating what happened.</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: The Past vs. History</h2>
+            <p class="text-blue-800 mb-4">
+                It is crucial to understand the difference between <strong class="font-semibold">The Past</strong> and <strong class="font-semibold">History</strong>.
+                <br><br>
+                <strong class="font-semibold">The Past</strong> is everything that ever happened—every meal eaten, every word spoken, every battle fought. It is gone forever and can never be fully recreated.
+                <br>
+                <strong class="font-semibold">History</strong> is the story we construct about the past based on the evidence that remains. It is an interpretation, like a puzzle with missing pieces.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 60" class="w-full max-w-md mx-auto" aria-labelledby="history-title">
+                    <title id="history-title">A diagram comparing the vastness of the past to the constructed nature of history.</title>
+                    
+                    <!-- The Past (Chaos) -->
+                    <text x="20" y="10" font-size="4" font-weight="bold" text-anchor="middle" fill="#475569">THE PAST</text>
+                    <text x="20" y="15" font-size="3" text-anchor="middle" fill="#475569">(Everything)</text>
+                    <circle cx="10" cy="30" r="2" fill="#94a3b8"/> <circle cx="25" cy="25" r="2" fill="#94a3b8"/>
+                    <circle cx="15" cy="40" r="2" fill="#94a3b8"/> <circle cx="30" cy="45" r="2" fill="#94a3b8"/>
+                    <circle cx="20" cy="35" r="2" fill="#94a3b8"/> <circle cx="12" cy="20" r="2" fill="#94a3b8"/>
+                    <circle cx="28" cy="38" r="2" fill="#94a3b8"/> <circle cx="18" cy="50" r="2" fill="#94a3b8"/>
+                    
+                    <!-- Arrow: Investigation -->
+                    <path d="M 40 30 L 60 30" stroke="#4b5563" stroke-width="1.5" fill="none" marker-end="url(#arrow-h)"/>
+                    <text x="50" y="23" font-size="3" text-anchor="middle" font-weight="bold" fill="#4b5563">Investigation</text>
+                    <text x="50" y="27" font-size="3" text-anchor="middle" fill="#4b5563">& Evidence</text>
+
+                    <!-- History (Order) -->
+                    <text x="80" y="10" font-size="4" font-weight="bold" text-anchor="middle" fill="#1e3a8a">HISTORY</text>
+                    <text x="80" y="15" font-size="3" text-anchor="middle" fill="#1e3a8a">(The Story)</text>
+                    <rect x="70" y="25" width="20" height="25" fill="#bfdbfe" stroke="#1d4ed8" rx="1"/>
+                    <line x1="73" y1="30" x2="87" y2="30" stroke="#1e3a8a" stroke-width="1"/>
+                    <line x1="73" y1="35" x2="87" y2="35" stroke="#1e3a8a" stroke-width="1"/>
+                    <line x1="73" y1="40" x2="87" y2="40" stroke="#1e3a8a" stroke-width="1"/>
+                    <line x1="73" y1="45" x2="80" y2="45" stroke="#1e3a8a" stroke-width="1"/>
+
+                    <defs>
+                        <marker id="arrow-h" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">How History Works</h2>
+            <p class="text-emerald-800 mb-4">
+               History is not a static list of dates. It is an argument about what happened and why.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Sources (The Clues)</h3>
+                    <p class="text-emerald-800 mt-1">Historians rely on primary sources (diaries, photos, artifacts from the time) and secondary sources (books written later) to build their case.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Interpretation (The Narrative)</h3>
+                    <p class="text-emerald-800 mt-1">Different historians can look at the same evidence and come to different conclusions. History changes as we find new evidence or ask new questions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Cafeteria Incident</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>Imagine a food fight breaks out in the cafeteria. That event is now in <strong class="font-semibold text-slate-900">the past</strong>. It's over. The principal must now write a report—this will be the <strong class="font-semibold text-slate-900">history</strong> of the event.</p>
+                <p>To do this, the principal acts like a historian. She interviews students (primary sources), watches security footage (evidence), and looks at the mess (artifacts). One student says it started by accident; another says it was on purpose. The principal has to weigh this conflicting evidence to construct the most likely narrative. Her final report isn't the event itself—it's a <strong class="font-semibold text-slate-900">history</strong>, an interpretation of what happened based on the available clues.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
