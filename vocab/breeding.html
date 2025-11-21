@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artificial Selection Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Artificial Selection</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Term</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Artificial</span><span class="text-slate-500 mx-2">+</span><span class="text-amber-700">Selection</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Artificial:</strong> From the Latin "artificium," meaning <strong class="font-semibold">"craft, skill, or art."</strong> It means something made by humans, not by nature.</p>
+                <p><strong class="font-semibold text-yellow-900">Selection:</strong> The act of <strong class="font-semibold">choosing</strong> which individuals will reproduce.</p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, "artificial selection" is the process where humans "choose" which individuals get to reproduce to get desired traits.</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: Human-Directed Breeding</h2>
+            <p class="text-blue-800 mb-4">
+                <strong class="font-semibold">Artificial selection</strong> (or selective breeding) is the process where humans—not nature—act as the "selection pressure." Humans choose which organisms to breed based on specific traits they find useful or attractive, such as sweeter fruit, tamer animals, or unique dog breeds.
+            </.p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 70" class="w-full max-w-lg mx-auto" aria-labelledby="selection-title">
+                    <title id="selection-title">A diagram showing artificial selection from a wolf to modern dogs.</title>
+                    <!-- Ancestor -->
+                    <text x="15" y="25" font-size="18" text-anchor="middle">🐺</text>
+                    <text x="15" y="42" font-size="4" text-anchor="middle" font-weight="bold">Ancient Wolf</text>
+                    <text x="15" y="48" font-size="3" text-anchor="middle">(Variation)</text>
+
+                    <!-- Arrow -->
+                    <path d="M30 35 L 50 35" stroke="#4b5563" stroke-width="1.5" fill="none" marker-end="url(#arrow-a)"/>
+                    <text x="40" y="25" font-size="3" text-anchor="middle">Human Selection</text>
+                    <text x="40" y="29" font-size="3" text-anchor="middle">(for traits like</text>
+                    <text x="40" y="33" font-size="3" text-anchor="middle">tameness, size, etc.)</text>
+                    
+                    <!-- Descendants -->
+                    <text x="80" y="15" font-size="4" text-anchor="middle" font-weight="bold">Modern Breeds</text>
+                    <text x="65" y="30" font-size="12" text-anchor="middle">🐩</text> <!-- Poodle -->
+                    <text x="85" y="30" font-size="12" text-anchor="middle">🐕</text> <!-- Shepherd -->
+                    <text x="65" y="55" font-size="12" text-anchor="middle">🐶</text> <!-- Corgi/Pug -->
+                    <text x="85" y="55" font-size="12" text-anchor="middle">🦮</text> <!-- Retriever -->
+
+                    <defs>
+                        <marker id="arrow-a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">Natural Selection vs. Artificial Selection</h2>
+            <p class="text-emerald-800 mb-4">
+               The process is similar (variation, selection, inheritance), but the "selector" and the "goal" are different.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Natural Selection</h3>
+                    <ul class="list-disc list-inside mt-1 text-emerald-800">
+                        <li><strong>Selector:</strong> The Environment (predators, climate, food availability)</li>
+                        <li><strong>Goal:</strong> Survival & Reproduction.</li>
+                        <li><strong>Result:</strong> Well-adapted organisms.</li>
+                    </ul>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Artificial Selection</h3>
+                     <ul class="list-disc list-inside mt-1 text-emerald-800">
+                        <li><strong>Selector:</strong> Humans.</li>
+                        <li><strong>Goal:</strong> Desired Traits (e.g., bigger fruit, specific dog appearance).</li>
+                        <li><strong>Result:</strong> Organisms useful to humans.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Wild Mustard Plant</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>Thousands of years ago, farmers began cultivating a single plant: the wild mustard. This plant had natural variation in its traits. By using <strong class="font-semibold text-slate-900">artificial selection</strong>, farmers created a huge variety of common vegetables by choosing which plants to breed, generation after generation.</p>
+                <p>Farmers who selected and bred plants with large, tender leaves eventually created kale and collard greens. Farmers who selected for enlarged, edible buds created Brussels sprouts. By selecting for large, dense flower clusters, farmers created broccoli and cauliflower. All of these very different vegetables are the result of <strong class="font-semibold text-slate-900">artificial selection</strong> from the exact same ancestor plant.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

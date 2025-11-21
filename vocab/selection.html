@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Natural Selection Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .info-section {
+        border: 1px solid #e2e8f0;
+        margin-bottom: 1.5rem;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+      }
+      /* Print-specific styles */
+      @media print {
+        body {
+          font-family: "Times New Roman", serif;
+          background-color: #ffffff;
+          color: #000000;
+        }
+        .info-section {
+          border: 1px solid #cccccc;
+          padding: 1rem;
+          margin-bottom: 1rem;
+          border-radius: 0;
+          page-break-inside: avoid;
+        }
+        h1,
+        h2,
+        h3,
+        p,
+        li,
+        strong,
+        text {
+          color: #000000 !important;
+        }
+        .info-section,
+        .bg-white {
+          background-color: #ffffff !important;
+        }
+        svg {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 text-slate-800">
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+      <!-- Header Section -->
+      <header class="text-center mb-6 p-4 info-section bg-white">
+        <h1 class="text-4xl font-bold text-slate-900">Natural Selection</h1>
+      </header>
+
+      <!-- Word Breakdown Section -->
+      <div class="info-section bg-yellow-100">
+        <h2 class="text-2xl font-bold text-yellow-900 mb-4">
+          Breaking Down the Term
+        </h2>
+        <div
+          class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg"
+        >
+          <span class="text-amber-700">Natural</span
+          ><span class="text-slate-500 mx-2">+</span
+          ><span class="text-amber-700">Selection</span>
+        </div>
+        <div class="space-y-3 text-yellow-800">
+          <p>
+            <strong class="font-semibold text-yellow-900">Natural:</strong> From
+            the Latin "natura," meaning
+            <strong class="font-semibold"
+              >"nature, birth, or course of things."</strong
+            >
+          </p>
+          <p>
+            <strong class="font-semibold text-yellow-900">Selection:</strong>
+            From the Latin "seligere," meaning
+            <strong class="font-semibold">"to choose or select."</strong>
+          </p>
+        </div>
+        <hr class="my-4 border-yellow-300" />
+        <p class="text-center font-semibold text-yellow-900">
+          So, "natural selection" is the process where nature "chooses" which
+          individuals are best suited to survive and reproduce.
+        </p>
+      </div>
+
+      <!-- The Core Idea -->
+      <div class="info-section bg-blue-100">
+        <h2 class="text-2xl font-bold text-blue-900 mb-3">
+          The Core Idea: Survival of the "Fittest"
+        </h2>
+        <p class="text-blue-800 mb-4">
+          <strong class="font-semibold">Natural selection</strong> is the
+          process by which organisms that are better adapted to their
+          environment tend to survive and produce more offspring. "Fittest"
+          doesn't mean strongest or fastest—it means the best fit for a specific
+          environment.
+        </p>
+        <div class="w-full">
+          <svg
+            viewBox="0 0 100 70"
+            class="w-full mx-auto"
+            aria-labelledby="selection-title"
+          >
+            <title id="selection-title">
+              A diagram illustrating natural selection with a population of
+              varied insects.
+            </title>
+            <!-- Generation 1 (Variation) -->
+            <text
+              x="50"
+              y="8"
+              font-size="4"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              Initial Population (Variation)
+            </text>
+            <!-- Bugs -->
+            <circle cx="20" cy="20" r="3" fill="#ef4444" />
+            <!-- Red bug -->
+            <circle cx="30" cy="20" r="3" fill="#ef4444" />
+            <circle cx="40" cy="20" r="3" fill="#ef4444" />
+            <circle cx="50" cy="20" r="3" fill="#ef4444" />
+            <circle cx="60" cy="20" r="3" fill="#22c55e" />
+            <!-- Green bug (adapted) -->
+            <circle cx="70" cy="20" r="3" fill="#ef4444" />
+            <circle cx="80" cy="20" r="3" fill="#ef4444" />
+
+            <!-- Environment (Green Grass) -->
+            <rect x="5" y="28" width="90" height="10" fill="#86efac" rx="2" />
+            <text
+              x="50"
+              y="34"
+              font-size="4"
+              fill="#166534"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              Green Grassy Environment
+            </text>
+
+            <!-- Arrow 1: Selection Pressure -->
+            <path
+              d="M50 40 L50 45"
+              stroke="#4b5563"
+              stroke-width="1.5"
+              fill="none"
+              marker-end="url(#arrow-s)"
+            />
+            <text x="55" y="43" font-size="3" text-anchor="start">
+              Predator Sees Red Bugs Easily
+            </text>
+
+            <!-- Generation 2 (Survival & Reproduction) -->
+            <text
+              x="50"
+              y="58"
+              font-size="4"
+              font-weight="bold"
+              text-anchor="middle"
+            >
+              Next Generation (Adaptation)
+            </text>
+            <!-- More Green Bugs, fewer Red Bugs -->
+            <circle cx="15" cy="65" r="3" fill="#22c55e" />
+            <circle cx="25" cy="65" r="3" fill="#ef4444" />
+            <!-- One red bug for variation -->
+            <circle cx="35" cy="65" r="3" fill="#22c55e" />
+            <circle cx="45" cy="65" r="3" fill="#22c55e" />
+            <circle cx="55" cy="65" r="3" fill="#22c55e" />
+            <circle cx="65" cy="65" r="3" fill="#22c55e" />
+            <circle cx="75" cy="65" r="3" fill="#22c55e" />
+            <circle cx="85" cy="65" r="3" fill="#22c55e" />
+
+            <defs>
+              <marker
+                id="arrow-s"
+                viewBox="0 0 10 10"
+                refX="5"
+                refY="5"
+                markerWidth="3"
+                markerHeight="3"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Key Concepts -->
+      <div class="info-section bg-emerald-100">
+        <h2 class="text-2xl font-bold text-emerald-900 mb-3">
+          The Three Key Principles
+        </h2>
+        <p class="text-emerald-800 mb-4">
+          Natural selection happens in three main steps, driven by the
+          environment.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">1. Variation</h3>
+            <p class="text-emerald-800 mt-1">
+              Individuals within a population have different traits (e.g.,
+              different colours). This variation originally comes from random
+              mutations.
+            </p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">2. Selection</h3>
+            <p class="text-emerald-800 mt-1">
+              An environmental pressure (like a predator) makes survival
+              difficult. Individuals with advantageous traits (like green
+              camouflage) are more likely to survive and have more offspring.
+            </p>
+          </div>
+          <div class="bg-emerald-50 p-4 rounded-lg">
+            <h3 class="font-bold text-emerald-900 text-lg">3. Inheritance</h3>
+            <p class="text-emerald-800 mt-1">
+              The advantageous traits are passed on to the next generation. Over
+              time, the "selected" trait becomes more common in the population
+              as it adapts.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reading in Context -->
+      <div class="info-section bg-slate-100">
+        <h2 class="text-2xl font-bold text-slate-900 mb-4">
+          Reading in Context: Darwin's Finches
+        </h2>
+        <div class="space-y-4 text-slate-700">
+          <p>
+            On the Galápagos Islands, Charles Darwin observed that different
+            islands had finches with very different beaks. On one island, a
+            severe drought (the selection pressure) wiped out the plants with
+            small, soft seeds, leaving only large, tough seeds.
+          </p>
+          <p>
+            The finches on that island had natural variation in their beak size.
+            The birds with smaller, weaker beaks could not crack the tough seeds
+            and starved. However, the birds with a random mutation for larger,
+            stronger beaks were able to eat and survive. This process is
+            <strong class="font-semibold text-slate-900"
+              >natural selection</strong
+            >. These survivors reproduced, passing on their genes for large
+            beaks. Over many generations, the average beak size of the finches
+            on that island increased.
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
