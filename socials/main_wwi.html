@@ -1,0 +1,747 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Shield, Users, Globe, Flag, Flame, ArrowRight, BookOpen, X, Award, Map as MapIcon, Target, Play, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react';
+
+// --- Shared Components ---
+
+const Card = ({ title, icon: Icon, color, onClick, active }) => (
+  <div 
+    onClick={onClick}
+    className={`cursor-pointer group relative overflow-hidden rounded-xl p-6 transition-all duration-300 transform hover:-translate-y-2 ${active ? 'ring-4 ring-amber-500 shadow-2xl scale-105' : 'hover:shadow-xl bg-slate-800'}`}
+  >
+    <div className={`absolute inset-0 opacity-10 ${color}`}></div>
+    <div className="relative z-10 flex flex-col items-center text-center">
+      <div className={`p-4 rounded-full mb-4 ${color.replace('bg-', 'bg-opacity-20 text-')}`}>
+        <Icon size={40} className="text-white" />
+      </div>
+      <h3 className="text-2xl font-bold text-slate-100 mb-2">{title}</h3>
+      <p className="text-slate-400 text-sm group-hover:text-slate-200 transition-colors">Click to explore</p>
+    </div>
+  </div>
+);
+
+const DetailView = ({ data, onClose }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-90 animate-fade-in backdrop-blur-sm">
+    <div className="bg-slate-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-slate-700 shadow-2xl relative">
+      <button 
+        onClick={onClose}
+        className="absolute top-4 right-4 p-2 bg-slate-800 rounded-full hover:bg-slate-700 text-slate-300 transition-colors z-10"
+      >
+        <X size={24} />
+      </button>
+      
+      <div className="grid md:grid-cols-2">
+        <div className={`p-8 ${data.color} flex flex-col justify-center items-center text-white relative overflow-hidden`}>
+          <div className="absolute inset-0 bg-black opacity-30"></div>
+          <data.icon size={120} className="relative z-10 mb-6 drop-shadow-lg" />
+          <h2 className="text-4xl font-extrabold relative z-10 text-center">{data.title}</h2>
+          <p className="mt-4 text-center relative z-10 text-lg font-light opacity-90">{data.shortDesc}</p>
+        </div>
+        
+        <div className="p-8 text-slate-300 space-y-6">
+          <div>
+            <h3 className="text-xl font-bold text-amber-500 mb-2 flex items-center gap-2">
+              <BookOpen size={20} /> The Concept
+            </h3>
+            <p className="leading-relaxed">{data.longDesc}</p>
+          </div>
+          
+          <div className="bg-slate-800 p-4 rounded-lg border-l-4 border-amber-500">
+            <h4 className="font-bold text-white mb-2">Key Example:</h4>
+            <p className="text-sm italic">{data.example}</p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold text-amber-500 mb-3">Impact on War</h3>
+            <ul className="space-y-2">
+              {data.points.map((point, idx) => (
+                <li key={idx} className="flex items-start gap-2 text-sm">
+                  <ArrowRight size={16} className="mt-1 text-slate-500 flex-shrink-0" />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+// --- New Feature: Chain Reaction Game ---
+
+const DominoGame = () => {
+  const [step, setStep] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [error, setError] = useState(null);
+
+  const sequence = [
+    { id: 'se', label: "Serbia", action: "Rejects Austrian Ultimatum", flag: "bg-blue-500" },
+    { id: 'ah', label: "Austria-Hungary", action: "Declares war on Serbia", flag: "bg-red-700" },
+    { id: 'ru', label: "Russia", action: "Mobilizes to help Serbia", flag: "bg-blue-600" },
+    { id: 'de', label: "Germany", action: "Declares war on Russia", flag: "bg-red-600" },
+    { id: 'fr', label: "France", action: "Mobilizes to support Russia", flag: "bg-blue-700" },
+    { id: 'uk', label: "Great Britain", action: "Declares war on Germany", flag: "bg-blue-800" }
+  ];
+
+  // Shuffled options
+  const options = [
+    { id: 'se', label: "Serbia", desc: "Defends Sovereignty" },
+    { id: 'uk', label: "Great Britain", desc: "Defends Belgium" },
+    { id: 'ah', label: "Austria-Hungary", desc: "Punishes Serbia" },
+    { id: 'fr', label: "France", desc: "Ally of Russia" },
+    { id: 'de', label: "Germany", desc: "Supports Austria" },
+    { id: 'ru', label: "Russia", desc: "Protects Slavs" }
+  ];
+
+  const handleSelect = (id) => {
+    if (id === sequence[step].id) {
+      setError(null);
+      if (step === sequence.length - 1) {
+        setCompleted(true);
+      } else {
+        setStep(step + 1);
+      }
+    } else {
+      setError("Incorrect! Think about the alliances.");
+      setTimeout(() => setError(null), 1500);
+    }
+  };
+
+  const resetGame = () => {
+    setStep(0);
+    setCompleted(false);
+  };
+
+  return (
+    <div className="bg-slate-900 rounded-xl border border-slate-700 p-6 md:p-8 shadow-lg mb-12">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+            <Users size={24} className="text-amber-500" /> The Domino Effect
+          </h3>
+          <p className="text-slate-400 mt-1">Click the countries in the order they entered the conflict.</p>
+        </div>
+        <div className="mt-4 md:mt-0">
+          <span className="bg-slate-800 text-amber-500 px-3 py-1 rounded-full text-sm font-mono border border-slate-700">
+            Step {step + 1} of {sequence.length}
+          </span>
+        </div>
+      </div>
+
+      {/* Visual Chain */}
+      <div className="flex flex-wrap items-center gap-2 mb-8 min-h-[100px] bg-slate-950/50 p-4 rounded-xl border border-dashed border-slate-700">
+        {sequence.map((item, index) => (
+          <React.Fragment key={item.id}>
+            {index < step || (completed && index === step) ? (
+              <div className={`animate-fade-in flex flex-col items-center w-28 p-2 rounded-lg ${item.flag} bg-opacity-20 border border-slate-600`}>
+                <span className="font-bold text-white text-xs text-center">{item.label}</span>
+                <span className="text-[9px] text-slate-300 text-center leading-tight mt-1">{item.action}</span>
+              </div>
+            ) : (
+              <div className="w-28 h-14 rounded-lg border-2 border-dashed border-slate-800 bg-slate-900/50 flex items-center justify-center">
+                <span className="text-slate-700 text-xl font-bold">?</span>
+              </div>
+            )}
+            {index < sequence.length - 1 && (
+              <ArrowRight size={16} className={index < step ? "text-amber-500" : "text-slate-800"} />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {/* Selection Area */}
+      {!completed ? (
+        <div className="space-y-4">
+          <h4 className="text-white font-semibold">Who acts next?</h4>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {options.map((opt) => {
+              // Hide options already selected
+              const isUsed = sequence.slice(0, step).some(s => s.id === opt.id);
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => !isUsed && handleSelect(opt.id)}
+                  disabled={isUsed}
+                  className={`p-4 rounded-lg border text-left transition-all ${
+                    isUsed 
+                      ? 'bg-slate-900 border-slate-800 text-slate-700 opacity-50 cursor-not-allowed' 
+                      : 'bg-slate-800 border-slate-600 hover:border-amber-500 hover:bg-slate-700 text-slate-200'
+                  }`}
+                >
+                  <div className="font-bold">{opt.label}</div>
+                  <div className="text-xs text-slate-400">{opt.desc}</div>
+                </button>
+              );
+            })}
+          </div>
+          {error && (
+            <div className="text-red-400 text-sm font-semibold flex items-center gap-2 animate-bounce">
+              <X size={16} /> {error}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="text-center py-4 animate-fade-in">
+          <div className="inline-block p-3 bg-green-500/20 rounded-full mb-3">
+            <Award size={32} className="text-green-500" />
+          </div>
+          <h4 className="text-xl font-bold text-white">Chain Reaction Complete!</h4>
+          <p className="text-slate-400 mb-4">You've successfully reconstructed the path to war.</p>
+          <button onClick={resetGame} className="text-sm text-amber-500 hover:text-amber-400 flex items-center gap-1 mx-auto">
+            <RotateCcw size={14} /> Reset Simulation
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- Interactive Map with Slider ---
+
+const WarMap = () => {
+  const [dayIndex, setDayIndex] = useState(0);
+  const [leafletLoaded, setLeafletLoaded] = useState(false);
+  const mapContainerRef = useRef(null);
+  const mapInstanceRef = useRef(null);
+  const layersRef = useRef({});
+  const sarajevoMarkerRef = useRef(null);
+
+  // Robust Leaflet Loading
+  useEffect(() => {
+    if (window.L && window.L.map) {
+      setLeafletLoaded(true);
+      return;
+    }
+
+    const linkId = 'leaflet-css';
+    if (!document.getElementById(linkId)) {
+      const link = document.createElement("link");
+      link.id = linkId;
+      link.rel = "stylesheet";
+      link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+      document.head.appendChild(link);
+    }
+
+    const scriptId = 'leaflet-js';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+      script.async = true;
+      script.onload = () => {
+        if (window.L && window.L.map) setLeafletLoaded(true);
+      };
+      document.body.appendChild(script);
+    } else {
+      const interval = setInterval(() => {
+        if (window.L && window.L.map) {
+          setLeafletLoaded(true);
+          clearInterval(interval);
+        }
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, []);
+
+  const timeline = [
+    { date: "June 28", event: "Archduke Assassinated in Sarajevo", active: [] },
+    { date: "July 28", event: "A-H Declares War on Serbia", active: ['AH', 'SE'] },
+    { date: "Aug 1", event: "Germany Declares War on Russia", active: ['AH', 'SE', 'DE', 'RU'] },
+    { date: "Aug 3", event: "Germany Declares War on France", active: ['AH', 'SE', 'DE', 'RU', 'FR'] },
+    { date: "Aug 4", event: "Britain Declares War on Germany (defends Belgium)", active: ['AH', 'SE', 'DE', 'RU', 'FR', 'UK'] }
+  ];
+
+  const current = timeline[dayIndex];
+
+  // Simplified Polygons approximating 1914 Borders
+  const countries = {
+    UK: {
+      label: "Great Britain",
+      polygon: [
+        [58.6, -3.1], [58.7, -5.1], [57.5, -7.6], [55.4, -7.4], [54.5, -5.4], [54.2, -3.0], [51.5, -5.3], [50.1, -5.7], [49.9, -0.6], [50.7, 1.0], [51.5, 1.4], [52.9, 1.8], [53.6, 0.1], [55.8, -1.9], [56.4, -2.5], [57.1, -2.0], [58.6, -3.1]
+      ] // Great Britain (approximated)
+    },
+    FR: {
+      label: "France",
+      polygon: [
+        [51.1, 2.5], [49.5, 6.0], [48.0, 7.5], [46.0, 6.0], [44.5, 6.5], [43.4, 7.0], [42.4, 3.1], [43.5, -1.5], [44.5, -1.2], [46.0, -1.2], [47.5, -3.0], [48.5, -4.5], [49.5, -1.5], [50.0, 1.0], [51.1, 2.5]
+      ] // France (approximated)
+    },
+    DE: {
+      label: "Germany",
+      polygon: [
+        [55.0, 8.4], [54.5, 10.5], [54.8, 14.5], [55.5, 21.0], [54.5, 22.5], [52.5, 23.0], [50.0, 19.0], [50.2, 12.5], [49.5, 11.0], [49.0, 8.2], [48.0, 7.5], [49.0, 6.0], [49.5, 6.0], [50.5, 6.0], [51.5, 6.0], [53.5, 7.0], [55.0, 8.4]
+      ] // 1914 Germany (Approx: includes Alsace-Lorraine, Prussia/Poland parts)
+    },
+    RU: {
+      label: "Russia",
+      polygon: [
+        [60.0, 30.0], [57.5, 22.0], [55.5, 21.0], [54.5, 22.5], [52.5, 23.0], [50.0, 25.0], [48.0, 26.5], [46.0, 30.5], [44.5, 29.0], [45.0, 40.0], [55.0, 40.0], [60.0, 30.0]
+      ] // 1914 Russia (Western Front approx)
+    },
+    AH: {
+      label: "Austria-Hungary",
+      polygon: [
+         [50.0, 19.0], [50.2, 12.5], [49.5, 11.0], [49.0, 8.2], [48.0, 9.5], [47.5, 10.5], [46.0, 11.0], [45.8, 13.5], [44.8, 13.6], [42.5, 18.0], [44.5, 19.0], [44.8, 24.5], [46.0, 26.0], [48.0, 26.5], [50.0, 19.0]
+      ] // 1914 Austria-Hungary (approximated)
+    },
+    SE: {
+      label: "Serbia",
+      polygon: [
+        [45.0, 20.2], [44.8, 22.5], [44.0, 22.8], [42.5, 23.0], [42.0, 20.5], [43.0, 19.5], [44.0, 19.2], [45.0, 20.2]
+      ] // Serbia (approximated)
+    },
+  };
+
+  // Initialize Map safely
+  useEffect(() => {
+    if (!leafletLoaded || !mapContainerRef.current || !window.L || !window.L.map) return;
+
+    if (mapInstanceRef.current) return;
+
+    const L = window.L;
+    // Center on Europe
+    const map = L.map(mapContainerRef.current).setView([49, 15], 4);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    mapInstanceRef.current = map;
+
+    // Create Polygons
+    Object.entries(countries).forEach(([code, data]) => {
+      const poly = L.polygon(data.polygon, {
+        color: '#475569',
+        weight: 2,
+        fillColor: '#475569',
+        fillOpacity: 0.3
+      }).addTo(map).bindPopup(`<b>${data.label}</b>`);
+      
+      layersRef.current[code] = poly;
+    });
+
+    const sarajevo = L.marker([43.8556, 18.4131]).addTo(map).bindPopup("<b>Sarajevo</b><br>The Assassination").openPopup();
+    sarajevoMarkerRef.current = sarajevo;
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, [leafletLoaded]);
+
+  // Update Map State
+  useEffect(() => {
+    if (!mapInstanceRef.current || !window.L) return;
+
+    // Reset view and toggle popup based on timeline step
+    if (dayIndex === 0) {
+      mapInstanceRef.current.setView([49, 15], 4);
+      sarajevoMarkerRef.current?.openPopup();
+    } else {
+      sarajevoMarkerRef.current?.closePopup();
+    }
+
+    Object.entries(countries).forEach(([code, polyData]) => {
+      const isAtWar = current.active.includes(code);
+      const layer = layersRef.current[code];
+      
+      if (layer) {
+        let color = '#475569'; // Slate-600 (Neutral)
+        let opacity = 0.3;
+        
+        if (isAtWar) {
+          if (['DE', 'AH'].includes(code)) {
+            color = '#DC2626'; // Red (Central)
+            opacity = 0.6;
+          }
+          if (['UK', 'FR', 'RU', 'SE'].includes(code)) {
+            color = '#2563EB'; // Blue (Allies)
+            opacity = 0.6;
+          }
+        }
+
+        layer.setStyle({
+          color: color,
+          fillColor: color,
+          fillOpacity: opacity
+        });
+      }
+    });
+
+  }, [dayIndex, leafletLoaded]);
+
+  return (
+    <div className="bg-slate-900 rounded-xl border border-slate-700 p-6 shadow-lg mb-12 w-full">
+      <div className="flex flex-col md:flex-row justify-between mb-6">
+        <h3 className="text-xl font-bold text-white flex items-center gap-2">
+          <MapIcon size={24} className="text-blue-500" /> The Spread of War (1914)
+        </h3>
+        <div className="text-right">
+          <div className="text-2xl font-bold text-amber-500">{current.date}</div>
+          <div className="text-sm text-slate-400">{current.event}</div>
+        </div>
+      </div>
+
+      <div className="relative w-full aspect-[16/9] md:aspect-[21/9] bg-slate-950 rounded-lg border border-slate-800 mb-6 overflow-hidden z-0">
+         {!leafletLoaded && (
+           <div className="absolute inset-0 flex items-center justify-center text-slate-500">
+             Loading Interactive Map...
+           </div>
+         )}
+         <div ref={mapContainerRef} className="w-full h-full rounded-lg" id="map-container" style={{zIndex: 0}}></div>
+         
+         {/* Legend Overlay */}
+         <div className="absolute bottom-4 left-4 bg-slate-900/90 p-3 rounded border border-slate-700 text-xs z-[1000]">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-3 h-3 rounded bg-red-600"></div> <span className="text-slate-300">Central Powers</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-3 h-3 rounded bg-blue-600"></div> <span className="text-slate-300">Allied Powers</span>
+            </div>
+         </div>
+      </div>
+
+      <div className="flex items-center gap-4 bg-slate-800 p-4 rounded-lg">
+        <button 
+          onClick={() => setDayIndex((d) => (d === timeline.length - 1 ? 0 : d + 1))}
+          className="p-2 bg-amber-600 rounded-full hover:bg-amber-500 transition-colors text-white flex-shrink-0"
+        >
+          {dayIndex === timeline.length - 1 ? <RotateCcw size={20} /> : <Play size={20} />}
+        </button>
+        <input 
+          type="range" 
+          min="0" 
+          max={timeline.length - 1} 
+          value={dayIndex}
+          onChange={(e) => setDayIndex(parseInt(e.target.value))}
+          className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-amber-500"
+        />
+        <div className="text-xs text-slate-400 whitespace-nowrap min-w-[60px] text-right">
+          Step {dayIndex + 1}/{timeline.length}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// --- Main App Component ---
+
+const Quiz = () => {
+  const [currentQ, setCurrentQ] = useState(0);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const [selected, setSelected] = useState(null);
+
+  const questions = [
+    {
+      q: "Which country's naval expansion alarmed Great Britain?",
+      options: ["France", "Russia", "Germany", "Austria-Hungary"],
+      correct: 2
+    },
+    {
+      q: "What was the 'Spark' that ignited the powder keg?",
+      options: ["Invasion of Poland", "Assassination of Archduke Franz Ferdinand", "Sinking of the Lusitania", "The Moroccan Crisis"],
+      correct: 1
+    },
+    {
+      q: "The Triple Entente consisted of which nations?",
+      options: ["Germany, Austria-Hungary, Italy", "USA, Britain, France", "Britain, France, Russia", "Russia, Serbia, Bulgaria"],
+      correct: 2
+    },
+    {
+      q: "Pan-Slavism is an example of which MAIN cause?",
+      options: ["Militarism", "Alliances", "Imperialism", "Nationalism"],
+      correct: 3
+    },
+    {
+      q: "What was Germany's 'Blank Check'?",
+      options: ["A large loan to Russia", "A promise of unconditional support to Austria-Hungary", "A peace treaty with France", "Payment for the construction of the Dreadnought"],
+      correct: 1
+    },
+    {
+      q: "Why did Great Britain enter the war on August 4, 1914?",
+      options: ["To support Serbia", "Because Germany invaded neutral Belgium", "Because France was attacked", "To gain new colonies"],
+      correct: 1
+    },
+    {
+      q: "The Schlieffen Plan was designed to prevent what?",
+      options: ["A war at sea", "American involvement", "A two-front war (France & Russia)", "The collapse of Austria-Hungary"],
+      correct: 2
+    },
+    {
+      q: "Which member of the Triple Alliance originally stayed neutral in 1914?",
+      options: ["Germany", "Austria-Hungary", "Italy", "Ottoman Empire"],
+      correct: 2
+    }
+  ];
+
+  const handleAnswer = (idx) => {
+    setSelected(idx);
+    setTimeout(() => {
+      if (idx === questions[currentQ].correct) setScore(s => s + 1);
+      
+      if (currentQ < questions.length - 1) {
+        setCurrentQ(c => c + 1);
+        setSelected(null);
+      } else {
+        setShowResult(true);
+      }
+    }, 1000);
+  };
+
+  const resetQuiz = () => {
+    setCurrentQ(0);
+    setScore(0);
+    setShowResult(false);
+    setSelected(null);
+  };
+
+  if (showResult) return (
+    <div className="bg-slate-800 p-8 rounded-xl text-center animate-fade-in border border-slate-700 max-w-2xl mx-auto">
+      <Award size={64} className="mx-auto text-amber-500 mb-4" />
+      <h3 className="text-2xl font-bold text-white mb-2">Quiz Complete!</h3>
+      <p className="text-slate-300 mb-6">You scored {score} out of {questions.length}</p>
+      <button onClick={resetQuiz} className="bg-amber-600 hover:bg-amber-700 text-white px-6 py-2 rounded-full transition-colors font-semibold">
+        Try Again
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="bg-slate-800 p-6 md:p-8 rounded-xl border border-slate-700 shadow-lg w-full">
+      <div className="flex justify-between items-center mb-6">
+        <h3 className="text-xl font-bold text-white flex items-center gap-2">
+          <Target size={20} className="text-amber-500" /> Knowledge Check
+        </h3>
+        <span className="text-slate-400 text-sm">Question {currentQ + 1}/{questions.length}</span>
+      </div>
+      
+      <p className="text-lg text-slate-200 mb-6 font-medium">{questions[currentQ].q}</p>
+      
+      <div className="grid grid-cols-1 gap-3">
+        {questions[currentQ].options.map((opt, idx) => (
+          <button
+            key={idx}
+            onClick={() => selected === null && handleAnswer(idx)}
+            className={`p-4 rounded-lg text-left transition-all ${
+              selected === null 
+                ? 'bg-slate-700 hover:bg-slate-600 text-slate-200' 
+                : selected === idx 
+                  ? (idx === questions[currentQ].correct ? 'bg-green-600 text-white' : 'bg-red-600 text-white')
+                  : 'bg-slate-700 opacity-50 text-slate-400'
+            }`}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default function MAINExplorer() {
+  const [activeTab, setActiveTab] = useState(null);
+  const [triggerOpen, setTriggerOpen] = useState(false);
+
+  const mainData = {
+    M: {
+      title: "Militarism",
+      icon: Shield,
+      color: "bg-red-600",
+      shortDesc: "The glorification of war and arms race.",
+      longDesc: "Militarism is the belief or desire of a government or people that a country should maintain a strong military capability and be prepared to use it aggressively to defend or promote national interests. In the early 20th century, an arms race began. Nations competed to build the largest armies and navies.",
+      example: "The naval rivalry between Great Britain and Germany. Britain launched the HMS Dreadnought in 1906, rendering all other battleships obsolete and triggering a massive German shipbuilding program.",
+      points: [
+        "Created an environment where war was seen as inevitable.",
+        "Generals had immense influence over government policy.",
+        "Military plans (like Germany's Schlieffen Plan) forced quick mobilization."
+      ]
+    },
+    A: {
+      title: "Alliances",
+      icon: Users,
+      color: "bg-blue-600",
+      shortDesc: "Defense agreements that pulled nations into war.",
+      longDesc: "A web of complex alliances bound European nations together. These were intended to keep peace by creating a balance of power, but instead, they ensured that a small local conflict would rapidly escalate into a general European war.",
+      example: "The Triple Entente (Britain, France, Russia) vs. The Triple Alliance (Germany, Austria-Hungary, Italy).",
+      points: [
+        "Turned a regional conflict in the Balkans into a World War.",
+        "Countries felt emboldened to act aggressively, knowing they had backup.",
+        "Created a 'chain reaction' effect after the assassination."
+      ]
+    },
+    I: {
+      title: "Imperialism",
+      icon: Globe,
+      color: "bg-green-600",
+      shortDesc: "Competition for colonies and resources.",
+      longDesc: "Imperialism occurs when a strong nation takes over a weaker nation or region and dominates its economic, political, or cultural life. European nations competed fiercely for colonies in Africa and Asia to gather raw materials and new markets.",
+      example: "The Scramble for Africa and the Moroccan Crises (1905 & 1911) where Germany challenged France's control, nearly leading to war.",
+      points: [
+        "Increased rivalry and mistrust between European powers.",
+        "Germany felt 'left out' of the colonial game and wanted its 'place in the sun'.",
+        "Conflicts in colonies often heightened tensions back in Europe."
+      ]
+    },
+    N: {
+      title: "Nationalism",
+      icon: Flag,
+      color: "bg-amber-600",
+      shortDesc: "Deep devotion to one's nation or ethnic group.",
+      longDesc: "Nationalism can be a unifying force (like in Germany or Italy) or a divisive one (like in the Austro-Hungarian or Ottoman Empires). It led to an intense form of patriotism and a desire for self-determination among oppressed ethnic groups.",
+      example: "Pan-Slavism: Russia felt a duty to lead and defend all Slavic peoples, specifically supporting Serbia against Austria-Hungary.",
+      points: [
+        "Destabilized multi-ethnic empires like Austria-Hungary.",
+        "France wanted revenge against Germany for the loss of Alsace-Lorraine (1871).",
+        "Created the 'Powder Keg' in the Balkans."
+      ]
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-amber-500 selection:text-white pb-20">
+      {/* Header */}
+      <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-40 shadow-lg">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-white">
+              <span className="text-amber-500">MAIN</span> Causes of WWI
+            </h1>
+          </div>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6 pt-10">
+        
+        {/* The Trigger Hero Section (Accordion Style) */}
+        <div className="mb-16 bg-gradient-to-r from-orange-900/20 to-red-900/20 border border-orange-500/30 rounded-2xl overflow-hidden shadow-2xl transition-all duration-500">
+          
+          {/* Trigger Header / Button */}
+          <button 
+            onClick={() => setTriggerOpen(!triggerOpen)}
+            className="w-full p-8 text-left flex items-center justify-between hover:bg-white/5 transition-colors group"
+          >
+            <div className="flex items-center gap-4">
+               <div className={`p-3 rounded-full ${triggerOpen ? 'bg-red-600 text-white' : 'bg-slate-800 text-red-500'} transition-colors`}>
+                 <Flame size={32} className={triggerOpen ? 'animate-pulse' : ''} />
+               </div>
+               <div>
+                 <div className="flex items-center gap-2 mb-1">
+                    <span className="px-3 py-1 bg-red-600 text-white text-xs font-bold rounded-full uppercase tracking-wider">The Trigger</span>
+                    <span className="text-slate-400 text-sm">June 28, 1914</span>
+                 </div>
+                 <h2 className="text-2xl md:text-4xl font-extrabold text-white group-hover:text-amber-500 transition-colors">
+                    The Spark that Lit the Powder Keg
+                 </h2>
+               </div>
+            </div>
+            {triggerOpen ? <ChevronUp size={32} className="text-slate-400" /> : <ChevronDown size={32} className="text-slate-400" />}
+          </button>
+
+          {/* Hidden Content */}
+          {triggerOpen && (
+            <div className="p-8 pt-0 animate-fade-in border-t border-white/10 bg-black/20">
+              <div className="relative z-10 grid md:grid-cols-3 gap-8 items-center mt-6">
+                <div className="md:col-span-2 space-y-4">
+                  <p className="text-lg text-slate-300 leading-relaxed max-w-2xl border-l-4 border-red-600 pl-4">
+                    While long-term tensions (MAIN) built up the explosives, the <strong>Assassination of Archduke Franz Ferdinand</strong> in Sarajevo was the match that blew it all up.
+                  </p>
+                  <div className="grid grid-cols-2 gap-4 text-sm text-slate-400 mt-4">
+                    <div className="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <strong className="text-white block mb-1">Target</strong>
+                        Archduke Franz Ferdinand (Heir to Austria-Hungary)
+                    </div>
+                    <div className="bg-slate-900 p-4 rounded-lg border border-slate-700">
+                        <strong className="text-white block mb-1">Assassin</strong>
+                        Gavrilo Princip (Serbian Nationalist)
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-black/40 backdrop-blur-sm p-6 rounded-xl border border-white/10 flex flex-col items-center text-center">
+                  <Flame className="text-amber-500 mb-4 h-12 w-12 animate-pulse" />
+                  <p className="font-serif text-xl italic text-slate-200">"One day the great European War will come out of some damned foolish thing in the Balkans."</p>
+                  <p className="text-sm text-slate-500 mt-2">— Otto von Bismarck (1888)</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Intro Text */}
+        <section className="text-center mb-12 space-y-4">
+           <h3 className="text-2xl font-bold text-slate-200">Four Underlying Causes</h3>
+           <p className="text-slate-400 max-w-2xl mx-auto">Click the cards below to understand the deep-rooted issues that made war inevitable.</p>
+        </section>
+
+        {/* Main Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
+          <Card 
+            title="Militarism" 
+            icon={Shield} 
+            color="bg-red-600" 
+            onClick={() => setActiveTab('M')} 
+            active={activeTab === 'M'}
+          />
+          <Card 
+            title="Alliances" 
+            icon={Users} 
+            color="bg-blue-600" 
+            onClick={() => setActiveTab('A')} 
+            active={activeTab === 'A'}
+          />
+          <Card 
+            title="Imperialism" 
+            icon={Globe} 
+            color="bg-green-600" 
+            onClick={() => setActiveTab('I')} 
+            active={activeTab === 'I'}
+          />
+          <Card 
+            title="Nationalism" 
+            icon={Flag} 
+            color="bg-amber-600" 
+            onClick={() => setActiveTab('N')} 
+            active={activeTab === 'N'}
+          />
+        </div>
+
+        {/* Detail Modal */}
+        {activeTab && (
+          <DetailView 
+            data={mainData[activeTab]} 
+            onClose={() => setActiveTab(null)} 
+          />
+        )}
+
+        {/* Interactive Modules Section */}
+        <h2 className="text-3xl font-bold text-white mb-8 border-l-4 border-amber-500 pl-4">How War Broke</h2>
+        
+        {/* Domino Effect Game */}
+        <DominoGame />
+
+        {/* Full Width Map */}
+        <div className="mb-12">
+           <WarMap />
+        </div>
+
+        {/* Quiz Section (Now at bottom) */}
+        <div className="mb-12">
+           <Quiz />
+        </div>
+
+      </main>
+      
+      {/* Footer */}
+      <footer className="border-t border-slate-900 mt-12 py-8 bg-slate-950 text-center">
+        <p className="text-slate-500 text-sm">
+          Interactive History Module • World War I Studies
+        </p>
+      </footer>
+    </div>
+  );
+}
