@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugenics Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Eugenics</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Word</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Eu-</span><span class="text-slate-500 mx-2">+</span><span class="text-amber-700">genes</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Eu-:</strong> A Greek prefix meaning <strong class="font-semibold">"good" or "well."</strong> (e.g., Utopia, Euphoria).</p>
+                <p><strong class="font-semibold text-yellow-900">Genes:</strong> From the Greek "genos," meaning <strong class="font-semibold">"birth" or "origin."</strong></p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, "eugenics" literally means "well-born" or "good birth."</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: Artificial Selection for Humans</h2>
+            <p class="text-blue-800 mb-4">
+                <strong class="font-semibold">Eugenics</strong> is a set of beliefs and practices that aims to improve the genetic quality of the human population. It applies the principles of selective breeding (like farming) to people. Supporters believed they could solve social problems by controlling who was allowed to have children.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 60" class="w-full max-w-lg mx-auto" aria-labelledby="eugenics-title">
+                    <title id="eugenics-title">A diagram showing a filter separating 'desirable' from 'undesirable' traits.</title>
+                    
+                    <!-- Population Group -->
+                    <text x="20" y="10" font-size="4" font-weight="bold" text-anchor="middle">Population</text>
+                    <circle cx="10" cy="20" r="3" fill="#22c55e"/> <!-- 'Good' -->
+                    <circle cx="20" cy="20" r="3" fill="#ef4444"/> <!-- 'Bad' -->
+                    <circle cx="30" cy="20" r="3" fill="#22c55e"/>
+                    <circle cx="15" cy="30" r="3" fill="#ef4444"/>
+                    <circle cx="25" cy="30" r="3" fill="#22c55e"/>
+
+                    <!-- The Filter (Wall) -->
+                    <rect x="45" y="10" width="10" height="40" fill="#4b5563"/>
+                    <text x="50" y="30" font-size="3" fill="white" text-anchor="middle" transform="rotate(-90 50 30)">The Eugenics Filter</text>
+
+                    <!-- Action Arrows -->
+                    <line x1="35" y1="20" x2="45" y2="20" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow-go)"/>
+                    <line x1="35" y1="30" x2="45" y2="30" stroke="#ef4444" stroke-width="2"/>
+                    <line x1="43" y1="28" x2="47" y2="32" stroke="#ef4444" stroke-width="2"/> <!-- X mark -->
+                    <line x1="47" y1="28" x2="43" y2="32" stroke="#ef4444" stroke-width="2"/>
+
+                    <!-- Result: Future -->
+                    <text x="80" y="10" font-size="4" font-weight="bold" text-anchor="middle">"Ideal" Future</text>
+                    <circle cx="70" cy="20" r="3" fill="#22c55e"/>
+                    <circle cx="80" cy="20" r="3" fill="#22c55e"/>
+                    <circle cx="90" cy="20" r="3" fill="#22c55e"/>
+                    <circle cx="75" cy="30" r="3" fill="#22c55e"/>
+                    <circle cx="85" cy="30" r="3" fill="#22c55e"/>
+                    
+                    <text x="80" y="45" font-size="3" text-anchor="middle" fill="#166534">Uniformity</text>
+                    <text x="20" y="45" font-size="3" text-anchor="middle" fill="#991b1b">Diversity Lost</text>
+
+                    <defs>
+                        <marker id="arrow-go" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#22c55e" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">Methods & Flaws</h2>
+            <p class="text-emerald-800 mb-4">
+               Eugenics was often presented as "science," but it was driven by social prejudice.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Negative Eugenics</h3>
+                    <p class="text-emerald-800 mt-1">Trying to reduce the number of "unfit" people. This included immigration bans, institutionalization, and <strong class="font-semibold">forced sterilization</strong> (surgery to prevent pregnancy).</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Positive Eugenics</h3>
+                    <p class="text-emerald-800 mt-1">Encouraging "fit" people (usually wealthy, white, and educated) to have more children through "Better Baby" contests and financial rewards.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg md:col-span-2">
+                    <h3 class="font-bold text-emerald-900 text-lg">The Fatal Flaw</h3>
+                    <p class="text-emerald-800 mt-1">Who decides what is "fit"? In the past, traits like poverty, criminal behaviour, low IQ scores, and even "immorality" were incorrectly blamed on genes. This allowed racism and classism to masquerade as biology.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Sexual Sterilization Act (Alberta)</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>In 1928, the province of Alberta passed the <em>Sexual Sterilization Act</em>. This law created a <strong class="font-semibold text-slate-900">Eugenics</strong> Board that could approve the surgical sterilization of people deemed "mentally defective." The goal was to prevent them from passing their "bad genes" to children. Over the next 44 years, nearly 3,000 Albertans were sterilized.</p>
+                <p>One victim was Leilani Muir. In 1955, she was admitted to a training school for "mental defectives" simply because she was a neglected child who had scored low on a single IQ test. At age 14, she was told she was getting an appendectomy, but the doctors actually sterilized her without her knowledge. She only found out years later when she tried to start a family. In 1996, she successfully sued the government, proving she was never "mentally defective" and exposing the cruelty of the <strong class="font-semibold text-slate-900">eugenics</strong> system.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
