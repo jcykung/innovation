@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selection Mechanics: Agent vs. Pressure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0fdf4; /* Light green background */
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .option-card {
+            transition: all 0.1s ease;
+            border-width: 2px;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-color: #94a3b8; /* slate-400 */
+        }
+
+        /* UPDATED: Selection Style */
+        .selected {
+            border-color: #2563eb !important; /* blue-600 */
+            border-width: 3px !important; /* Thicker border */
+            background-color: #eff6ff; /* blue-50 */
+            /* Removed font-weight change */
+        }
+
+        .correct-pulse {
+            animation: pulse-green 1s;
+        }
+
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(22, 163, 74, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-emerald-700 text-white shadow-lg">
+        <div class="max-w-4xl mx-auto px-4 py-6">
+            <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 20c-6.5-5.5-6.5-10.5 0-16" />
+                    <path d="M14 4c6.5 5.5 6.5 10.5 0 16" />
+                    <path d="M6 12h12" />
+                    <path d="M8 8h8" />
+                    <path d="M8 16h8" />
+                </svg>
+                Selection Mechanics
+            </h1>
+            <p class="text-emerald-100 mt-2">Understanding Selective Agents vs. Selective Pressures</p>
+        </div>
+    </header>
+
+    <main class="flex-grow container max-w-4xl mx-auto px-4 py-8">
+
+        <!-- Definitions Section -->
+        <section id="definitions" class="bg-white rounded-xl shadow-md p-6 mb-8 border-l-8 border-emerald-500">
+            <h2 class="text-xl font-bold mb-4 text-emerald-800 border-b pb-2">Key Concepts</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-blue-700 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                        Selective Agent
+                    </h3>
+                    <p class="text-sm text-slate-600 font-semibold mb-1">The "Who" or "What" &mdash; <span class="text-blue-600 font-bold">The Cause</span></p>
+                    <p class="text-slate-700 leading-relaxed">
+                        The specific environmental factor that acts on the population. It is the literal thing doing the selecting.
+                    </p>
+                    <ul class="mt-2 text-sm text-slate-500 list-disc list-inside">
+                        <li>A predator (e.g., hawk)</li>
+                        <li>A drug (e.g., antibiotic)</li>
+                        <li>A climate factor (e.g., drought)</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200">
+                    <h3 class="font-bold text-lg text-orange-700 mb-2 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        Selective Pressure
+                    </h3>
+                    <p class="text-sm text-slate-600 font-semibold mb-1">The "Force" or "Effect" &mdash; <span class="text-orange-600 font-bold">The Consequence</span></p>
+                    <p class="text-slate-700 leading-relaxed">
+                        The effect that the agent has on the population. It explains <em>why</em> survival is difficult.
+                    </p>
+                    <ul class="mt-2 text-sm text-slate-500 list-disc list-inside">
+                        <li>Predation</li>
+                        <li>Toxicity / Poisoning</li>
+                        <li>Dehydration / Starvation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Area -->
+        <div id="quiz-container" class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-200 h-2">
+                <div id="progress-bar" class="bg-emerald-500 h-2 transition-all duration-500" style="width: 0%"></div>
+            </div>
+
+            <!-- Intro Screen (Start) -->
+            <div id="start-screen" class="p-10 text-center">
+                <h2 class="text-2xl font-bold mb-4">Put your knowledge to the test</h2>
+                <p class="text-slate-600 mb-8">We will present 5 evolutionary scenarios from our bank. Identify the Agent and the Pressure for each.</p>
+                <div class="flex justify-center gap-4">
+                    <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-md">
+                        Start Challenge
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Screen -->
+            <div id="question-screen" class="hidden">
+                <!-- Scenario Description -->
+                <div class="bg-slate-100 p-6 border-b border-slate-200">
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide">
+                        Question <span id="question-count">1</span> of 5
+                    </span>
+                    <h3 id="scenario-title" class="text-xl font-bold mt-2 text-slate-800">Title</h3>
+                    <p id="scenario-text" class="mt-2 text-slate-700 text-lg leading-relaxed">Description goes here.</p>
+                </div>
+
+                <div class="p-6 grid md:grid-cols-2 gap-8">
+                    <!-- Agent Question -->
+                    <div>
+                        <h4 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                            1. Identify the Selective Agent
+                            <span class="text-xs font-normal text-slate-500">(The Who/What)</span>
+                        </h4>
+                        <div id="agent-options" class="space-y-2">
+                            <!-- Options injected here -->
+                        </div>
+                    </div>
+
+                    <!-- Pressure Question -->
+                    <div>
+                        <h4 class="font-bold text-orange-800 mb-3 flex items-center gap-2">
+                            2. Identify the Selective Pressure
+                            <span class="text-xs font-normal text-slate-500">(The Force)</span>
+                        </h4>
+                        <div id="pressure-options" class="space-y-2">
+                            <!-- Options injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feedback & Controls -->
+                <div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div id="feedback-area" class="flex-grow text-sm font-medium"></div>
+                    <button id="check-btn" onclick="checkAnswer()" class="w-full md:w-auto bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                        Check Answer
+                    </button>
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden w-full md:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors">
+                        Next Scenario &rarr;
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" class="hidden p-10 text-center fade-in">
+                <div class="mb-6 inline-flex p-4 rounded-full bg-emerald-100 text-emerald-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <h2 class="text-3xl font-bold mb-2">Round Complete!</h2>
+                <p class="text-lg text-slate-600 mb-6">You scored <span id="final-score" class="font-bold text-emerald-600">0</span> out of <span id="total-score">0</span>.</p>
+                <div id="score-message" class="text-slate-500 mb-8 italic"></div>
+                
+                <div class="flex justify-center gap-4">
+                    <button onclick="startQuiz()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-md">
+                        Start Next Round
+                    </button>
+                    <button onclick="resetBank()" class="bg-slate-500 hover:bg-slate-600 text-white font-bold py-3 px-8 rounded-full transition-transform hover:scale-105 shadow-md">
+                        Reset All History
+                    </button>
+                </div>
+                <p class="mt-4 text-xs text-slate-400">Questions remaining in bank: <span id="bank-remaining">0</span></p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400 py-6 text-center text-sm">
+        <p>Interactive Biology Learning Module</p>
+    </footer>
+
+    <script>
+        // Data: Complete Bank of Scenarios
+        const scenarioBank = [
+            {
+                title: "The Peppered Moth",
+                text: "During the Industrial Revolution, soot covered trees in England, turning them black. Light-coloured moths were easily seen against the dark bark, while dark-coloured moths blended in.",
+                agent: {
+                    options: ["The Soot", "Birds (Predators)", "The Industrial Factories"],
+                    correct: 1, 
+                    explanation: "The birds are the living things doing the actual selecting by eating the visible moths."
+                },
+                pressure: {
+                    options: ["Pollution", "Predation", "Camouflage"],
+                    correct: 1,
+                    explanation: "Predation is the force reducing the population of light moths."
+                }
+            },
+            {
+                title: "Antibiotic Resistance",
+                text: "A patient with a bacterial infection takes antibiotics. Most bacteria die, but a few with a mutation that resists the drug survive and reproduce, creating a resistant strain.",
+                agent: {
+                    options: ["The Antibiotic Drug", "The Patient's Immune System", "The Bacteria"],
+                    correct: 0,
+                    explanation: "The antibiotic is the environmental factor introduced that kills the non-resistant variants."
+                },
+                pressure: {
+                    options: ["Reproduction", "Infection", "Toxicity / Chemical Death"],
+                    correct: 2,
+                    explanation: "The pressure is the toxic effect of the drug killing susceptible bacteria."
+                }
+            },
+            {
+                title: "Cheetahs and Antelopes",
+                text: "On the savanna, slower antelopes are frequently caught and eaten. Over time, the antelope population becomes faster on average.",
+                agent: {
+                    options: ["The Grass", "The Cheetahs", "Running Speed"],
+                    correct: 1,
+                    explanation: "The cheetahs are the agent acting on the antelope population."
+                },
+                pressure: {
+                    options: ["Predation", "Starvation", "Competition"],
+                    correct: 0,
+                    explanation: "The fear of being eaten (predation) is the driving force."
+                }
+            },
+            {
+                title: "Desert Cacti",
+                text: "In a harsh desert, plants with thin leaves lose too much water and die. Cacti with thick, waxy skin and spines survive to reproduce.",
+                agent: {
+                    options: ["The Sand", "The Arid Climate / Heat", "The Spines"],
+                    correct: 1,
+                    explanation: "The hot, dry climate is the environmental factor acting on the plants."
+                },
+                pressure: {
+                    options: ["Desiccation (Dehydration)", "Herbivory", "Sunburn"],
+                    correct: 0,
+                    explanation: "Water loss (desiccation) is the force killing the non-adapted plants."
+                }
+            },
+            {
+                title: "Pesticide Resistance",
+                text: "A farmer sprays a field to kill beetles. Initially, 99% die. The 1% that survive have a gene allowing them to break down the poison. They breed, and soon the spray doesn't work.",
+                agent: {
+                    options: ["The Farmer", "The Crops", "The Pesticide"],
+                    correct: 2,
+                    explanation: "The pesticide chemical is the agent selecting against the beetles."
+                },
+                pressure: {
+                    options: ["Toxicity", "Habitat Loss", "Overpopulation"],
+                    correct: 0,
+                    explanation: "The toxic nature of the chemical creates the pressure for survival."
+                }
+            },
+            {
+                title: "Darwin's Finches",
+                text: "On the Galapagos islands, a drought hardened the available seeds. Finches with small beaks couldn't crack them and starved, while finches with large beaks survived.",
+                agent: {
+                    options: ["The Drought", "The Seeds (Availability/Hardness)", "The Beaks"],
+                    correct: 1,
+                    explanation: "The food source (seeds) acted as the agent; only those who could eat them survived."
+                },
+                pressure: {
+                    options: ["Starvation", "Thirst", "Competition for Space"],
+                    correct: 0,
+                    explanation: "Starvation was the force that eliminated the small-beaked birds."
+                }
+            },
+            {
+                title: "Sickle Cell Anemia",
+                text: "In regions with Malaria, people with one Sickle Cell gene are resistant to the disease. Those without it die from Malaria more often. Thus, the gene remains common.",
+                agent: {
+                    options: ["The Mosquito", "The Malaria Parasite", "Red Blood Cells"],
+                    correct: 1,
+                    explanation: "The parasite causing the disease is the agent killing those without resistance."
+                },
+                pressure: {
+                    options: ["Anemia", "Infection / Disease", "Mutation"],
+                    correct: 1,
+                    explanation: "The disease pressure (infection) selects for the resistant genotype."
+                }
+            },
+            {
+                title: "Polar Bear Fur",
+                text: "Ancestral bears with darker fur were easily spotted by prey in the snow and went hungry. Bears with lighter, white fur could sneak up on seals effectively.",
+                agent: {
+                    options: ["The Snow", "The Prey (Seals)", "The Temperature"],
+                    correct: 1,
+                    explanation: "The prey (seals) are the ones 'selecting' the bears by escaping from the visible ones."
+                },
+                pressure: {
+                    options: ["Starvation", "Freezing", "Predation"],
+                    correct: 0,
+                    explanation: "Inability to catch food leads to starvation, which is the selective pressure here."
+                }
+            },
+            {
+                title: "Guppy Colouration",
+                text: "In pools with many predators, male guppies are dull-coloured to hide. In pools without predators, males are bright to attract females.",
+                agent: {
+                    options: ["The Water", "Predatory Fish", "Food Availability"],
+                    correct: 1,
+                    explanation: "The predatory fish eat the bright ones, acting as the selective agent."
+                },
+                pressure: {
+                    options: ["Predation", "Sexual Selection", "Competition"],
+                    correct: 0,
+                    explanation: "Predation is the pressure keeping them dull. (Note: Female choice is a different pressure!)"
+                }
+            },
+            {
+                title: "Lactose Tolerance",
+                text: "In ancient cattle-herding human societies, those who could digest milk (lactose) had a nutritional advantage during famines over those who got sick from it.",
+                agent: {
+                    options: ["Cows", "Milk (Dietary Environment)", "Famine"],
+                    correct: 1,
+                    explanation: "The diet available (milk) was the environmental factor acting on the population."
+                },
+                pressure: {
+                    options: ["Starvation / Malnutrition", "Obesity", "Allergies"],
+                    correct: 0,
+                    explanation: "Those who couldn't drink milk risked starvation or malnutrition during food shortages."
+                }
+            }
+        ];
+
+        // State
+        let availableScenarioIndices = []; // Stores indices of scenarios not yet used
+        let currentBatch = []; // Stores the specific scenarios for the current round
+        let currentBatchIndex = 0; // Tracks progress within the batch
+        let score = 0;
+        let selectedAgent = null;
+        let selectedPressure = null;
+        const BATCH_SIZE = 5;
+
+        // Initialize Bank
+        function initBank() {
+            availableScenarioIndices = Array.from({length: scenarioBank.length}, (_, i) => i);
+        }
+
+        // Initialize on load
+        initBank();
+
+        // DOM Elements
+        const screens = {
+            start: document.getElementById('start-screen'),
+            question: document.getElementById('question-screen'),
+            results: document.getElementById('results-screen')
+        };
+        const progressBar = document.getElementById('progress-bar');
+        const feedbackArea = document.getElementById('feedback-area');
+        const checkBtn = document.getElementById('check-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const bankRemainingEl = document.getElementById('bank-remaining');
+
+        // Functions
+        function startQuiz() {
+            // Check if we need to reset bank
+            if (availableScenarioIndices.length === 0) {
+                initBank();
+            }
+
+            // Prepare Batch
+            currentBatch = [];
+            const countToTake = Math.min(BATCH_SIZE, availableScenarioIndices.length);
+            
+            for (let i = 0; i < countToTake; i++) {
+                // Pick random index from available
+                const randomIdx = Math.floor(Math.random() * availableScenarioIndices.length);
+                const scenarioIndex = availableScenarioIndices[randomIdx];
+                
+                // Add to batch and remove from available
+                currentBatch.push(scenarioBank[scenarioIndex]);
+                availableScenarioIndices.splice(randomIdx, 1);
+            }
+
+            // Reset Quiz State
+            score = 0;
+            currentBatchIndex = 0;
+            
+            // Switch Screens
+            screens.start.classList.add('hidden');
+            screens.results.classList.add('hidden');
+            screens.question.classList.remove('hidden');
+            
+            renderScenario();
+        }
+
+        function renderScenario() {
+            // Reset State for Question
+            selectedAgent = null;
+            selectedPressure = null;
+            feedbackArea.innerHTML = '';
+            feedbackArea.className = 'flex-grow text-sm font-medium'; 
+            checkBtn.classList.remove('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Update Progress
+            const progress = (currentBatchIndex / currentBatch.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
+            const scenario = currentBatch[currentBatchIndex];
+
+            // Render Text
+            document.getElementById('question-count').textContent = `${currentBatchIndex + 1} of ${currentBatch.length}`;
+            document.getElementById('scenario-title').textContent = scenario.title;
+            document.getElementById('scenario-text').textContent = scenario.text;
+
+            // Render Options
+            renderOptions('agent', scenario.agent.options);
+            renderOptions('pressure', scenario.pressure.options);
+        }
+
+        function renderOptions(type, options) {
+            const container = document.getElementById(`${type}-options`);
+            container.innerHTML = '';
+            
+            options.forEach((opt, index) => {
+                const btn = document.createElement('div');
+                // Removed explicit font-weight styles here to rely on CSS class
+                btn.className = `option-card border-slate-200 rounded-lg p-3 cursor-pointer bg-white select-none`;
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(type, index, btn);
+                btn.dataset.index = index;
+                container.appendChild(btn);
+            });
+        }
+
+        function selectOption(type, index, element) {
+            // Clear previous selection visually
+            const container = document.getElementById(`${type}-options`);
+            Array.from(container.children).forEach(child => {
+                child.classList.remove('selected');
+                child.classList.remove('border-emerald-500'); // Clean up old styles just in case
+            });
+
+            // Set visual selection
+            element.classList.add('selected');
+
+            // Update state
+            if (type === 'agent') selectedAgent = index;
+            if (type === 'pressure') selectedPressure = index;
+        }
+
+        function checkAnswer() {
+            if (selectedAgent === null || selectedPressure === null) {
+                feedbackArea.innerHTML = '<span class="text-red-600 flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Please select an option for both questions.</span>';
+                return;
+            }
+
+            const scenario = currentBatch[currentBatchIndex];
+            const isAgentCorrect = selectedAgent === scenario.agent.correct;
+            const isPressureCorrect = selectedPressure === scenario.pressure.correct;
+
+            // Lock Options
+            const allOptions = document.querySelectorAll('.option-card');
+            allOptions.forEach(opt => opt.style.pointerEvents = 'none');
+
+            // Visual Feedback on Options
+            const agentContainer = document.getElementById('agent-options');
+            const pressureContainer = document.getElementById('pressure-options');
+
+            highlightOptions(agentContainer, scenario.agent.correct, selectedAgent);
+            highlightOptions(pressureContainer, scenario.pressure.correct, selectedPressure);
+
+            let feedbackHTML = '';
+
+            if (isAgentCorrect && isPressureCorrect) {
+                score++;
+                feedbackHTML = `<div class="text-emerald-700 bg-emerald-50 p-3 rounded border border-emerald-200">
+                    <strong>Correct!</strong> <br/>
+                    <span class="text-xs">Agent: ${scenario.agent.explanation}</span><br/>
+                    <span class="text-xs">Pressure: ${scenario.pressure.explanation}</span>
+                </div>`;
+            } else {
+                feedbackHTML = `<div class="text-red-700 bg-red-50 p-3 rounded border border-red-200">
+                    <strong>Not quite.</strong> <br/>
+                    <span class="text-xs text-slate-700">Correct Agent: ${scenario.agent.options[scenario.agent.correct]}</span><br/>
+                    <span class="text-xs text-slate-700">Correct Pressure: ${scenario.pressure.options[scenario.pressure.correct]}</span>
+                </div>`;
+            }
+
+            feedbackArea.innerHTML = feedbackHTML;
+            checkBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+        }
+
+        function highlightOptions(container, correctIndex, selectedIndex) {
+            const options = container.children;
+            
+            // Remove selection class to avoid color clashing, but keep width if desired or reset
+            // We'll just override with specific correct/wrong classes
+            
+            // Mark Correct
+            options[correctIndex].classList.remove('selected');
+            options[correctIndex].classList.add('bg-emerald-200', 'border-emerald-600', 'text-emerald-900', 'font-bold');
+            options[correctIndex].style.borderWidth = "2px"; 
+            options[correctIndex].innerHTML += ' ✅';
+            
+            // Mark Wrong if selected
+            if (selectedIndex !== correctIndex) {
+                options[selectedIndex].classList.remove('selected');
+                options[selectedIndex].classList.add('bg-red-100', 'border-red-400', 'text-red-900', 'line-through');
+                options[selectedIndex].style.borderWidth = "2px";
+            }
+        }
+
+        function nextQuestion() {
+            currentBatchIndex++;
+            if (currentBatchIndex < currentBatch.length) {
+                renderScenario();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            screens.question.classList.add('hidden');
+            screens.results.classList.remove('hidden');
+            progressBar.style.width = '100%';
+
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('total-score').textContent = currentBatch.length;
+            bankRemainingEl.textContent = availableScenarioIndices.length;
+
+            const msgElement = document.getElementById('score-message');
+            if (score === currentBatch.length) {
+                msgElement.textContent = "Perfect! You're a master of evolutionary mechanics.";
+            } else if (score > currentBatch.length / 2) {
+                msgElement.textContent = "Great job! You have a solid understanding.";
+            } else {
+                msgElement.textContent = "Keep practicing! Remember: The Agent is the 'Who', the Pressure is the 'Force'.";
+            }
+        }
+
+        function resetBank() {
+            initBank();
+            alert("Scenario history reset. You will now see questions from the beginning.");
+            startQuiz();
+        }
+
+    </script>
+</body>
+</html>
