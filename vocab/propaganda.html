@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propaganda Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Propaganda</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Terms</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Propagare</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Propagare:</strong> A Latin verb meaning <strong class="font-semibold">"to spread," "to increase," or "to multiply."</strong> (Related to 'propagate' in gardening).</p>
+                <p><strong class="font-semibold text-yellow-900">History:</strong> Originally used by the Catholic Church in the 1600s ("Congregation for Propagating the Faith").</p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, "propaganda" is information spread specifically to promote a cause or point of view.</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: Persuasion Over Truth</h2>
+            <p class="text-blue-800 mb-4">
+                <strong class="font-semibold">Propaganda</strong> is communication used to influence the opinions and behaviors of large numbers of people. Unlike education, which aims to present facts objectively, propaganda is biased. It appeals to emotions (fear, pride, anger) rather than logic to steer the audience toward a specific conclusion.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 60" class="w-full max-w-lg mx-auto" aria-labelledby="propaganda-title">
+                    <title id="propaganda-title">A diagram showing a megaphone filtering information to an audience.</title>
+                    
+                    <!-- The Source (Propagandist) -->
+                    <rect x="5" y="20" width="20" height="20" fill="#475569" rx="2"/>
+                    <text x="15" y="32" font-size="4" font-weight="bold" text-anchor="middle" fill="white">Source</text>
+                    
+                    <!-- The Megaphone (The Filter/Media) -->
+                    <path d="M 30 25 L 30 35 L 40 35 L 60 50 L 60 10 L 40 25 Z" fill="#ef4444" stroke="#991b1b"/>
+                    <text x="45" y="32" font-size="3" font-weight="bold" fill="white">Bias</text>
+
+                    <!-- Sound Waves (The Message) -->
+                    <path d="M 65 20 Q 70 30, 65 40" stroke="#ef4444" stroke-width="2" fill="none"/>
+                    <path d="M 70 15 Q 80 30, 70 45" stroke="#ef4444" stroke-width="2" fill="none"/>
+                    <path d="M 75 10 Q 90 30, 75 50" stroke="#ef4444" stroke-width="2" fill="none"/>
+                    
+                    <!-- The Audience -->
+                    <circle cx="90" cy="20" r="3" fill="#3b82f6"/>
+                    <circle cx="90" cy="30" r="3" fill="#3b82f6"/>
+                    <circle cx="90" cy="40" r="3" fill="#3b82f6"/>
+                    <text x="90" y="55" font-size="4" font-weight="bold" text-anchor="middle" fill="#1e3a8a">Audience</text>
+
+                    <!-- Labels -->
+                    <text x="50" y="58" font-size="3" text-anchor="middle" fill="#475569" font-style="italic">Emotional Appeal</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts: Aims of Propaganda -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">Aims of Canadian War Propaganda</h2>
+            <p class="text-emerald-800 mb-4">
+               During the World Wars, the Canadian government used propaganda with three specific goals in mind to ensure victory.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">1. Recruit Soldiers</h3>
+                    <p class="text-emerald-800 mt-1 text-sm">Posters played on a sense of duty, pride, or guilt to convince young men to enlist immediately.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">2. Support the War Effort</h3>
+                    <p class="text-emerald-800 mt-1 text-sm">Civilians were urged to buy Victory Bonds and ration food. It made ordinary actions feel heroic and essential.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">3. Vilify the Enemy</h3>
+                    <p class="text-emerald-800 mt-1 text-sm">Propaganda depicted the enemy as terrifying monsters or barbarians to provoke anger and justify the fighting.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context: WWI -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: Recruitment in WWI</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>During World War I, Britain (and Canada) needed millions of men to volunteer for the army. The government used <strong class="font-semibold text-slate-900">propaganda</strong> posters to manipulate men's sense of pride, duty, and shame.</p>
+                <p>One famous poster showed a father sitting in an armchair after the war, while his daughter asks, "Daddy, what did YOU do in the Great War?" The father looks away, silent and ashamed. This used the technique of <strong class="font-semibold text-slate-900">Emotional Appeal (Guilt)</strong>. It didn't mention the low pay or the deadly trenches. Instead, it bypassed logic to target a deep personal fear: the fear of future embarrassment in front of one's own family. It effectively shamed thousands of men into enlisting.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
