@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacifist Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Pacifist</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Term</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Pax</span><span class="text-slate-500 mx-2">+</span><span class="text-amber-700">Facere</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Pax:</strong> The Latin word for <strong class="font-semibold">"peace."</strong></p>
+                <p><strong class="font-semibold text-yellow-900">Facere:</strong> The Latin verb meaning <strong class="font-semibold">"to make."</strong></p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">So, a "pacifist" is literally a "peace maker."</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: Opposition to War</h2>
+            <p class="text-blue-800 mb-4">
+                A <strong class="font-semibold">pacifist</strong> is someone who believes that war and violence are unjustifiable. They believe that conflicts between nations should be settled by peaceful means, such as diplomacy, negotiation, or non-violent protest, rather than by fighting.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 60" class="w-full max-w-lg mx-auto" aria-labelledby="pacifist-title">
+                    <title id="pacifist-title">A diagram showing the choice between violence and pacifism in response to conflict.</title>
+                    
+                    <!-- Starting Point: Conflict -->
+                    <rect x="5" y="25" width="20" height="10" fill="#475569" rx="2"/>
+                    <text x="15" y="31" font-size="3.5" font-weight="bold" fill="white" text-anchor="middle">CONFLICT</text>
+
+                    <!-- Forking Paths -->
+                    <!-- Path 1: Violence (Up) -->
+                    <path d="M 25 30 L 35 30 L 45 15 L 60 15" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrow-red)"/>
+                    <text x="52" y="10" font-size="3.5" fill="#991b1b" font-weight="bold" text-anchor="middle">Choose Violence</text>
+                    <!-- Icon: X -->
+                    <line x1="68" y1="12" x2="74" y2="18" stroke="#991b1b" stroke-width="2"/>
+                    <line x1="74" y1="12" x2="68" y2="18" stroke="#991b1b" stroke-width="2"/>
+                    <text x="88" y="16" font-size="3.5" fill="#991b1b" text-anchor="middle">Destruction</text>
+
+                    <!-- Path 2: Pacifism (Down) -->
+                    <path d="M 25 30 L 35 30 L 45 45 L 60 45" stroke="#1e3a8a" stroke-width="2" fill="none" marker-end="url(#arrow-blue)"/>
+                    <text x="52" y="55" font-size="3.5" fill="#1e3a8a" font-weight="bold" text-anchor="middle">Choose Pacifism</text>
+                    <!-- Icon: Check/Shake -->
+                    <path d="M 68 45 L 70 47 L 74 41" stroke="#1e3a8a" stroke-width="2" fill="none"/>
+                    <text x="88" y="46" font-size="3.5" fill="#1e3a8a" text-anchor="middle">Resolution</text>
+
+                    <defs>
+                        <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+                        </marker>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e3a8a" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">Types of Pacifism</h2>
+            <p class="text-emerald-800 mb-4">
+               Not all pacifists think exactly alike. The degree of their opposition to violence can vary.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Absolute Pacifism</h3>
+                    <p class="text-emerald-800 mt-1">The belief that violence is <em>always</em> wrong, even in self-defense or to protect others. An absolute pacifist would refuse to kill under any circumstance.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Conditional Pacifism</h3>
+                    <p class="text-emerald-800 mt-1">The belief that war is generally bad, but might be the "lesser of two evils" in extreme cases (e.g., fighting to stop a genocide or a brutal dictator).</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg md:col-span-2">
+                    <h3 class="font-bold text-emerald-900 text-lg">Religious Pacifism</h3>
+                    <p class="text-emerald-800 mt-1">Many religious groups, such as the Mennonites, Quakers, and Doukhobors, are pacifists because their interpretation of their faith strictly forbids killing.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: Conscientious Objectors in WWI</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>During World War I, the pressure to enlist in the army was enormous. Men who refused to fight were often called cowards or given white feathers as a symbol of shame. However, thousands of men refused to join the military because they were <strong class="font-semibold text-slate-900">pacifists</strong>. These men were known as "Conscientious Objectors."</p>
+                <p>In Canada, many Conscientious Objectors came from religious communities like the Mennonites and Doukhobors. They argued that their moral duty to God ("Thou shall not kill") was higher than their duty to the government. The government treated them harshly. When <strong class="font-semibold text-slate-900">conscription</strong> was introduced in 1917, many pacifists were stripped of their right to vote, and some were imprisoned for refusing to wear a uniform or hold a weapon. Their stand highlights the difficult conflict between personal ethics and national demands during a crisis.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
