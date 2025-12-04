@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conscription Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Conscription</h1>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Word</h2>
+            <div class="flex items-center justify-center text-2xl font-semibold mb-4 bg-yellow-50 p-3 rounded-lg">
+                <span class="text-amber-700">Con-</span><span class="text-slate-500 mx-2">+</span><span class="text-amber-700">Scribere</span>
+            </div>
+            <div class="space-y-3 text-yellow-800">
+                <p><strong class="font-semibold text-yellow-900">Con-:</strong> A Latin prefix meaning <strong class="font-semibold">"with" or "together."</strong></p>
+                <p><strong class="font-semibold text-yellow-900">Scribere:</strong> A Latin verb meaning <strong class="font-semibold">"to write."</strong></p>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">Literally, it means "writing names together on a list."</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: Compulsory Service</h2>
+            <p class="text-blue-800 mb-4">
+                <strong class="font-semibold">Conscription</strong> (often called "the draft") is the mandatory enlistment of people in a national service, usually the military. It happens when a government passes a law requiring citizens to fight, rather than relying on volunteers.
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 60" class="w-full max-w-lg mx-auto" aria-labelledby="conscription-title">
+                    <title id="conscription-title">A diagram contrasting volunteering with conscription.</title>
+                    
+                    <!-- Left Side: Volunteer -->
+                    <text x="25" y="10" font-size="4" font-weight="bold" text-anchor="middle" fill="#1e3a8a">Volunteering</text>
+                    <rect x="10" y="15" width="30" height="35" fill="#bfdbfe" rx="2"/>
+                    <circle cx="25" cy="25" r="3" fill="#1e3a8a"/> <!-- Person -->
+                    <path d="M 25 30 L 25 40" stroke="#1e3a8a" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="25" y="45" font-size="3" text-anchor="middle">"I choose to go"</text>
+
+                    <!-- Divider -->
+                    <line x1="50" y1="10" x2="50" y2="50" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
+
+                    <!-- Right Side: Conscription -->
+                    <text x="75" y="10" font-size="4" font-weight="bold" text-anchor="middle" fill="#b91c1c">Conscription</text>
+                    <rect x="60" y="15" width="30" height="35" fill="#fecaca" rx="2"/>
+                    <circle cx="75" cy="25" r="3" fill="#b91c1c"/> <!-- Person -->
+                    <!-- Hand pointing -->
+                    <path d="M 90 25 L 80 25" stroke="#7f1d1d" stroke-width="2" marker-end="url(#arrow-red)"/>
+                    <text x="75" y="45" font-size="3" text-anchor="middle">"You MUST go"</text>
+                    <text x="75" y="48" font-size="2.5" text-anchor="middle" font-style="italic">(By Law)</text>
+
+                    <defs>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#1e3a8a" />
+                        </marker>
+                        <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                          <path d="M 0 0 L 10 5 L 0 10 z" fill="#b91c1c" />
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">The Great Debate</h2>
+            <p class="text-emerald-800 mb-4">
+               Conscription is always controversial because it clashes two important values: National Security vs. Individual Freedom.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Argument FOR</h3>
+                    <p class="text-emerald-800 mt-1"><strong>"Equal Sacrifice."</strong> If the country is in danger, everyone should share the burden of defense, not just those willing to volunteer. It ensures the army has enough soldiers to win.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">Argument AGAINST</h3>
+                    <p class="text-emerald-800 mt-1"><strong>"Loss of Liberty."</strong> Forcing someone to fight and potentially die against their will is a violation of their basic rights. Many argue a government shouldn't have that much power over a citizen.</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg md:col-span-2">
+                    <h3 class="font-bold text-emerald-900 text-lg">Exemptions</h3>
+                    <p class="text-emerald-800 mt-1">Not everyone is conscripted. Common exemptions include those with medical issues, essential workers (like farmers producing food), and <strong class="font-semibold">Conscientious Objectors</strong> (people who refuse to fight for religious or moral reasons).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Crisis of 1917</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>By 1917, World War I had become a deadly war of attrition. Canada had lost so many men in battles like Vimy Ridge that the number of volunteers couldn't keep up with the casualties. Prime Minister Robert Borden, who had promised not to use <strong class="font-semibold text-slate-900">conscription</strong>, felt he had no choice but to break his promise to keep the army strong.</p>
+                <p>He passed the <em>Military Service Act</em>, making enlistment mandatory. This tore the country apart. English-Canadians generally supported it, believing Canada had to support Britain. French-Canadians deeply opposed it; they felt no loyalty to the British Empire and believed it wasn't their war. Riots broke out in Quebec. While <strong class="font-semibold text-slate-900">conscription</strong> did send 24,000 more soldiers to the front, it left a scar of division between English and French Canada that lasted for decades.</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
