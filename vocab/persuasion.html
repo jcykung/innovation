@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Persuasion Explained - Printable Handout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .info-section {
+            border: 1px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+        }
+        /* Print-specific styles */
+        @media print {
+            body {
+                font-family: 'Times New Roman', serif;
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .info-section {
+                border: 1px solid #cccccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                border-radius: 0;
+                page-break-inside: avoid;
+            }
+            h1, h2, h3, p, li, strong, text {
+                color: #000000 !important;
+            }
+            .info-section, .bg-white {
+                background-color: #ffffff !important;
+            }
+            svg {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8 max-w-3xl">
+
+        <!-- Header Section -->
+        <header class="text-center mb-6 p-4 info-section bg-white">
+            <h1 class="text-4xl font-bold text-slate-900">Persuasion</h1>
+            <p class="text-lg text-slate-600 mt-2">Ethos, Pathos, and Logos</p>
+        </header>
+
+        <!-- Word Breakdown Section -->
+        <div class="info-section bg-yellow-100">
+            <h2 class="text-2xl font-bold text-yellow-900 mb-4">Breaking Down the Terms</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <span class="text-amber-700 font-bold text-xl">Ethos</span>
+                    <p class="text-sm text-yellow-800 mt-2">Greek for <strong class="font-semibold">"Character."</strong></p>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <span class="text-amber-700 font-bold text-xl">Pathos</span>
+                    <p class="text-sm text-yellow-800 mt-2">Greek for <strong class="font-semibold">"Suffering" or "Experience."</strong></p>
+                </div>
+                <div class="bg-yellow-50 p-3 rounded-lg">
+                    <span class="text-amber-700 font-bold text-xl">Logos</span>
+                    <p class="text-sm text-yellow-800 mt-2">Greek for <strong class="font-semibold">"Word" or "Reason."</strong></p>
+                </div>
+            </div>
+            <hr class="my-4 border-yellow-300">
+            <p class="text-center font-semibold text-yellow-900">These are the three "modes of persuasion" identified by the philosopher Aristotle over 2,300 years ago.</p>
+        </div>
+
+        <!-- The Core Idea -->
+        <div class="info-section bg-blue-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-3">The Core Idea: The Rhetorical Triangle</h2>
+            <p class="text-blue-800 mb-4">
+                To persuade someone effectively, you usually need a mix of three things: you need them to trust you (Ethos), you need them to feel something (Pathos), and you need your argument to make sense (Logos).
+            </p>
+            <div class="w-full">
+                 <svg viewBox="0 0 100 75" class="w-full max-w-lg mx-auto" aria-labelledby="triangle-title">
+                    <title id="triangle-title">A diagram of the Rhetorical Triangle.</title>
+                    
+                    <!-- Triangle -->
+                    <polygon points="50,10 10,65 90,65" fill="none" stroke="#1e3a8a" stroke-width="2"/>
+
+                    <!-- Top: Logos -->
+                    <circle cx="50" cy="10" r="8" fill="#bfdbfe" stroke="#1d4ed8"/>
+                    <text x="50" y="8" font-size="3.5" font-weight="bold" text-anchor="middle" fill="#1e3a8a">LOGOS</text>
+                    <text x="50" y="13" font-size="2.5" text-anchor="middle" fill="#1e3a8a">(Logic)</text>
+
+                    <!-- Bottom Left: Ethos -->
+                    <circle cx="10" cy="65" r="8" fill="#bfdbfe" stroke="#1d4ed8"/>
+                    <text x="10" y="63" font-size="3.5" font-weight="bold" text-anchor="middle" fill="#1e3a8a">ETHOS</text>
+                    <text x="10" y="68" font-size="2.5" text-anchor="middle" fill="#1e3a8a">(Credibility)</text>
+
+                    <!-- Bottom Right: Pathos -->
+                    <circle cx="90" cy="65" r="8" fill="#bfdbfe" stroke="#1d4ed8"/>
+                    <text x="90" y="63" font-size="3.5" font-weight="bold" text-anchor="middle" fill="#1e3a8a">PATHOS</text>
+                    <text x="90" y="68" font-size="2.5" text-anchor="middle" fill="#1e3a8a">(Emotion)</text>
+
+                    <!-- Connections -->
+                    <text x="50" y="40" font-size="4" font-weight="bold" text-anchor="middle" fill="#475569">PERSUASION</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Key Concepts -->
+        <div class="info-section bg-emerald-100">
+            <h2 class="text-2xl font-bold text-emerald-900 mb-3">The Three Appeals</h2>
+            <div class="space-y-4">
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">1. Ethos (Credibility)</h3>
+                    <p class="text-emerald-800 mt-1">Focuses on the <strong>Speaker</strong>. Can the audience trust you? Are you an expert? Are you fair?</p>
+                    <p class="text-emerald-700 text-sm mt-1 italic">Example: "As a doctor with 20 years of experience, I recommend this treatment."</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">2. Pathos (Emotion)</h3>
+                    <p class="text-emerald-800 mt-1">Focuses on the <strong>Audience</strong>. Making them feel emotions like fear, pity, love, or anger to motivate them to act.</p>
+                    <p class="text-emerald-700 text-sm mt-1 italic">Example: "If we don't act now, these innocent puppies will have no home."</p>
+                </div>
+                <div class="bg-emerald-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-emerald-900 text-lg">3. Logos (Logic)</h3>
+                    <p class="text-emerald-800 mt-1">Focuses on the <strong>Message</strong>. Using facts, statistics, historical evidence, and clear reasoning.</p>
+                    <p class="text-emerald-700 text-sm mt-1 italic">Example: "It costs 50% less to operate and saves $200 a year in energy."</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reading in Context -->
+        <div class="info-section bg-slate-100">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4">Reading in Context: The Podcast Episode</h2>
+            <div class="space-y-4 text-slate-700">
+                <p>Maya and Leo are recording a podcast episode about the local animal shelter. They want to persuade their teenage listeners to volunteer their time on weekends. To make an excellent episode, they strategically use all three appeals.</p>
+                <ul class="list-disc list-inside space-y-2">
+                    <li><strong class="font-semibold text-indigo-700">Ethos (Building Trust):</strong> They begin by interviewing the shelter director, an expert in animal care, and mention that they have both been volunteering there for six months. This shows the audience they know what they are talking about.</li>
+                    <li><strong class="font-semibold text-indigo-700">Pathos (Engaging Emotion):</strong> They play audio clips of happy dogs barking and tell the heartwarming story of "Barnaby," an old cat who finally found a forever home after years of waiting. This creates an emotional bond with the audience.</li>
+                    <li><strong class="font-semibold text-indigo-700">Logos (Making Sense):</strong> They end with facts: "The shelter has 50 dogs but only 10 walkers. If 10 listeners sign up for just one hour a week, every dog gets walked." This provides a logical, practical solution that is hard to argue against.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
