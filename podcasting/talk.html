@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The TALK Framework for Podcast Interviews</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Merriweather:ital,wght@1,300;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #0f172a; /* Slate 900 */
+      }
+      .serif-quote {
+        font-family: "Merriweather", serif;
+      }
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease-in-out;
+      }
+      .card-shadow:hover {
+        transform: translateY(-5px);
+      }
+    </style>
+  </head>
+  <body
+    class="min-h-screen text-slate-100 p-4 md:p-8 flex items-center justify-center"
+  >
+    <!-- Main Container -->
+    <div
+      class="max-w-7xl w-full mx-auto bg-slate-800 rounded-3xl overflow-hidden shadow-2xl border border-slate-700"
+    >
+      <!-- Header Section -->
+      <header
+        class="text-center p-8 md:p-12 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-slate-700 relative overflow-hidden"
+      >
+        <!-- Decorative Background Element -->
+        <div
+          class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+        >
+          <svg width="100%" height="100%">
+            <pattern
+              id="sound-wave"
+              x="0"
+              y="0"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <path
+                d="M0 20 Q10 5 20 20 T40 20"
+                fill="none"
+                stroke="white"
+                stroke-width="2"
+              />
+            </pattern>
+            <rect width="100%" height="100%" fill="url(#sound-wave)" />
+          </svg>
+        </div>
+
+        <h1
+          class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 relative z-10"
+        >
+          The TALK Framework
+        </h1>
+        <p class="text-xl md:text-2xl text-slate-300 font-light relative z-10">
+          Elevate Your Conversations: A Guide for Student Podcasters
+        </p>
+      </header>
+
+      <!-- Quote Strip -->
+      <div class="bg-indigo-900 p-6 text-center border-b border-slate-700">
+        <blockquote
+          class="serif-quote text-2xl md:text-3xl italic text-indigo-200"
+        >
+          “Be curious, not judgemental.”
+        </blockquote>
+        <p
+          class="mt-2 text-indigo-400 text-sm font-semibold tracking-wider uppercase"
+        >
+          — Walt Whitman
+        </p>
+      </div>
+
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
+        <!-- T: TOPICS -->
+        <div
+          class="bg-teal-50 border-r border-teal-200 text-slate-900 p-8 flex flex-col h-full card-hover group relative overflow-hidden"
+        >
+          <div
+            class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-teal-600"
+            >
+              <path d="M2 17L12 2l10 15" />
+            </svg>
+          </div>
+
+          <div class="text-center mb-6 z-10">
+            <div
+              class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-teal-100 text-teal-700 mb-4 shadow-sm"
+            >
+              <span class="text-5xl font-black">T</span>
+            </div>
+            <h2 class="text-2xl font-bold text-teal-900">TOPICS</h2>
+            <p
+              class="text-sm font-semibold text-teal-600 uppercase tracking-widest mt-1"
+            >
+              Navigate the Pyramid
+            </p>
+          </div>
+
+          <div class="flex-grow space-y-4 z-10">
+            <div
+              class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-teal-500"
+            >
+              <h3 class="font-bold text-lg mb-1">The Topic Pyramid</h3>
+              <p class="text-slate-600 text-sm">
+                Move beyond Small Talk to Tailored Talk & finally Deep Talk.
+              </p>
+            </div>
+            <ul class="space-y-3 text-slate-700">
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span
+                  ><strong>Preparation is key:</strong> Research your guest's
+                  world, recent work, and passions.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span
+                  ><strong>Dynamic Flow:</strong> Switch topics to keep energy
+                  high if things stall.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- A: ASKING -->
+        <div
+          class="bg-indigo-50 border-r border-indigo-200 text-slate-900 p-8 flex flex-col h-full card-hover group relative overflow-hidden"
+        >
+          <div
+            class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-indigo-600"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+
+          <div class="text-center mb-6 z-10">
+            <div
+              class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-indigo-100 text-indigo-700 mb-4 shadow-sm"
+            >
+              <span class="text-5xl font-black">A</span>
+            </div>
+            <h2 class="text-2xl font-bold text-indigo-900">ASKING</h2>
+            <p
+              class="text-sm font-semibold text-indigo-600 uppercase tracking-widest mt-1"
+            >
+              Unleash Curiosity
+            </p>
+          </div>
+
+          <div class="flex-grow space-y-4 z-10">
+            <div
+              class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-indigo-500"
+            >
+              <h3 class="font-bold text-lg mb-1">Conversational Superheroes</h3>
+              <p class="text-slate-600 text-sm">
+                Follow-up questions are the key to unlocking deep stories.
+              </p>
+            </div>
+            <ul class="space-y-3 text-slate-700">
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-indigo-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                  ></path>
+                </svg>
+                <span
+                  >Ask <strong>MORE</strong> open-ended questions to invite
+                  elaboration.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-indigo-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span
+                  ><strong>Avoid "Boomerasking":</strong> Don't just ask
+                  questions to pivot back to talking about yourself.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- L: LEVITY -->
+        <div
+          class="bg-amber-50 border-r border-amber-200 text-slate-900 p-8 flex flex-col h-full card-hover group relative overflow-hidden"
+        >
+          <div
+            class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-amber-600"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+              <line x1="9" y1="9" x2="9.01" y2="9" />
+              <line x1="15" y1="9" x2="15.01" y2="9" />
+            </svg>
+          </div>
+
+          <div class="text-center mb-6 z-10">
+            <div
+              class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-100 text-amber-700 mb-4 shadow-sm"
+            >
+              <span class="text-5xl font-black">L</span>
+            </div>
+            <h2 class="text-2xl font-bold text-amber-900">LEVITY</h2>
+            <p
+              class="text-sm font-semibold text-amber-600 uppercase tracking-widest mt-1"
+            >
+              Warmth & Connection
+            </p>
+          </div>
+
+          <div class="flex-grow space-y-4 z-10">
+            <div
+              class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-amber-500"
+            >
+              <h3 class="font-bold text-lg mb-1">Build Rapport</h3>
+              <p class="text-slate-600 text-sm">
+                Use <strong>humour</strong> and relaxed energy to create a
+                comfortable space.
+              </p>
+            </div>
+            <ul class="space-y-3 text-slate-700">
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  ></path>
+                </svg>
+                <span
+                  ><strong>Be Authentic:</strong> Human connection fosters
+                  better stories than robotic professionalism.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-amber-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                  ></path>
+                </svg>
+                <span
+                  >Balance serious topics with
+                  <strong>relatable warmth</strong>.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- K: KINDNESS -->
+        <div
+          class="bg-rose-50 text-slate-900 p-8 flex flex-col h-full card-hover group relative overflow-hidden"
+        >
+          <div
+            class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="100"
+              height="100"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-rose-600"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+          </div>
+
+          <div class="text-center mb-6 z-10">
+            <div
+              class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-rose-100 text-rose-700 mb-4 shadow-sm"
+            >
+              <span class="text-5xl font-black">K</span>
+            </div>
+            <h2 class="text-2xl font-bold text-rose-900">KINDNESS</h2>
+            <p
+              class="text-sm font-semibold text-rose-600 uppercase tracking-widest mt-1"
+            >
+              Practice Active Empathy
+            </p>
+          </div>
+
+          <div class="flex-grow space-y-4 z-10">
+            <div
+              class="bg-white p-4 rounded-xl shadow-sm border-l-4 border-rose-500"
+            >
+              <h3 class="font-bold text-lg mb-1">Psychological Safety</h3>
+              <p class="text-slate-600 text-sm">
+                Be fully present. Listen without <strong>judgement</strong>.
+              </p>
+            </div>
+            <ul class="space-y-3 text-slate-700">
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-rose-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                  ></path>
+                </svg>
+                <span
+                  >Validate your guest's perspective and lived
+                  experiences.</span
+                >
+              </li>
+              <li class="flex items-start">
+                <svg
+                  class="w-5 h-5 text-rose-500 mr-2 mt-0.5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  ></path>
+                </svg>
+                <span
+                  >Show genuine interest in their unique story. Stay
+                  <strong>centred</strong> on them.</span
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="bg-slate-900 text-center p-6 border-t border-slate-700">
+        <p class="text-slate-400 font-medium">
+          Great Podcasts Are Built on Great Conversations. Start TALKing!
+        </p>
+        <p class="text-slate-600 text-xs mt-2">
+          Adapted from HBS Insights • "Achieving Your Goals—One Conversation at
+          a Time"
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>
