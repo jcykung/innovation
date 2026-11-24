@@ -327,10 +327,15 @@
                 const L = window.L;
                 const map = L.map(mapContainerRef.current).setView([49, 15], 4);
 
-                L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
-                    subdomains: 'abcd',
-                    maxZoom: 19
+                // Keyless dark basemap (CARTO's public tiles now require an API key)
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors',
+                    maxZoom: 16
+                }).addTo(map);
+
+                // Place names drawn on top of the dark basemap
+                L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+                    maxZoom: 16
                 }).addTo(map);
 
                 mapInstanceRef.current = map;
